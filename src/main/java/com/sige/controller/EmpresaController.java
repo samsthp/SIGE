@@ -1,8 +1,10 @@
 package com.sige.controller;
 
-import com.sige.model.Candidatura;
-import com.sige.service.EmpresaService;
+import com.sige.model.OfertaEstagio;
+import com.sige.service.OfertaService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -10,24 +12,16 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class EmpresaController {
 
-    private final EmpresaService empresaService;
+    private final OfertaService ofertaService;
 
-    public EmpresaController(EmpresaService empresaService) {
-        this.empresaService = empresaService;
+    public EmpresaController(OfertaService ofertaService) {
+        this.ofertaService = ofertaService;
     }
 
-    @GetMapping("/oferta/{ofertaId}/candidatos")
-    public List<Candidatura> listarCandidatos(@PathVariable Long ofertaId) {
-        return empresaService.listarCandidatosPorOferta(ofertaId);
-    }
-
-    @PostMapping("/candidatura/{id}/aceitar")
-    public void aceitarCandidato(@PathVariable Long id) {
-        empresaService.aceitarCandidato(id);
-    }
-
-    @PostMapping("/candidatura/{id}/recusar")
-    public void recusarCandidato(@PathVariable Long id) {
-        empresaService.recusarCandidato(id);
+    // Endpoint para listar ofertas de uma empresa
+    @GetMapping("/{empresaId}/ofertas")
+    public ResponseEntity<List<OfertaEstagio>> listarOfertasPorEmpresa(@PathVariable Long empresaId) {
+        List<OfertaEstagio> ofertas = ofertaService.listarPorEmpresa(empresaId);
+        return ResponseEntity.ok(ofertas);
     }
 }

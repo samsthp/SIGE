@@ -4,7 +4,9 @@ import com.sige.model.Candidatura;
 import com.sige.model.StatusCandidatura;
 import com.sige.repository.CandidaturaRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmpresaService {
@@ -15,21 +17,25 @@ public class EmpresaService {
         this.candidaturaRepository = candidaturaRepository;
     }
 
+    public Candidatura aceitarCandidato(Long id) {
+        Candidatura c = candidaturaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Candidatura não encontrada"));
+        c.setStatus(StatusCandidatura.ACEITA);
+        return candidaturaRepository.save(c);
+    }
+
+    public Candidatura recusarCandidato(Long id) {
+        Candidatura c = candidaturaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Candidatura não encontrada"));
+        c.setStatus(StatusCandidatura.RECUSADA);
+        return candidaturaRepository.save(c);
+    }
+
     public List<Candidatura> listarCandidatosPorOferta(Long ofertaId) {
         return candidaturaRepository.findByOfertaId(ofertaId);
     }
 
-    public void aceitarCandidato(Long candidaturaId) {
-        Candidatura candidatura = candidaturaRepository.findById(candidaturaId)
-                .orElseThrow(() -> new RuntimeException("Candidatura não encontrada"));
-        candidatura.setStatus(StatusCandidatura.ACEITA);
-        candidaturaRepository.save(candidatura);
-    }
-
-    public void recusarCandidato(Long candidaturaId) {
-        Candidatura candidatura = candidaturaRepository.findById(candidaturaId)
-                .orElseThrow(() -> new RuntimeException("Candidatura não encontrada"));
-        candidatura.setStatus(StatusCandidatura.RECUSADA);
-        candidaturaRepository.save(candidatura);
+    public Optional<Candidatura> buscarPorId(Long id) {
+        return candidaturaRepository.findById(id);
     }
 }

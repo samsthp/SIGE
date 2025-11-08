@@ -1,7 +1,9 @@
 package com.sige.model;
 
 public enum StatusCandidatura {
-    PENDENTE,
+    INSCRITO,
     ACEITA,
-    RECUSADA
+    RECUSADA,
+    ATIVO,
+    FINALIZADO
 }
