@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang = "pt-BR">
+    <head>
+        <title>Certificados Digitais</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body {
+                font-family:'Times New Roman', Times, serif;
+                background:chocolate;
+                margin: 1;
+                padding: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 90%;
+            }
+            .container {
+                background: white;
+                padding: 33px;
+                border-radius: 12px;
+                box-shadow: 0 4px 10x rgba(255, 255, 255, 0.28);
+                width: 100%;
+                max-width: 423px;
+            }
+            h1 {
+                text-align: center;
+                color: blue;
+            }
+            label {
+                text-align: center;
+                display: block;
+                margin-top: 15px;
+                font-weight: bolder;
+                color: blue;  
+            }
+            input {
+                width: 93%;
+                padding: 11px;
+                border: 4px solid navy;
+                border-radius: 9px;
+                margin-top: 5px;
+                font-size: 13px;
+            }
+            button {
+                margin-top: 19px;
+                width: 100%;
+                padding: 12px;
+                background: blue;
+                color: aliceblue;
+                border-radius: 2px;
+                cursor: pointer;
+                font-size: 19px;
+                font-weight: bolder;
+            }
+            .mensagem {
+                text-align: center;
+                margin-top: 15px;
+                font-size: 32px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class = "container">
+            <h1>Certificados Digitais</h1>
+            <label for="nome">Nome do aluno</label>
+            <input type="text" id="nome" />
+            <label for="empresa">Nome da empresa</label>
+            <input type="text" id="empresa" />
+            <label for="data">Data de Emissão</label>
+            <input type="date" id="data" />
+            <button id="emitir">Emitir PDF</button>
+            <p id="mensagem" class="mensagem"></p>
+        </div>
+        <script>
+            document.getElementById('emitir').addEventListener('click', async () => {
+                const nome = document.getElementById('nome').value.trim();
+                const empresa = document.getElementById('empresa').value.trim();
+                const dataEmissao = document.getElementById('data').value.trim();
+                const mensagem = document.getElementById('mensagem');
+
+                if(!nome || !empresa || !data) {
+                    mensagem.textContent = "Preencha todos os dados antes de emitir!";
+                    mensagem.style.color = "darkred";
+                    return;
+                }
+                try {
+                    mensagem.textContent = "Gerando certificado...";
+                    mensagem.style.color = "red";
+                    const resposta = await fetch('http://localhost:8080/api/certificados', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nome, empresa, data })
+                    });
+                    if(!resposta.ok)
+                        throw new Error("Falha ao gerar o certificado!");
+                    const blob = await resposta.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `${nome}-certificado.pdf`
+                    link.click();
+                    mensagem.textContent = "Certificado gerado com sucesso!";
+                    mensagem.style.color = "green";
+                }catch (erro) {
+                    mensagem.textContent = "Falha ao gerar o certificado!";
+                    mensagem.style.color = "darkred";
+                }
+
+            })
+        </script>
+    </body>
+</html>
