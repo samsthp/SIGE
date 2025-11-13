@@ -59,7 +59,6 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login.html")
                         .permitAll()
                 );
-
         return http.build();
     }
 
