@@ -1,9 +1,12 @@
 package com.sige.controller;
 
 import com.sige.model.Candidatura;
+import com.sige.model.Coordenador;
 import com.sige.service.CoordenadorService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -15,6 +18,12 @@ public class CoordenadorController {
 
     public CoordenadorController(CoordenadorService coordenadorService) {
         this.coordenadorService = coordenadorService;
+    }
+
+    // ✅ CADASTRAR COORDENADOR
+    @PostMapping("/cadastrar")
+    public ResponseEntity<Coordenador> cadastrar(@RequestBody Coordenador coordenador) {
+        return ResponseEntity.ok(coordenadorService.cadastrar(coordenador));
     }
 
     // ✅ Aceitar candidato

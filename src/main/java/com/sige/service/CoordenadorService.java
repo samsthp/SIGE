@@ -1,8 +1,12 @@
 package com.sige.service;
 
 import com.sige.model.Candidatura;
+import com.sige.model.Coordenador;
 import com.sige.model.StatusCandidatura;
 import com.sige.repository.CandidaturaRepository;
+import com.sige.repository.CoordenadorRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +15,14 @@ import java.util.List;
 public class CoordenadorService {
 
     private final CandidaturaRepository candidaturaRepository;
+    private final CoordenadorRepository coordenadorRepository;
 
-    public CoordenadorService(CandidaturaRepository candidaturaRepository) {
+    public CoordenadorService(CandidaturaRepository candidaturaRepository,
+                              CoordenadorRepository coordenadorRepository) {
         this.candidaturaRepository = candidaturaRepository;
+        this.coordenadorRepository = coordenadorRepository;
     }
+    
 
     // ✅ Mesmo que no EmpresaService
     public Candidatura aceitarCandidato(Long id) {
@@ -78,5 +86,9 @@ public class CoordenadorService {
     // Listar candidatos por status
     public List<Candidatura> listarPorStatus(StatusCandidatura status) {
         return candidaturaRepository.findByStatus(status);
+    }
+
+    public Coordenador cadastrar(Coordenador coordenador) {
+        return coordenadorRepository.save(coordenador);
     }
 }

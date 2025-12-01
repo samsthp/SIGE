@@ -2,6 +2,7 @@ package com.sige.controller;
 
 import com.sige.model.Candidatura;
 import com.sige.service.EmpresaService;
+import com.sige.service.CoordenadorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -11,10 +12,13 @@ import java.util.*;
 @CrossOrigin(origins = "*")
 public class CandidatoController {
 
+    private final CoordenadorService coordenadorService;
+
     private final EmpresaService empresaService;
 
-    public CandidatoController(EmpresaService empresaService) {
+    public CandidatoController(EmpresaService empresaService, CoordenadorService coordenadorService) {
         this.empresaService = empresaService;
+        this.coordenadorService = coordenadorService;
     }
 
     @PostMapping("/{id}/aceitar")
@@ -27,6 +31,11 @@ public class CandidatoController {
     public ResponseEntity<Candidatura> recusarCandidato(@PathVariable Long id) {
         Candidatura c = empresaService.recusarCandidato(id);
         return ResponseEntity.ok(c);
+    }
+
+    @PostMapping("/{id}/finalizar")
+    public ResponseEntity<Candidatura> finalizarCandidato(@PathVariable Long id) {
+        return ResponseEntity.ok(coordenadorService.finalizarCandidato(id));
     }
 
     @GetMapping("/oferta/{ofertaId}")

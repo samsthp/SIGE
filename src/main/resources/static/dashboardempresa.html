@@ -284,28 +284,42 @@
         }
 
         // Atualizar alunos ativos com botão finalizar/avaliar
-        function atualizarAlunosAtivos(card) {
-            const ativosList = card.querySelectorAll('.ativos-list li');
-            criarModalAvaliacao();
-            ativosList.forEach(li => {
-                const btn = li.querySelector('.btn-finalizar');
-                if (btn) {
-                    btn.addEventListener('click', () => {
-                        btn.remove();
-                        const btnAvaliar = document.createElement('button');
-                        btnAvaliar.textContent = 'Avaliar';
-                        btnAvaliar.className = 'ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 btn-avaliar';
-                        li.appendChild(btnAvaliar);
-                        btnAvaliar.addEventListener('click', () => {
-                            document.getElementById('empresa-avaliar').textContent = card.querySelector('h3').textContent;
-                            const modal = document.getElementById('modal-avaliacao');
-                            modal.classList.remove('hidden');
-                            modal.classList.add('flex');
-                        });
+        // Atualizar alunos ativos com botão finalizar/avaliar
+function atualizarAlunosAtivos(card) {
+    const ativosList = card.querySelectorAll('.ativos-list li');
+    criarModalAvaliacao();
+    ativosList.forEach(li => {
+        const btn = li.querySelector('.btn-finalizar');
+        if (btn) {
+            btn.addEventListener('click', async () => {
+                // 🔹 CORREÇÃO: Pega o ID do candidato (assumindo que está no data attribute do li)
+                const candidatoId = li.dataset.candidatoId;  // Adicione isso no loop de criação dos li
+                
+                try {
+                    // 🔹 CORREÇÃO: Faz a requisição para finalizar no backend
+                    const response = await fetch(`http://localhost:8081/api/candidatos/1/finalizar`, { method: 'POST' });
+                    if (!response.ok) throw new Error('Erro ao finalizar candidato');
+                    
+                    // 🔹 Só remove o botão e adiciona "Avaliar" se a requisição for bem-sucedida
+                    btn.remove();
+                    const btnAvaliar = document.createElement('button');
+                    btnAvaliar.textContent = 'Avaliar';
+                    btnAvaliar.className = 'ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 btn-avaliar';
+                    li.appendChild(btnAvaliar);
+                    btnAvaliar.addEventListener('click', () => {
+                        document.getElementById('empresa-avaliar').textContent = card.querySelector('h3').textContent;
+                        const modal = document.getElementById('modal-avaliacao');
+                        modal.classList.remove('hidden');
+                        modal.classList.add('flex');
                     });
+                } catch (error) {
+                    console.error('Erro ao finalizar:', error);
+                    alert('Erro ao finalizar candidato. Tente novamente.');
                 }
             });
         }
+    });
+}
 
         // Abrir modal de candidatos e mostrar os INSCRITOS dinamicamente
         document.body.addEventListener('click', async function (e) {
@@ -363,16 +377,16 @@
                                     li.remove(); // remove o candidato da lista de inscritos
 
                                     // 🔹 Move para lista de ATIVOS automaticamente
-                                    const ulAtivos = card.querySelector('.ativos-list');
-                                    const liAtivo = document.createElement('li');
-                                    liAtivo.innerHTML = `
+                                    const ulAceito = card.querySelector('.aceitos-list');
+                                    const liAceito = document.createElement('li');
+                                    liAcceito.innerHTML = `
             <span>${c.aluno?.nome || "Nome não informado"}</span>
             <button class="ml-2 px-2 py-1 bg-yellow-500 text-white text-xs rounded-md hover:bg-yellow-600 btn-finalizar">Finalizar</button>
         `;
-                                    ulAtivos.appendChild(liAtivo);
+                                    ulAceito.appendChild(liAceito);
 
                                     // 🔹 (Opcional) Atualiza status no backend para "ATIVA" (ativar estágio)
-                                    await fetch(`http://localhost:8081/api/candidatos/${c.id}/ativar`, { method: 'POST' });
+                                    atualizarListas(card, c.aluno, 'ACEITO');
 
                                     // 🔹 Garante que o botão “Finalizar” funciona
                                     atualizarAlunosAtivos(card);
@@ -401,7 +415,7 @@
                             const li = document.createElement('li');
                             li.textContent = c.aluno?.nome || "Nome não informado";
                             ulAceitos.appendChild(li);
-                        } else if (c.status === 'ATIVA') {
+                        } else if (c.status === 'ATIVO') {
                             const li = document.createElement('li');
                             li.innerHTML = `
         <span>${c.aluno?.nome || "Nome não informado"}</span>
@@ -414,6 +428,8 @@
                             ulRecusados.appendChild(li);
                         }
                     });
+
+                    atualizarAlunosAtivos(card);
 
 
                     // Mostra modal
