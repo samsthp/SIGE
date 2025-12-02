@@ -1,5 +1,7 @@
 C:\Users\WAGNER\Desktop\sige-emissao-certificado-estagio\src\main\java\com\sigecertificado\sige_emissao_certificado_estagio\application\CertificadoApplication.java
 C:\Users\WAGNER\Desktop\sige-emissao-certificado-estagio\src\main\java\com\sigecertificado\sige_emissao_certificado_estagio\controller\CertificadoController.java
+C:\Users\WAGNER\Desktop\sige-emissao-certificado-estagio\src\main\java\com\sigecertificado\sige_emissao_certificado_estagio\corsconfiguration\CorsConfig.java
 C:\Users\WAGNER\Desktop\sige-emissao-certificado-estagio\src\main\java\com\sigecertificado\sige_emissao_certificado_estagio\emitircertificado\EmitirCertificado.java
 C:\Users\WAGNER\Desktop\sige-emissao-certificado-estagio\src\main\java\com\sigecertificado\sige_emissao_certificado_estagio\model\Certificado.java
 C:\Users\WAGNER\Desktop\sige-emissao-certificado-estagio\src\main\java\com\sigecertificado\sige_emissao_certificado_estagio\repository\CertificadoRepository.java
+C:\Users\WAGNER\Desktop\sige-emissao-certificado-estagio\src\main\java\com\sigecertificado\sige_emissao_certificado_estagio\security\CertificadoSecurity.java

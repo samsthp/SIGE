@@ -87,7 +87,7 @@
                 try {
                     mensagem.textContent = "Gerando certificado...";
                     mensagem.style.color = "red";
-                    const resposta = await fetch('http://localhost:8080/api/certificados', {
+                    const resposta = await fetch('http://localhost:8081/api/certificados', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ nome, empresa, data })

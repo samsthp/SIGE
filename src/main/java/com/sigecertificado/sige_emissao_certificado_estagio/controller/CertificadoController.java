@@ -1,12 +1,12 @@
 package com.sigecertificado.sige_emissao_certificado_estagio.controller;
 
 import com.sigecertificado.sige_emissao_certificado_estagio.emitircertificado.EmitirCertificado;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/certificados")
+@CrossOrigin(origins = "http://localhost:8081")
+@RequestMapping("/api/certificados")
 public class CertificadoController {
     private final EmitirCertificado emitirCertificado;
     
@@ -18,5 +18,9 @@ public class CertificadoController {
     public byte[] gerarPdf(Long Id) {
         byte[] pdf = emitirCertificado.emitirPdf(Id);
         return pdf;
+    }
+    @GetMapping("favicon.icon")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ignorarFavicon() {
     }
 }
