@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGE - Dashboard Empresa</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#3b82f6', secondary: '#1e40af' },
+                    borderRadius: { 'button': '8px' }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+<div class="w-full">
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
+            <div>
+                <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
+                <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <!-- Dados da empresa -->
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
+                        <i class="ri-building-line text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">TechCorp Solutions</p>
+                        <p class="text-xs text-gray-500">Empresa</p>
+                    </div>
+                </div>
+
+                <!-- BOTÃO DE LOGOUT -->
+                <button id="logoutBtn"
+                        class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-button transition flex items-center gap-2">
+                    <i class="ri-logout-box-line"></i>
+                    Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex space-x-1">
+                <button id="tab-ofertas"
+                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap bg-primary text-white">
+                    <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
+                            class="ri-briefcase-line"></i></div>Minhas Ofertas
+                </button>
+                <button id="tab-perfil"
+                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
+                    <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
+                            class="ri-user-settings-line"></i></div>Meu Perfil
+                </button>
+                <button id="tab-gerenciar"
+                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
+                    <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
+                            class="ri-settings-4-line"></i></div>Gerenciar Ofertas
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- Minhas Ofertas -->
+        <div id="content-ofertas" class="tab-content">
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Minhas Ofertas de Estágio</h2>
+                    <p class="text-gray-600">Gerencie suas vagas e acompanhe inscrições de candidatos</p>
+                </div>
+                <div class="flex gap-3">
+                    <button id="btn-adicionar-oferta"
+                            class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Adicionar
+                        Oferta</button>
+                    <button onclick="window.location.href='cadastrovaga.html'"
+                            class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Criar
+                        Nova Vaga</button>
+                </div>
+            </div>
+            <div id="ofertas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Meu Perfil -->
+        <div id="content-perfil" class="tab-content hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Meu Perfil</h2>
+                <p class="text-gray-600">Atualize suas informações</p>
+            </div>
+            <div class="bg-white rounded-md shadow-sm border border-gray-200 p-8">
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nome da Empresa</label>
+                            <input type="text" value="TechCorp Solutions"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">E-mail</label>
+                            <input type="email" value="contato@techcorp.com.br"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+                            <input type="tel" value="(11) 3456-7890"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
+                            <input type="text" value="Av. das Empresas, 500 - São Paulo/SP"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                                class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Salvar
+                            Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Gerenciar Ofertas -->
+        <div id="content-gerenciar" class="tab-content hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Gerenciar Ofertas</h2>
+                <p class="text-gray-600">Veja os candidatos inscritos, aceite ou recuse inscrições</p>
+            </div>
+            <div id="gerenciar-ofertas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    const formNovaVaga = document.getElementById('btn-adicionar-oferta');
+
+    formNovaVaga.addEventListener('click', () => {
+        const titulo = prompt("Digite o título da vaga:");
+        const descricao = prompt("Digite a descrição da vaga:");
+        const local = prompt("Digite o local da vaga:");
+        const salario = prompt("Digite o salário (opcional):");
+
+        const vaga = { titulo, descricao, local, salario };
+
+        fetch('/vagas/publicar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(vaga)
+        })
+            .then(res => res.text())
+            .then(msg => {
+                alert(msg);
+                carregarVagas();
+            })
+            .catch(err => console.error(err));
+    });
+
+    function carregarVagas() {
+        fetch('/vagas/listar')
+            .then(res => res.json())
+            .then(data => {
+                const grid = document.getElementById('ofertas-grid');
+                grid.innerHTML = '';
+                data.forEach((vaga) => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-md shadow-sm border border-gray-200 p-6 hover:shadow-md transition";
+                    card.innerHTML = `
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800">${vaga.titulo}</h3>
+                                    <p class="text-sm text-gray-500 mb-2">${vaga.local}</p>
+                                    <p class="text-gray-600 text-sm">${vaga.descricao}</p>
+                                </div>
+                            </div>
+                        `;
+                    grid.appendChild(card);
+                });
+            });
+    }
+
+    carregarVagas();
+
+    /* ---------------- LOGOUT ---------------- */
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await fetch("http://localhost:8081/api/auth/logout", {
+            method: "POST",
+            credentials: "include"
+        });
+
+        sessionStorage.clear();
+        localStorage.clear();
+
+        window.location.href = "login.html";
+    });
+</script>
+
+</body>
+</html>
