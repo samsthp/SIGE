@@ -23,35 +23,25 @@
 <body class="bg-gray-50 min-h-screen text-gray-800">
 
 <!-- HEADER -->
-
-
 <header class="bg-white shadow-sm border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-6 py-8">
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-        <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
-      </div>
-
-      <div class="flex items-center gap-4">
-        <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
-          <i class="ri-user-line text-lg"></i>
-        </div>
-        <div>
-          <p class="text-sm font-medium text-gray-900">Gabriel</p>
-          <p class="text-xs text-gray-500">Coordenador</p>
-        </div>
-
-        <!-- 🔥 AQUI VAI O BOTÃO DE LOGOUT -->
-        <button id="logout-btn"
-                class="ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-button text-sm">
-          Sair
-        </button>
-      </div>
-    </div>
-  </div>
-</header>
-
+            <div class="max-w-7xl mx-auto px-6 py-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
+                        <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
+                            <i class="ri-user-line text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Gabriel</p>
+                            <p class="text-xs text-gray-500">Cordenador</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
 <!-- NAV -->
 <nav class="bg-white border-b border-gray-200">
@@ -666,14 +656,6 @@ const observer = new MutationObserver(() => {
   setTimeout(()=> renderOffersWithActiveControls(), 50);
 });
 observer.observe(gerenciarGrid, { childList: true, subtree: true });
-
-/*-----------LOGOUT--------------*/
-document.getElementById("logout-btn").addEventListener("click", () => {
-  fetch("/api/auth/logout", { method: "POST", credentials: "include" })
-          .finally(() => {
-            window.location.href = "login.html";
-          });
-});
 
 </script>
 </body>
