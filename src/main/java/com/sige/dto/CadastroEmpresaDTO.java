@@ -1,28 +1,14 @@
-package com.sige.model;
+package com.sige.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "empresas")
-public class Empresa {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
+public class CadastroEmpresaDTO {
     private String nome;
-    
     private String cnpj;
     private String email;
     private String telefone;
     private String endereco;
     private String senha;
 
-    // Getters e setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
+    // getters e setters
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 

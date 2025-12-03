@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIGE - Sistema Integrado de Gestão de Estágio</title>
-    <script src="https:cdn.tailwindcss.com/3.4.16"></script>
-    <link rel="preconnect" href="https:fonts.googleapis.com">
-    <link rel="preconnect" href="https:fonts.gstatic.com" crossorigin>
-    <link href="https:fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https:cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <script>
         tailwind.config = {
             theme: {
@@ -34,29 +34,24 @@
             }
         }
     </script>
-    <style>
-        :where([class^="ri-"])::before {
-            content: "\f3c2";
-        }
-    </style>
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
     <div class="min-h-screen flex flex-col items-center justify-center px-4 py-8">
         <div class="w-full max-w-md">
             <div class="text-center mb-8">
-                <div class="mb-4">
-                    <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-                    <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
-                </div>
+                <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
+                <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
             </div>
+
             <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
                 <div class="mb-6">
                     <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Acesse sua conta</h2>
                     <p class="text-gray-600 text-center">Selecione seu tipo de usuário para continuar</p>
                 </div>
+
                 <div class="mb-6">
-                    <div class="flex rounded-lg bg-gray-100 p-1">
+                    <div class="flex rounded-lg p-1">
                         <button type="button"
                             class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-primary text-white"
                             data-type="aluno">
@@ -66,7 +61,7 @@
                             Aluno
                         </button>
                         <button type="button"
-                            class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 text-gray-600 hover:text-gray-800"
+                            class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-blue-100 text-gray-600 hover:text-gray-800"
                             data-type="empresa">
                             <div class="w-4 h-4 flex items-center justify-center mx-auto mb-1">
                                 <i class="ri-building-line text-sm"></i>
@@ -74,7 +69,7 @@
                             Empresa
                         </button>
                         <button type="button"
-                            class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 text-gray-600 hover:text-gray-800"
+                            class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 bg-blue-100 text-gray-600 hover:text-gray-800"
                             data-type="admin">
                             <div class="w-4 h-4 flex items-center justify-center mx-auto mb-1">
                                 <i class="ri-admin-line text-sm"></i>
@@ -83,21 +78,22 @@
                         </button>
                     </div>
                 </div>
+
                 <form class="space-y-4">
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2"
-                            id="loginLabel">Matrícula</label>
+                        <label for="loginInput" class="block text-sm font-medium text-gray-700 mb-2" id="loginLabel">Matrícula</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <div class="w-5 h-5 flex items-center justify-center">
                                     <i class="ri-graduation-cap-line text-gray-400 text-sm" id="loginIcon"></i>
                                 </div>
                             </div>
-                            <input type="text" id="email" name="email"
+                            <input type="text" id="loginInput" name="loginInput"
                                 class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                                placeholder="Digite sua matrícula" required id="loginInput">
+                                placeholder="Digite sua matrícula" required>
                         </div>
                     </div>
+
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
                         <div class="relative">
@@ -109,122 +105,114 @@
                             <input type="password" id="password" name="password"
                                 class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                                 placeholder="Digite sua senha" required>
-                            <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                id="togglePassword">
+                            <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" id="togglePassword">
                                 <div class="w-5 h-5 flex items-center justify-center">
                                     <i class="ri-eye-line text-gray-400 text-sm"></i>
                                 </div>
                             </button>
                         </div>
                     </div>
+
                     <div class="flex items-center justify-between">
                         <label class="flex items-center">
                             <input type="checkbox" class="sr-only" id="remember">
                             <div class="relative">
-                                <div class="w-4 h-4 bg-white border-2 border-gray-300 rounded cursor-pointer transition-colors duration-200"
-                                    id="checkboxDisplay"></div>
-                                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200"
-                                    id="checkboxIcon">
+                                <div class="w-4 h-4 bg-white border-2 border-gray-300 rounded cursor-pointer transition-colors duration-200" id="checkboxDisplay"></div>
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200" id="checkboxIcon">
                                     <i class="ri-check-line text-white text-xs"></i>
                                 </div>
                             </div>
                             <span class="ml-2 text-sm text-gray-600">Lembrar-me</span>
                         </label>
                     </div>
+
                     <button type="submit"
                         class="w-full bg-primary hover:bg-secondary text-white font-medium py-3 px-4 !rounded-button transition-colors duration-200 whitespace-nowrap">
                         Entrar no Sistema
                     </button>
                 </form>
+
                 <div class="mt-6 pt-6 border-t border-gray-200">
                     <div class="text-center space-y-2">
                         <p class="text-sm text-gray-600">Primeiro acesso?</p>
                         <div class="space-y-1">
                             <a href="cadastroaluno.html"
-                                class="block text-sm text-primary hover:text-secondary transition-colors duration-200">Cadastrar
-                                como Aluno</a>
+                                class="block text-sm text-primary hover:text-secondary transition-colors duration-200">Cadastrar como Aluno</a>
                             <a href="cadastroempresa.html"
-                                class="block text-sm text-primary hover:text-secondary transition-colors duration-200">Cadastrar
-                                Empresa</a>
+                                class="block text-sm text-primary hover:text-secondary transition-colors duration-200">Cadastrar Empresa</a>
                         </div>
                     </div>
                 </div>
             </div>
+
             <footer class="mt-12 text-center text-sm text-gray-500">
                 <p>&copy; 2025 SIGE - Sistema Integrado de Gestão de Estágio. Todos os direitos reservados.</p>
                 <p class="mt-1">Versão 2.1.0</p>
             </footer>
         </div>
-        <script id="user-type-selector">
-            document.addEventListener('DOMContentLoaded', function () {
-                const userTypeButtons = document.querySelectorAll('.user-type-btn');
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Seleção de tipo de usuário
+        document.querySelectorAll('.user-type-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                document.querySelectorAll('.user-type-btn').forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('bg-blue-100', 'text-gray-600', 'hover:text-gray-800');
+                });
+                this.classList.remove('bg-blue-100', 'text-gray-600', 'hover:text-gray-800');
+                this.classList.add('bg-primary', 'text-white');
+
+                const type = this.getAttribute('data-type');
                 const loginLabel = document.getElementById('loginLabel');
                 const loginIcon = document.getElementById('loginIcon');
-                const loginInput = document.getElementById('email');
+                const loginInput = document.getElementById('loginInput');
 
-                userTypeButtons.forEach(button => {
-                    button.addEventListener('click', function () {
-                        userTypeButtons.forEach(btn => {
-                            btn.classList.remove('bg-primary', 'text-white');
-                            btn.classList.add('text-gray-600', 'hover:text-gray-800');
-                        });
-                        this.classList.remove('text-gray-600', 'hover:text-gray-800');
-                        this.classList.add('bg-primary', 'text-white');
+                if (type === 'aluno') {
+                    loginLabel.textContent = 'Matrícula';
+                    loginIcon.className = 'ri-graduation-cap-line text-gray-400 text-sm';
+                    loginInput.placeholder = 'Digite sua matrícula';
+                } else if (type === 'empresa') {
+                    loginLabel.textContent = 'CNPJ';
+                    loginIcon.className = 'ri-building-line text-gray-400 text-sm';
+                    loginInput.placeholder = 'Digite o CNPJ da empresa';
+                } else if (type === 'admin') {
+                    loginLabel.textContent = 'CPF';
+                    loginIcon.className = 'ri-admin-line text-gray-400 text-sm';
+                    loginInput.placeholder = 'Digite seu CPF';
+                }
+            });
+        });
 
-                        const userType = this.getAttribute('data-type');
-                        if (userType === 'aluno') {
-                            loginLabel.textContent = 'Matrícula';
-                            loginIcon.className = 'ri-graduation-cap-line text-gray-400 text-sm';
-                            loginInput.placeholder = 'Digite sua matrícula';
-                            loginInput.type = 'text';
-                        } else if (userType === 'empresa') {
-                            loginLabel.textContent = 'CNPJ';
-                            loginIcon.className = 'ri-building-line text-gray-400 text-sm';
-                            loginInput.placeholder = 'Digite o CNPJ da empresa';
-                            loginInput.type = 'text';
-                        } else if (userType === 'admin') {
-                            loginLabel.textContent = 'CPF';
-                            loginIcon.className = 'ri-admin-line text-gray-400 text-sm';
-                            loginInput.placeholder = 'Digite seu CPF';
-                            loginInput.type = 'text';
-                        }
-                    });
-                });
-            });
-        </script>
-        <script id="password-toggle">
-            document.addEventListener('DOMContentLoaded', function () {
-                const togglePassword = document.getElementById('togglePassword');
-                const passwordInput = document.getElementById('password');
-                const eyeIcon = togglePassword.querySelector('i');
-                togglePassword.addEventListener('click', function () {
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
-                    eyeIcon.className = type === 'password' ? 'ri-eye-line text-gray-400 text-sm' : 'ri-eye-off-line text-gray-400 text-sm';
-                });
-            });
-        </script>
-        <script id="checkbox-toggle">
-            document.addEventListener('DOMContentLoaded', function () {
-                const checkbox = document.getElementById('remember');
-                const checkboxDisplay = document.getElementById('checkboxDisplay');
-                const checkboxIcon = document.getElementById('checkboxIcon');
-                checkboxDisplay.addEventListener('click', function () {
-                    checkbox.checked = !checkbox.checked;
-                    if (checkbox.checked) {
-                        checkboxDisplay.classList.add('bg-primary', 'border-primary');
-                        checkboxDisplay.classList.remove('bg-white', 'border-gray-300');
-                        checkboxIcon.classList.remove('opacity-0');
-                        checkboxIcon.classList.add('opacity-100');
-                    } else {
-                        checkboxDisplay.classList.remove('bg-primary', 'border-primary');
-                        checkboxDisplay.classList.add('bg-white', 'border-gray-300');
-                        checkboxIcon.classList.add('opacity-0');
-                        checkboxIcon.classList.remove('opacity-100');
-                    }
-                });
-            });
-        </script>
+        // Toggle senha
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').className = type === 'password' ? 'ri-eye-line text-gray-400 text-sm' : 'ri-eye-off-line text-gray-400 text-sm';
+        });
+
+        // Toggle checkbox
+        const checkbox = document.getElementById('remember');
+        const checkboxDisplay = document.getElementById('checkboxDisplay');
+        const checkboxIcon = document.getElementById('checkboxIcon');
+        checkboxDisplay.addEventListener('click', function () {
+            checkbox.checked = !checkbox.checked;
+            if (checkbox.checked) {
+                checkboxDisplay.classList.add('bg-primary', 'border-primary');
+                checkboxDisplay.classList.remove('bg-white', 'border-gray-300');
+                checkboxIcon.classList.remove('opacity-0');
+                checkboxIcon.classList.add('opacity-100');
+            } else {
+                checkboxDisplay.classList.remove('bg-primary', 'border-primary');
+                checkboxDisplay.classList.add('bg-white', 'border-gray-300');
+                checkboxIcon.classList.add('opacity-0');
+                checkboxIcon.classList.remove('opacity-100');
+            }
+        });
+    </script>
 </body>
 
 </html>

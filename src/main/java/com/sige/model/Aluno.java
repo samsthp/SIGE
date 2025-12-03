@@ -3,18 +3,18 @@ package com.sige.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "empresas")
-public class Empresa {
+@Table(name = "alunos")
+public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String nome;
-    
-    private String cnpj;
     private String email;
+    private String cpf;
+    private String nascimento;
+    private String matricula;
     private String telefone;
     private String endereco;
     private String senha;
@@ -26,11 +26,17 @@ public class Empresa {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
-    public String getCnpj() { return cnpj; }
-    public void setCnpj(String cnpj) { this.cnpj = cnpj; }
-
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
+
+    public String getNascimento() { return nascimento; }
+    public void setNascimento(String nascimento) { this.nascimento = nascimento; }
+
+    public String getMatricula() { return matricula; }
+    public void setMatricula(String matricula) { this.matricula = matricula; }
 
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
