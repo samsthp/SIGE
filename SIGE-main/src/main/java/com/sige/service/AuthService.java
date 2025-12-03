@@ -178,6 +178,14 @@ public class AuthService {
         }
 
         Usuario user = userOpt.get();
+
+        // ==============================================
+        //   🔒 IMPEDIR SENHA IGUAL À ATUAL
+        // ==============================================
+        if (passwordEncoder.matches(novaSenha, user.getSenha())) {
+            return Map.of("status", "error", "message", "A nova senha não pode ser igual à atual!");
+        }
+
         user.setSenha(passwordEncoder.encode(novaSenha));
         usuarioRepository.save(user);
 
@@ -188,7 +196,7 @@ public class AuthService {
     }
 
     // ==============================================
-    //     ENVIO DE EMAIL (AGORA COM HTML)
+    //     ENVIO DE EMAIL (HTML BONITINHO)
     // ==============================================
     private void enviarEmail(String to, String codigo) {
         try {
