@@ -55,8 +55,14 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable());
+                .httpBasic(basic -> basic.disable())
 
+                // ✅ Configura logout (opcional)
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login.html")
+                        .permitAll()
+                );
         return http.build();
     }
 

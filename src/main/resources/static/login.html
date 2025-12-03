@@ -41,7 +41,7 @@
             </div>
 
             <!-- Seleção de tipo de usuário -->
-            <div class="flex rounded-lg bg-gray-100 p-1 mb-6">
+            <div class="flex rounded-lg p-1 mb-6">
                 <button type="button"
                         class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all bg-primary text-white"
                         data-type="aluno">
@@ -49,15 +49,14 @@
                     Aluno
                 </button>
                 <button type="button"
-                        class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all text-gray-600 hover:text-gray-800"
+                        class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all bg-blue-100 text-gray-600 hover:text-gray-800"
                         data-type="empresa">
                     <i class="ri-building-line text-sm block mb-1"></i>
                     Empresa
                 </button>
                 <button type="button"
-                        class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all text-gray-600 hover:text-gray-800"
-
-                        data-type="coordenador">
+                        class="user-type-btn flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all bg-blue-100 text-gray-600 hover:text-gray-800"
+                        data-type="admin">
                     <i class="ri-admin-line text-sm block mb-1"></i>
                     Coordenador
                 </button>
@@ -66,12 +65,10 @@
             <!-- Formulário -->
             <form id="loginForm" class="space-y-4">
                 <div>
-                    <label for="identificador" class="block text-sm font-medium text-gray-700 mb-2" id="loginLabel">Matrícula</label>
+                    <label for="loginInput" class="block text-sm font-medium text-gray-700 mb-2" id="loginLabel">Matrícula</label>
                     <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="ri-graduation-cap-line text-gray-400 text-sm" id="loginIcon"></i>
-                        </div>
-                        <input type="text" id="identificador" name="identificador"
+                        <i class="ri-graduation-cap-line text-gray-400 text-sm absolute inset-y-0 left-0 pl-3 flex items-center"></i>
+                        <input type="text" id="loginInput" name="loginInput"
                                class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                                placeholder="Digite sua matrícula" required />
                     </div>
@@ -80,9 +77,7 @@
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
                     <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="ri-lock-line text-gray-400 text-sm"></i>
-                        </div>
+                        <i class="ri-lock-line text-gray-400 text-sm absolute inset-y-0 left-0 pl-3 flex items-center"></i>
                         <input type="password" id="password" name="password"
                                class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                                placeholder="Digite sua senha" required />
@@ -92,16 +87,21 @@
                     </div>
                 </div>
 
-                <!-- Botão ESQUECI MINHA SENHA -->
-                <div class="text-right -mt-2">
-                    <a href="forgot-password.html"
-                       class="text-sm text-primary hover:text-secondary transition-colors">
-                        Esqueci minha senha
-                    </a>
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="sr-only" id="remember">
+                        <div class="relative">
+                            <div class="w-4 h-4 bg-white border-2 border-gray-300 rounded cursor-pointer transition-colors duration-200" id="checkboxDisplay"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200" id="checkboxIcon">
+                                <i class="ri-check-line text-white text-xs"></i>
+                            </div>
+                        </div>
+                        <span class="ml-2 text-sm text-gray-600">Lembrar-me</span>
+                    </label>
                 </div>
 
                 <button type="submit"
-                        class="w-full bg-primary hover:bg-secondary text-white font-medium py-3 px-4 rounded-button transition-colors duration-200">
+                        class="w-full bg-primary hover:bg-secondary text-white font-medium py-3 px-4 rounded-button transition-colors duration-200 whitespace-nowrap">
                     Entrar no Sistema
                 </button>
             </form>
@@ -111,16 +111,15 @@
                 <a href="cadastroaluno.html" class="block text-sm text-primary hover:text-secondary">Cadastrar como Aluno</a>
                 <a href="cadastroempresa.html" class="block text-sm text-primary hover:text-secondary">Cadastrar Empresa</a>
             </div>
-        </div>
 
-        <footer class="mt-12 text-center text-sm text-gray-500">
-            <p>&copy; 2025 SIGE - Sistema Integrado de Gestão de Estágio. Todos os direitos reservados.</p>
-            <p class="mt-1">Versão 2.1.0</p>
-        </footer>
+            <footer class="mt-12 text-center text-sm text-gray-500">
+                <p>&copy; 2025 SIGE - Sistema Integrado de Gestão de Estágio. Todos os direitos reservados.</p>
+                <p class="mt-1">Versão 2.1.0</p>
+            </footer>
+        </div>
     </div>
 </div>
 
-<!-- Alternar tipo de usuário -->
 <script>
     let userType = "aluno";
 
@@ -128,14 +127,15 @@
         button.addEventListener("click", function () {
             document.querySelectorAll(".user-type-btn").forEach((btn) => {
                 btn.classList.remove("bg-primary", "text-white");
-                btn.classList.add("text-gray-600");
+                btn.classList.add("bg-blue-100", "text-gray-600", "hover:text-gray-800");
             });
+            this.classList.remove("bg-blue-100", "text-gray-600", "hover:text-gray-800");
             this.classList.add("bg-primary", "text-white");
             userType = this.getAttribute("data-type");
 
             const loginLabel = document.getElementById("loginLabel");
-            const loginIcon = document.getElementById("loginIcon");
-            const loginInput = document.getElementById("identificador");
+            const loginIcon = document.querySelector("#loginInput + i") || document.getElementById("loginIcon");
+            const loginInput = document.getElementById("loginInput");
 
             if (userType === "aluno") {
                 loginLabel.textContent = "Matrícula";
@@ -145,17 +145,14 @@
                 loginLabel.textContent = "CNPJ";
                 loginIcon.className = "ri-building-line text-gray-400 text-sm";
                 loginInput.placeholder = "Digite o CNPJ da empresa";
-            } else if (userType === "coordenador") {
+            } else if (userType === "admin") {
                 loginLabel.textContent = "CPF";
                 loginIcon.className = "ri-admin-line text-gray-400 text-sm";
                 loginInput.placeholder = "Digite seu CPF";
             }
         });
     });
-</script>
 
-<!-- Mostrar/esconder senha -->
-<script>
     document.getElementById("togglePassword").addEventListener("click", function () {
         const passwordInput = document.getElementById("password");
         const eyeIcon = this.querySelector("i");
@@ -163,14 +160,29 @@
         passwordInput.setAttribute("type", isPassword ? "text" : "password");
         eyeIcon.className = isPassword ? "ri-eye-off-line text-gray-400 text-sm" : "ri-eye-line text-gray-400 text-sm";
     });
-</script>
 
-<!-- Envio do login -->
-<script>
+    const checkbox = document.getElementById("remember");
+    const checkboxDisplay = document.getElementById("checkboxDisplay");
+    const checkboxIcon = document.getElementById("checkboxIcon");
+    checkboxDisplay.addEventListener("click", function () {
+        checkbox.checked = !checkbox.checked;
+        if (checkbox.checked) {
+            checkboxDisplay.classList.add("bg-primary", "border-primary");
+            checkboxDisplay.classList.remove("bg-white", "border-gray-300");
+            checkboxIcon.classList.remove("opacity-0");
+            checkboxIcon.classList.add("opacity-100");
+        } else {
+            checkboxDisplay.classList.remove("bg-primary", "border-primary");
+            checkboxDisplay.classList.add("bg-white", "border-gray-300");
+            checkboxIcon.classList.add("opacity-0");
+            checkboxIcon.classList.remove("opacity-100");
+        }
+    });
+
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const identificador = document.getElementById("identificador").value.trim();
+        const identificador = document.getElementById("loginInput").value.trim();
         const senha = document.getElementById("password").value.trim();
 
         const body = {
@@ -202,7 +214,6 @@
 
                 setTimeout(() => {
                     const tipo = (data.tipo || "").toLowerCase();
-
                     if (tipo === "aluno") {
                         window.location.replace("dashboardaluno.html");
                     } else if (tipo === "empresa") {
@@ -216,6 +227,8 @@
                 message.classList.add("text-red-600");
             }
         } catch (error) {
+            console.error("Erro na requisição:", error);
+
             const errorMsg = document.createElement("div");
             errorMsg.className = "login-message text-center mt-4 text-red-600 font-medium";
             errorMsg.textContent = "Erro ao conectar com o servidor.";
