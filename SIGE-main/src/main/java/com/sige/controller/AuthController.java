@@ -33,6 +33,7 @@ public class AuthController {
 
     @PostMapping("/validate-code")
     public Map<String, Object> validate(@RequestBody Map<String, String> body) {
+
         return authService.validarCodigo(body.get("email"), body.get("codigo"));
     }
 

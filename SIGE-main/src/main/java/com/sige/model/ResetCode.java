@@ -27,4 +27,5 @@ public class ResetCode {
 
     @Column(nullable = false)
     private boolean usado = false;
+
 }

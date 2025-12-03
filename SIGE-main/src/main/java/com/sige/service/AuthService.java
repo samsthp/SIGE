@@ -237,6 +237,7 @@ public class AuthService {
 
             helper.setText(html, true);
 
+
             mailSender.send(mime);
 
         } catch (Exception e) {

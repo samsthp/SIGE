@@ -39,6 +39,7 @@ function exibirVagas(vagas) {
                 <td>${v.cursoRelacionado || '-'}</td>
                 <td>${v.estado || '-'}</td>
                 <td>${v.contato || '-'}</td>
+                
             </tr>
         `;
     });

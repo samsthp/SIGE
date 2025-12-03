@@ -11,4 +11,5 @@ public interface ResetCodeRepository extends JpaRepository<ResetCode, Long> {
     Optional<ResetCode> findByEmailAndCodigoAndUsadoFalse(String email, String codigo);
 
     List<ResetCode> findAllByEmailAndUsadoFalse(String email);
+
 }
