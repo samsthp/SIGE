@@ -1,47 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Coordenador SIGE</title>
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: { primary: '#3b82f6', secondary: '#1e40af' },
-        borderRadius: { 'button': '8px' }
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Coordenador SIGE</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#3b82f6', secondary: '#1e40af' },
+          borderRadius: { 'button': '8px' }
+        }
       }
     }
-  }
-</script>
+  </script>
 </head>
 <body class="bg-gray-50 min-h-screen text-gray-800">
 
 <!-- HEADER -->
+
+
 <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-6 py-8">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-                        <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
-                            <i class="ri-user-line text-lg"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">Gabriel</p>
-                            <p class="text-xs text-gray-500">Cordenador</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
+  <div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
+        <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
+          <i class="ri-user-line text-lg"></i>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-gray-900">Gabriel</p>
+          <p class="text-xs text-gray-500">Coordenador</p>
+        </div>
+
+        <!-- 🔥 AQUI VAI O BOTÃO DE LOGOUT -->
+        <button id="logout-btn"
+                class="ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-button text-sm">
+          Sair
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
 
 <!-- NAV -->
 <nav class="bg-white border-b border-gray-200">
@@ -198,77 +208,77 @@
 
 <!-- SCRIPTS -->
 <script>
-/* ---------- Dados mock (front-end) ---------- */
-let offers = [
-  {
-    id: 'o1',
-    empresa: 'TechCorp Solutions',
-    descricao: 'Estágio em Suporte Técnico - atendimento e manutenção de estações; conhecimentos básicos em redes.',
-    candidatos: [
-      { nome: 'João Silva', email:'joao@ex.com', telefone:'(11) 90000-1111', status: 'inscrito' },
-      { nome: 'Mariana Costa', email:'mariana@ex.com', telefone:'(11) 91111-2222', status: 'ativo' },
-      { nome: 'Pedro Lima', email:'pedro@ex.com', telefone:'(11) 92222-3333', status: 'recusado' },
-    ]
-  },
-  {
-    id: 'o2',
-    empresa: 'CodeLab',
-    descricao: 'Desenvolvedor Front-End (estágio) - HTML, CSS, JavaScript; projetos React e testes.',
-    candidatos: [
-      { nome: 'Ana Pereira', email:'ana@ex.com', telefone:'(11) 93333-4444', status: 'inscrito' },
-      { nome: 'Lucas Almeida', email:'lucas@ex.com', telefone:'(11) 94444-5555', status: 'aceito' },
-      { nome: 'Beatriz Ramos', email:'beatriz@ex.com', telefone:'(11) 95555-6666', status: 'ativo' }
-    ]
-  },
-  {
-    id: 'o3',
-    empresa: 'NetLink Systems',
-    descricao: 'Analista de Redes (estágio) - suporte a infraestrutura, monitoramento e configuração de switches.',
-    candidatos: [
-      { nome: 'Fabio Santos', email:'fabio@ex.com', telefone:'(11) 96666-7777', status: 'inscrito' },
-      { nome: 'Marcos Vinícius', email:'marcos@ex.com', telefone:'(11) 97777-8888', status: 'aceito' },
-      { nome: 'Renata Gomes', email:'renata@ex.com', telefone:'(11) 98888-9999', status: 'recusado' }
-    ]
+  /* ---------- Dados mock (front-end) ---------- */
+  let offers = [
+    {
+      id: 'o1',
+      empresa: 'TechCorp Solutions',
+      descricao: 'Estágio em Suporte Técnico - atendimento e manutenção de estações; conhecimentos básicos em redes.',
+      candidatos: [
+        { nome: 'João Silva', email:'joao@ex.com', telefone:'(11) 90000-1111', status: 'inscrito' },
+        { nome: 'Mariana Costa', email:'mariana@ex.com', telefone:'(11) 91111-2222', status: 'ativo' },
+        { nome: 'Pedro Lima', email:'pedro@ex.com', telefone:'(11) 92222-3333', status: 'recusado' },
+      ]
+    },
+    {
+      id: 'o2',
+      empresa: 'CodeLab',
+      descricao: 'Desenvolvedor Front-End (estágio) - HTML, CSS, JavaScript; projetos React e testes.',
+      candidatos: [
+        { nome: 'Ana Pereira', email:'ana@ex.com', telefone:'(11) 93333-4444', status: 'inscrito' },
+        { nome: 'Lucas Almeida', email:'lucas@ex.com', telefone:'(11) 94444-5555', status: 'aceito' },
+        { nome: 'Beatriz Ramos', email:'beatriz@ex.com', telefone:'(11) 95555-6666', status: 'ativo' }
+      ]
+    },
+    {
+      id: 'o3',
+      empresa: 'NetLink Systems',
+      descricao: 'Analista de Redes (estágio) - suporte a infraestrutura, monitoramento e configuração de switches.',
+      candidatos: [
+        { nome: 'Fabio Santos', email:'fabio@ex.com', telefone:'(11) 96666-7777', status: 'inscrito' },
+        { nome: 'Marcos Vinícius', email:'marcos@ex.com', telefone:'(11) 97777-8888', status: 'aceito' },
+        { nome: 'Renata Gomes', email:'renata@ex.com', telefone:'(11) 98888-9999', status: 'recusado' }
+      ]
+    }
+  ];
+
+  let avaliacoes = [
+    {
+      id: 'a1',
+      aluno: 'Mariana Costa',
+      empresa: 'TechCorp Solutions',
+      notaAluno: 5,
+      comentarioAluno: 'Ambiente muito bom e instrutores prestativos.',
+      notaEmpresa: 5,
+      comentarioEmpresa: 'Aluno comprometido e responsável.'
+    },
+    {
+      id: 'a2',
+      aluno: 'Beatriz Ramos',
+      empresa: 'CodeLab',
+      notaAluno: 4,
+      comentarioAluno: 'Aprendi bastante, poderia melhorar organização.',
+      notaEmpresa: 5,
+      comentarioEmpresa: 'Ótima participação.'
+    }
+  ];
+
+  /* ---------- Helpers de render ---------- */
+  const ofertasGrid = document.getElementById('ofertas-grid');
+  const gerenciarGrid = document.getElementById('gerenciar-ofertas-grid');
+  const avaliacoesList = document.getElementById('avaliacoes-list');
+
+  function countByStatus(cands, status){
+    return cands.filter(c=>c.status===status).length;
   }
-];
 
-let avaliacoes = [
-  {
-    id: 'a1',
-    aluno: 'Mariana Costa',
-    empresa: 'TechCorp Solutions',
-    notaAluno: 5,
-    comentarioAluno: 'Ambiente muito bom e instrutores prestativos.',
-    notaEmpresa: 5,
-    comentarioEmpresa: 'Aluno comprometido e responsável.'
-  },
-  {
-    id: 'a2',
-    aluno: 'Beatriz Ramos',
-    empresa: 'CodeLab',
-    notaAluno: 4,
-    comentarioAluno: 'Aprendi bastante, poderia melhorar organização.',
-    notaEmpresa: 5,
-    comentarioEmpresa: 'Ótima participação.'
-  }
-];
-
-/* ---------- Helpers de render ---------- */
-const ofertasGrid = document.getElementById('ofertas-grid');
-const gerenciarGrid = document.getElementById('gerenciar-ofertas-grid');
-const avaliacoesList = document.getElementById('avaliacoes-list');
-
-function countByStatus(cands, status){
-  return cands.filter(c=>c.status===status).length;
-}
-
-function renderOffers(){
-  // Render cards na aba Ofertas
-  ofertasGrid.innerHTML = '';
-  offers.forEach(of=>{
-    const card = document.createElement('div');
-    card.className = 'bg-white rounded-md shadow-sm border p-6 hover:shadow-md';
-    card.innerHTML = `
+  function renderOffers(){
+    // Render cards na aba Ofertas
+    ofertasGrid.innerHTML = '';
+    offers.forEach(of=>{
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-md shadow-sm border p-6 hover:shadow-md';
+      card.innerHTML = `
       <h3 class="text-lg font-semibold text-gray-900">${of.empresa}</h3>
       <p class="text-gray-600 text-sm my-3 line-clamp-3">${of.descricao}</p>
       <div class="flex items-center justify-between">
@@ -279,23 +289,23 @@ function renderOffers(){
         </div>
       </div>
     `;
-    ofertasGrid.appendChild(card);
-  });
+      ofertasGrid.appendChild(card);
+    });
 
-  // Render cards na aba Gerenciar Estágios
-  gerenciarGrid.innerHTML = '';
-  offers.forEach(of=>{
-    const card = document.createElement('div');
-    card.className = 'bg-white rounded-md shadow-sm border p-6 hover:shadow-md';
-    card.dataset.ofertaId = of.id;
+    // Render cards na aba Gerenciar Estágios
+    gerenciarGrid.innerHTML = '';
+    offers.forEach(of=>{
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-md shadow-sm border p-6 hover:shadow-md';
+      card.dataset.ofertaId = of.id;
 
-    // build small lists text
-    const aceitos = of.candidatos.filter(c=>c.status==='aceito').map(c=>c.nome);
-    const ativos = of.candidatos.filter(c=>c.status==='ativo').map(c=>c.nome);
-    const recusados = of.candidatos.filter(c=>c.status==='recusado').map(c=>c.nome);
-    const inscritos = of.candidatos.filter(c=>c.status==='inscrito').map(c=>c.nome);
+      // build small lists text
+      const aceitos = of.candidatos.filter(c=>c.status==='aceito').map(c=>c.nome);
+      const ativos = of.candidatos.filter(c=>c.status==='ativo').map(c=>c.nome);
+      const recusados = of.candidatos.filter(c=>c.status==='recusado').map(c=>c.nome);
+      const inscritos = of.candidatos.filter(c=>c.status==='inscrito').map(c=>c.nome);
 
-    card.innerHTML = `
+      card.innerHTML = `
       <h3 class="text-lg font-semibold text-gray-900">${of.empresa}</h3>
       <p class="text-gray-600 text-sm my-2 line-clamp-3">${of.descricao}</p>
       <div class="space-y-2">
@@ -309,20 +319,20 @@ function renderOffers(){
         <button data-id="${of.id}" class="btn-excluir px-3 py-1 text-red-500 border border-red-200 rounded-md hover:bg-red-50"><i class="ri-delete-bin-line"></i></button>
       </div>
     `;
-    gerenciarGrid.appendChild(card);
-  });
-}
-
-function renderAvaliacoes(){
-  avaliacoesList.innerHTML = '';
-  if(avaliacoes.length === 0){
-    avaliacoesList.innerHTML = `<div class="bg-white p-6 rounded-md shadow-sm text-gray-500">Nenhuma avaliação registrada.</div>`;
-    return;
+      gerenciarGrid.appendChild(card);
+    });
   }
-  avaliacoes.forEach(a=>{
-    const box = document.createElement('div');
-    box.className = 'bg-white rounded-md shadow-sm border p-6';
-    box.innerHTML = `
+
+  function renderAvaliacoes(){
+    avaliacoesList.innerHTML = '';
+    if(avaliacoes.length === 0){
+      avaliacoesList.innerHTML = `<div class="bg-white p-6 rounded-md shadow-sm text-gray-500">Nenhuma avaliação registrada.</div>`;
+      return;
+    }
+    avaliacoes.forEach(a=>{
+      const box = document.createElement('div');
+      box.className = 'bg-white rounded-md shadow-sm border p-6';
+      box.innerHTML = `
       <div class="flex justify-between items-start">
         <div>
           <h4 class="font-semibold">${a.aluno} → ${a.empresa}</h4>
@@ -336,326 +346,334 @@ function renderAvaliacoes(){
         </div>
       </div>
     `;
-    avaliacoesList.appendChild(box);
-  });
-}
+      avaliacoesList.appendChild(box);
+    });
+  }
 
-/* ---------- Interação: modais e ações ---------- */
-const modalDetalhes = document.getElementById('modal-detalhes');
-const modalTitulo = document.getElementById('modal-titulo');
-const modalDescricao = document.getElementById('modal-descricao');
-const modalInscritos = document.getElementById('modal-inscritos');
-const modalAceitos = document.getElementById('modal-aceitos');
-const modalAtivos = document.getElementById('modal-ativos');
-const modalRecusados = document.getElementById('modal-recusados');
-const btnFecharDetalhes = document.getElementById('btn-fechar-detalhes');
-const btnFecharDetalhes2 = document.getElementById('btn-fechar-detalhes-2');
+  /* ---------- Interação: modais e ações ---------- */
+  const modalDetalhes = document.getElementById('modal-detalhes');
+  const modalTitulo = document.getElementById('modal-titulo');
+  const modalDescricao = document.getElementById('modal-descricao');
+  const modalInscritos = document.getElementById('modal-inscritos');
+  const modalAceitos = document.getElementById('modal-aceitos');
+  const modalAtivos = document.getElementById('modal-ativos');
+  const modalRecusados = document.getElementById('modal-recusados');
+  const btnFecharDetalhes = document.getElementById('btn-fechar-detalhes');
+  const btnFecharDetalhes2 = document.getElementById('btn-fechar-detalhes-2');
 
-let currentOfferId = null;
+  let currentOfferId = null;
 
-function openDetalhes(ofertaId){
-  const of = offers.find(o=>o.id===ofertaId);
-  if(!of) return;
-  currentOfferId = ofertaId;
-  modalTitulo.textContent = `${of.empresa} — Detalhes`;
-  modalDescricao.textContent = of.descricao;
+  function openDetalhes(ofertaId){
+    const of = offers.find(o=>o.id===ofertaId);
+    if(!of) return;
+    currentOfferId = ofertaId;
+    modalTitulo.textContent = `${of.empresa} — Detalhes`;
+    modalDescricao.textContent = of.descricao;
 
-  // preencher listas
-  modalInscritos.innerHTML = '';
-  modalAceitos.innerHTML = '';
-  modalAtivos.innerHTML = '';
-  modalRecusados.innerHTML = '';
+    // preencher listas
+    modalInscritos.innerHTML = '';
+    modalAceitos.innerHTML = '';
+    modalAtivos.innerHTML = '';
+    modalRecusados.innerHTML = '';
 
-  of.candidatos.forEach((c, idx)=>{
-    const li = document.createElement('li');
-    li.className = 'flex justify-between items-center bg-gray-50 p-2 rounded-md';
-    li.innerHTML = `
+    of.candidatos.forEach((c, idx)=>{
+      const li = document.createElement('li');
+      li.className = 'flex justify-between items-center bg-gray-50 p-2 rounded-md';
+      li.innerHTML = `
       <div>
         <div class="font-medium">${c.nome}</div>
         <div class="text-xs text-gray-600">${c.email} • ${c.telefone}</div>
       </div>
       <div class="flex gap-2 items-center"></div>
     `;
-    const actions = li.querySelector('div.flex.gap-2.items-center');
+      const actions = li.querySelector('div.flex.gap-2.items-center');
 
-    if(c.status === 'inscrito'){
-      const btnAceitar = document.createElement('button');
-      btnAceitar.textContent = 'Aceitar';
-      btnAceitar.className = 'px-2 py-1 bg-green-500 text-white text-xs rounded-md hover:bg-green-600';
-      btnAceitar.addEventListener('click', ()=> {
-        updateCandidateStatus(ofertaId, c.nome, 'aceito');
-        openDetalhes(ofertaId); // refresh modal
-        renderOffers(); renderAvaliacoes();
-      });
-      const btnRecusar = document.createElement('button');
-      btnRecusar.textContent = 'Recusar';
-      btnRecusar.className = 'px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600';
-      btnRecusar.addEventListener('click', ()=> {
-        updateCandidateStatus(ofertaId, c.nome, 'recusado');
-        openDetalhes(ofertaId);
-        renderOffers();
-      });
-      actions.appendChild(btnAceitar);
-      actions.appendChild(btnRecusar);
-      modalInscritos.appendChild(li);
-    } else if(c.status === 'aceito'){
-      // In aceitos, coordinator can accept -> ativo OR recusar -> recusado
-      const btnConfirmar = document.createElement('button');
-      btnConfirmar.textContent = 'Aceitar (Iniciar)';
-      btnConfirmar.className = 'px-2 py-1 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700';
-      btnConfirmar.addEventListener('click', ()=>{
-        updateCandidateStatus(ofertaId, c.nome, 'ativo');
-        openDetalhes(ofertaId);
-        renderOffers();
-      });
-      const btnRecusar = document.createElement('button');
-      btnRecusar.textContent = 'Recusar';
-      btnRecusar.className = 'px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600';
-      btnRecusar.addEventListener('click', ()=>{
-        updateCandidateStatus(ofertaId, c.nome, 'recusado');
-        openDetalhes(ofertaId);
-        renderOffers();
-      });
-      actions.appendChild(btnConfirmar);
-      actions.appendChild(btnRecusar);
-      modalAceitos.appendChild(li);
-    } else if(c.status === 'ativo'){
-      // show Finalizar Estágio - but in modal coordinator doesn't finalize, only company/coord may. We'll keep only display.
-      const span = document.createElement('span');
-      span.className = 'text-xs text-green-700 font-medium';
-      span.textContent = 'Ativo';
-      actions.appendChild(span);
-      modalAtivos.appendChild(li);
-    } else if(c.status === 'recusado'){
-      const span = document.createElement('span');
-      span.className = 'text-xs text-red-600 font-medium';
-      span.textContent = 'Recusado';
-      actions.appendChild(span);
-      modalRecusados.appendChild(li);
-    }
-  });
-
-  modalDetalhes.classList.remove('hidden');
-  modalDetalhes.classList.add('flex');
-}
-
-function closeDetalhes(){
-  modalDetalhes.classList.add('hidden');
-  modalDetalhes.classList.remove('flex');
-  currentOfferId = null;
-}
-
-/* Atualiza status do candidato no model */
-function updateCandidateStatus(ofertaId, nome, newStatus){
-  const of = offers.find(o=>o.id===ofertaId);
-  if(!of) return;
-  const cand = of.candidatos.find(c=>c.nome === nome);
-  if(!cand) return;
-  cand.status = newStatus;
-  // re-render
-  renderOffers();
-  renderGerenciar(); // helper below
-}
-
-/* Render gerenciar (sincroniza conteúdo de cards com dados) */
-function renderGerenciar(){
-  // Gerenciar cards atualiza contadores (já feito em renderOffers) — manter coerência
-  renderOffers();
-}
-
-/* Abrir modal para avaliação (usado ao finalizar estágio na lista de ativos) */
-const modalAvaliacao = document.getElementById('modal-avaliacao');
-const empresaAvaliar = document.getElementById('empresa-avaliar');
-const notaAvaliacao = document.getElementById('nota-avaliacao');
-const comentarioAvaliacao = document.getElementById('comentario-avaliacao');
-let avaliacaoContext = null; // { ofertaId, alunoNome }
-
-function openAvaliacao(ofertaId, alunoNome){
-  const of = offers.find(o=>o.id===ofertaId);
-  if(!of) return;
-  empresaAvaliar.textContent = `${of.empresa} — Avaliação por ${alunoNome}`;
-  notaAvaliacao.value = '5';
-  comentarioAvaliacao.value = '';
-  avaliacaoContext = { ofertaId, alunoNome, empresa: of.empresa };
-  modalAvaliacao.classList.remove('hidden'); modalAvaliacao.classList.add('flex');
-}
-function closeAvaliacao(){
-  modalAvaliacao.classList.add('hidden'); modalAvaliacao.classList.remove('flex');
-}
-
-/* Envio de avaliação: armazena em `avaliacoes` */
-document.getElementById('enviar-avaliacao').addEventListener('click', ()=>{
-  if(!avaliacaoContext) return;
-  const novo = {
-    id: 'a' + Date.now(),
-    aluno: avaliacaoContext.alunoNome,
-    empresa: avaliacaoContext.empresa,
-    notaAluno: Number(notaAvaliacao.value),
-    comentarioAluno: comentarioAvaliacao.value,
-    // Empresa pode avaliar depois; por ora vazio
-    notaEmpresa: null,
-    comentarioEmpresa: null
-  };
-  avaliacoes.unshift(novo);
-  closeAvaliacao();
-  renderAvaliacoes();
-  alert('Avaliação enviada (mock).');
-  avaliacaoContext = null;
-});
-
-/* cancelar avaliacao */
-document.getElementById('cancelar-avaliacao').addEventListener('click', closeAvaliacao);
-
-/* ---------- Eventos globais (clicks) ---------- */
-document.body.addEventListener('click', function(e){
-  // Ver detalhes (Ofertas / Gerenciar)
-  const verBtn = e.target.closest('.btn-ver-detalhes') || e.target.closest('.btn-ver-gerenciar');
-  if(verBtn){
-    const id = verBtn.dataset.id;
-    openDetalhes(id);
-    return;
-  }
-
-  // Excluir oferta
-  const exBtn = e.target.closest('.btn-excluir');
-  if(exBtn){
-    const id = exBtn.dataset.id;
-    if(confirm('Deseja excluir esta oferta? Esta ação removerá a oferta de todas as abas.')){
-      offers = offers.filter(o=>o.id !== id);
-      renderOffers();
-      renderAvaliacoes();
-    }
-    return;
-  }
-
-  // Fechar modal detalhes
-  if(e.target === btnFecharDetalhes || e.target === btnFecharDetalhes2 || e.target === document.getElementById('btn-fechar-detalhes')){
-    closeDetalhes();
-  }
-
-  // Fechar clicando fora do conteúdo do modal (opcional)
-  if(e.target === modalDetalhes) closeDetalhes();
-  if(e.target === modalAvaliacao) closeAvaliacao();
-});
-
-/* ---------- Criar oferta via botão (só front) ---------- */
-document.getElementById('btn-adicionar-oferta').addEventListener('click', ()=>{
-  const titulo = prompt('Título (empresa) da nova oferta:', 'Nova Empresa');
-  const desc = prompt('Descrição da nova oferta:', 'Descrição do estágio...');
-  if(titulo && desc){
-    const novo = {
-      id: 'o' + Date.now(),
-      empresa: titulo,
-      descricao: desc,
-      candidatos: []
-    };
-    offers.unshift(novo);
-    renderOffers();
-    alert('Oferta adicionada (mock).');
-  }
-});
-
-/* ---------- Finalizar estágio / Avaliar (na interface Gerenciar - Ativos) ----------
-   We will provide buttons inside the Gerenciar card area to open evaluation for ativos.
-   Also implement Finalizar->Avaliar behavior for items shown in the card area.
--------------------------------------------------------------------------- */
-
-function renderOffersWithActiveControls(){
-  // similar to renderOffers but after placing cards, attach controls for Finalizar/Avaliar inside Gerenciar modal lists
-  renderOffers();
-  // We also want to add Finalizar/Avaliar buttons on the gerenciar cards display for ativos list
-  // find gerenciar cards created by renderOffers (same DOM)
-  document.querySelectorAll('#gerenciar-ofertas-grid > div').forEach(card=>{
-    const ofertaId = card.dataset.ofertaId;
-    const of = offers.find(o=>o.id === ofertaId);
-    if(!of) return;
-
-    // find existing area and append a small active list with buttons (below the counters)
-    // remove previous area if exists
-    let existing = card.querySelector('.ativos-controls');
-    if(existing) existing.remove();
-
-    const ativos = of.candidatos.filter(c=>c.status==='ativo');
-    const container = document.createElement('div');
-    container.className = 'ativos-controls mt-3 space-y-2';
-    ativos.slice(0,3).forEach(c=>{
-      const row = document.createElement('div');
-      row.className = 'flex items-center justify-between text-sm bg-gray-50 p-2 rounded-md';
-      row.innerHTML = `<div class="font-medium">${c.nome}</div>`;
-      const actions = document.createElement('div');
-      const btnFinalizar = document.createElement('button');
-      btnFinalizar.className = 'px-2 py-1 bg-yellow-500 text-white rounded-md text-xs hover:bg-yellow-600';
-      btnFinalizar.textContent = 'Finalizar Estágio';
-      btnFinalizar.addEventListener('click', ()=>{
-        // change UI: remove finalizar and show avaliar
-        btnFinalizar.remove();
-        const btnAvaliar = document.createElement('button');
-        btnAvaliar.className = 'px-2 py-1 bg-blue-500 text-white rounded-md text-xs hover:bg-blue-600 ml-2';
-        btnAvaliar.textContent = 'Avaliar';
-        btnAvaliar.addEventListener('click', ()=>{
-          openAvaliacao(ofertaId, c.nome);
+      if(c.status === 'inscrito'){
+        const btnAceitar = document.createElement('button');
+        btnAceitar.textContent = 'Aceitar';
+        btnAceitar.className = 'px-2 py-1 bg-green-500 text-white text-xs rounded-md hover:bg-green-600';
+        btnAceitar.addEventListener('click', ()=> {
+          updateCandidateStatus(ofertaId, c.nome, 'aceito');
+          openDetalhes(ofertaId); // refresh modal
+          renderOffers(); renderAvaliacoes();
         });
-        actions.appendChild(btnAvaliar);
-      });
-      actions.appendChild(btnFinalizar);
-      row.appendChild(actions);
-      container.appendChild(row);
+        const btnRecusar = document.createElement('button');
+        btnRecusar.textContent = 'Recusar';
+        btnRecusar.className = 'px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600';
+        btnRecusar.addEventListener('click', ()=> {
+          updateCandidateStatus(ofertaId, c.nome, 'recusado');
+          openDetalhes(ofertaId);
+          renderOffers();
+        });
+        actions.appendChild(btnAceitar);
+        actions.appendChild(btnRecusar);
+        modalInscritos.appendChild(li);
+      } else if(c.status === 'aceito'){
+        // In aceitos, coordinator can accept -> ativo OR recusar -> recusado
+        const btnConfirmar = document.createElement('button');
+        btnConfirmar.textContent = 'Aceitar (Iniciar)';
+        btnConfirmar.className = 'px-2 py-1 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700';
+        btnConfirmar.addEventListener('click', ()=>{
+          updateCandidateStatus(ofertaId, c.nome, 'ativo');
+          openDetalhes(ofertaId);
+          renderOffers();
+        });
+        const btnRecusar = document.createElement('button');
+        btnRecusar.textContent = 'Recusar';
+        btnRecusar.className = 'px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600';
+        btnRecusar.addEventListener('click', ()=>{
+          updateCandidateStatus(ofertaId, c.nome, 'recusado');
+          openDetalhes(ofertaId);
+          renderOffers();
+        });
+        actions.appendChild(btnConfirmar);
+        actions.appendChild(btnRecusar);
+        modalAceitos.appendChild(li);
+      } else if(c.status === 'ativo'){
+        // show Finalizar Estágio - but in modal coordinator doesn't finalize, only company/coord may. We'll keep only display.
+        const span = document.createElement('span');
+        span.className = 'text-xs text-green-700 font-medium';
+        span.textContent = 'Ativo';
+        actions.appendChild(span);
+        modalAtivos.appendChild(li);
+      } else if(c.status === 'recusado'){
+        const span = document.createElement('span');
+        span.className = 'text-xs text-red-600 font-medium';
+        span.textContent = 'Recusado';
+        actions.appendChild(span);
+        modalRecusados.appendChild(li);
+      }
     });
-    card.appendChild(container);
+
+    modalDetalhes.classList.remove('hidden');
+    modalDetalhes.classList.add('flex');
+  }
+
+  function closeDetalhes(){
+    modalDetalhes.classList.add('hidden');
+    modalDetalhes.classList.remove('flex');
+    currentOfferId = null;
+  }
+
+  /* Atualiza status do candidato no model */
+  function updateCandidateStatus(ofertaId, nome, newStatus){
+    const of = offers.find(o=>o.id===ofertaId);
+    if(!of) return;
+    const cand = of.candidatos.find(c=>c.nome === nome);
+    if(!cand) return;
+    cand.status = newStatus;
+    // re-render
+    renderOffers();
+    renderGerenciar(); // helper below
+  }
+
+  /* Render gerenciar (sincroniza conteúdo de cards com dados) */
+  function renderGerenciar(){
+    // Gerenciar cards atualiza contadores (já feito em renderOffers) — manter coerência
+    renderOffers();
+  }
+
+  /* Abrir modal para avaliação (usado ao finalizar estágio na lista de ativos) */
+  const modalAvaliacao = document.getElementById('modal-avaliacao');
+  const empresaAvaliar = document.getElementById('empresa-avaliar');
+  const notaAvaliacao = document.getElementById('nota-avaliacao');
+  const comentarioAvaliacao = document.getElementById('comentario-avaliacao');
+  let avaliacaoContext = null; // { ofertaId, alunoNome }
+
+  function openAvaliacao(ofertaId, alunoNome){
+    const of = offers.find(o=>o.id===ofertaId);
+    if(!of) return;
+    empresaAvaliar.textContent = `${of.empresa} — Avaliação por ${alunoNome}`;
+    notaAvaliacao.value = '5';
+    comentarioAvaliacao.value = '';
+    avaliacaoContext = { ofertaId, alunoNome, empresa: of.empresa };
+    modalAvaliacao.classList.remove('hidden'); modalAvaliacao.classList.add('flex');
+  }
+  function closeAvaliacao(){
+    modalAvaliacao.classList.add('hidden'); modalAvaliacao.classList.remove('flex');
+  }
+
+  /* Envio de avaliação: armazena em `avaliacoes` */
+  document.getElementById('enviar-avaliacao').addEventListener('click', ()=>{
+    if(!avaliacaoContext) return;
+    const novo = {
+      id: 'a' + Date.now(),
+      aluno: avaliacaoContext.alunoNome,
+      empresa: avaliacaoContext.empresa,
+      notaAluno: Number(notaAvaliacao.value),
+      comentarioAluno: comentarioAvaliacao.value,
+      // Empresa pode avaliar depois; por ora vazio
+      notaEmpresa: null,
+      comentarioEmpresa: null
+    };
+    avaliacoes.unshift(novo);
+    closeAvaliacao();
+    renderAvaliacoes();
+    alert('Avaliação enviada (mock).');
+    avaliacaoContext = null;
   });
-}
 
-/* ---------- Utils: render inicial e atualizações ---------- */
-function initAll(){
-  renderOffers();
-  renderAvaliacoes();
-  renderOffersWithActiveControls();
-}
+  /* cancelar avaliacao */
+  document.getElementById('cancelar-avaliacao').addEventListener('click', closeAvaliacao);
 
-/* Re-render helper after changes */
-function fullRefresh(){
-  renderOffers();
-  renderOffersWithActiveControls();
-  renderAvaliacoes();
-}
+  /* ---------- Eventos globais (clicks) ---------- */
+  document.body.addEventListener('click', function(e){
+    // Ver detalhes (Ofertas / Gerenciar)
+    const verBtn = e.target.closest('.btn-ver-detalhes') || e.target.closest('.btn-ver-gerenciar');
+    if(verBtn){
+      const id = verBtn.dataset.id;
+      openDetalhes(id);
+      return;
+    }
 
-/* ---------- Gerenciar via modal: keep synchronized with model ----------
-   When modal buttons call updateCandidateStatus, we re-open modal and re-render.
--------------------------------------------------------------------------- */
+    // Excluir oferta
+    const exBtn = e.target.closest('.btn-excluir');
+    if(exBtn){
+      const id = exBtn.dataset.id;
+      if(confirm('Deseja excluir esta oferta? Esta ação removerá a oferta de todas as abas.')){
+        offers = offers.filter(o=>o.id !== id);
+        renderOffers();
+        renderAvaliacoes();
+      }
+      return;
+    }
 
-/* ---------- Form perfil (apenas UI) ---------- */
-document.getElementById('form-perfil').addEventListener('submit', function(e){
-  e.preventDefault();
-  alert('Perfil atualizado (mock).');
-});
+    // Fechar modal detalhes
+    if(e.target === btnFecharDetalhes || e.target === btnFecharDetalhes2 || e.target === document.getElementById('btn-fechar-detalhes')){
+      closeDetalhes();
+    }
 
-/* ---------- Tabs ---------- */
-const tabs = document.querySelectorAll('.tab-button');
-const contents = document.querySelectorAll('.tab-content');
-tabs.forEach(tab=>{
-  tab.addEventListener('click', ()=>{
-    tabs.forEach(t=>t.classList.remove('bg-primary','text-white'));
-    tabs.forEach(t=>t.classList.add('text-gray-600','hover:text-primary','hover:bg-blue-50'));
-    tab.classList.add('bg-primary','text-white');
-    tab.classList.remove('text-gray-600','hover:text-primary','hover:bg-blue-50');
-    const target = tab.id.replace('tab-','content-');
-    contents.forEach(c=>c.classList.add('hidden'));
-    document.getElementById(target).classList.remove('hidden');
+    // Fechar clicando fora do conteúdo do modal (opcional)
+    if(e.target === modalDetalhes) closeDetalhes();
+    if(e.target === modalAvaliacao) closeAvaliacao();
   });
-});
 
-/* ---------- Inicialização ---------- */
-initAll();
+  /* ---------- Criar oferta via botão (só front) ---------- */
+  document.getElementById('btn-adicionar-oferta').addEventListener('click', ()=>{
+    const titulo = prompt('Título (empresa) da nova oferta:', 'Nova Empresa');
+    const desc = prompt('Descrição da nova oferta:', 'Descrição do estágio...');
+    if(titulo && desc){
+      const novo = {
+        id: 'o' + Date.now(),
+        empresa: titulo,
+        descricao: desc,
+        candidatos: []
+      };
+      offers.unshift(novo);
+      renderOffers();
+      alert('Oferta adicionada (mock).');
+    }
+  });
 
-/* ---------- Quando abrir modal detalhes novamente, recriar os controls que permitem ao coordenador aceitar/recusar ---------- */
-/* Já feito via openDetalhes + updateCandidateStatus -> re-render */
+  /* ---------- Finalizar estágio / Avaliar (na interface Gerenciar - Ativos) ----------
+     We will provide buttons inside the Gerenciar card area to open evaluation for ativos.
+     Also implement Finalizar->Avaliar behavior for items shown in the card area.
+  -------------------------------------------------------------------------- */
 
-/* ---------- Garantir atualização dos controles de ativos quando há mudanças ---------- */
-const observer = new MutationObserver(() => {
-  // small debounce
-  setTimeout(()=> renderOffersWithActiveControls(), 50);
-});
-observer.observe(gerenciarGrid, { childList: true, subtree: true });
+  function renderOffersWithActiveControls(){
+    // similar to renderOffers but after placing cards, attach controls for Finalizar/Avaliar inside Gerenciar modal lists
+    renderOffers();
+    // We also want to add Finalizar/Avaliar buttons on the gerenciar cards display for ativos list
+    // find gerenciar cards created by renderOffers (same DOM)
+    document.querySelectorAll('#gerenciar-ofertas-grid > div').forEach(card=>{
+      const ofertaId = card.dataset.ofertaId;
+      const of = offers.find(o=>o.id === ofertaId);
+      if(!of) return;
+
+      // find existing area and append a small active list with buttons (below the counters)
+      // remove previous area if exists
+      let existing = card.querySelector('.ativos-controls');
+      if(existing) existing.remove();
+
+      const ativos = of.candidatos.filter(c=>c.status==='ativo');
+      const container = document.createElement('div');
+      container.className = 'ativos-controls mt-3 space-y-2';
+      ativos.slice(0,3).forEach(c=>{
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between text-sm bg-gray-50 p-2 rounded-md';
+        row.innerHTML = `<div class="font-medium">${c.nome}</div>`;
+        const actions = document.createElement('div');
+        const btnFinalizar = document.createElement('button');
+        btnFinalizar.className = 'px-2 py-1 bg-yellow-500 text-white rounded-md text-xs hover:bg-yellow-600';
+        btnFinalizar.textContent = 'Finalizar Estágio';
+        btnFinalizar.addEventListener('click', ()=>{
+          // change UI: remove finalizar and show avaliar
+          btnFinalizar.remove();
+          const btnAvaliar = document.createElement('button');
+          btnAvaliar.className = 'px-2 py-1 bg-blue-500 text-white rounded-md text-xs hover:bg-blue-600 ml-2';
+          btnAvaliar.textContent = 'Avaliar';
+          btnAvaliar.addEventListener('click', ()=>{
+            openAvaliacao(ofertaId, c.nome);
+          });
+          actions.appendChild(btnAvaliar);
+        });
+        actions.appendChild(btnFinalizar);
+        row.appendChild(actions);
+        container.appendChild(row);
+      });
+      card.appendChild(container);
+    });
+  }
+
+  /* ---------- Utils: render inicial e atualizações ---------- */
+  function initAll(){
+    renderOffers();
+    renderAvaliacoes();
+    renderOffersWithActiveControls();
+  }
+
+  /* Re-render helper after changes */
+  function fullRefresh(){
+    renderOffers();
+    renderOffersWithActiveControls();
+    renderAvaliacoes();
+  }
+
+  /* ---------- Gerenciar via modal: keep synchronized with model ----------
+     When modal buttons call updateCandidateStatus, we re-open modal and re-render.
+  -------------------------------------------------------------------------- */
+
+  /* ---------- Form perfil (apenas UI) ---------- */
+  document.getElementById('form-perfil').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Perfil atualizado (mock).');
+  });
+
+  /* ---------- Tabs ---------- */
+  const tabs = document.querySelectorAll('.tab-button');
+  const contents = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('bg-primary','text-white'));
+      tabs.forEach(t=>t.classList.add('text-gray-600','hover:text-primary','hover:bg-blue-50'));
+      tab.classList.add('bg-primary','text-white');
+      tab.classList.remove('text-gray-600','hover:text-primary','hover:bg-blue-50');
+      const target = tab.id.replace('tab-','content-');
+      contents.forEach(c=>c.classList.add('hidden'));
+      document.getElementById(target).classList.remove('hidden');
+    });
+  });
+
+  /* ---------- Inicialização ---------- */
+  initAll();
+
+  /* ---------- Quando abrir modal detalhes novamente, recriar os controls que permitem ao coordenador aceitar/recusar ---------- */
+  /* Já feito via openDetalhes + updateCandidateStatus -> re-render */
+
+  /* ---------- Garantir atualização dos controles de ativos quando há mudanças ---------- */
+  const observer = new MutationObserver(() => {
+    // small debounce
+    setTimeout(()=> renderOffersWithActiveControls(), 50);
+  });
+  observer.observe(gerenciarGrid, { childList: true, subtree: true });
+
+  /*-----------LOGOUT--------------*/
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    fetch("/api/auth/logout", { method: "POST", credentials: "include" })
+            .finally(() => {
+              window.location.href = "login.html";
+            });
+  });
 
 </script>
 </body>

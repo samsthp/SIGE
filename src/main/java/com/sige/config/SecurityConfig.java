@@ -20,36 +20,40 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
-                // ✅ Habilita CORS e desativa CSRF (essencial para Postman e front-end)
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
-
-                // ✅ Libera as rotas públicas
                 .authorizeHttpRequests(auth -> auth
-                        // Libera explicitamente login e registro (qualquer método HTTP)
+
+                        // ROTAS CORRETAS DA API DE SENHA
                         .requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/forgot").permitAll()          // <— AQUI
+                        .requestMatchers("/api/auth/validate-code").permitAll()
+                        .requestMatchers("/api/auth/reset-password").permitAll()
 
-                        // Libera também os recursos do front-end
+                        // ARQUIVOS ESTÁTICOS
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+
+                        // PÁGINAS DO FRONT
                         .requestMatchers(
-                                "/css/**",
-                                "/js/**",
-                                "/images/**",
                                 "/login.html",
+                                "/forgot-password.html",
+                                "/validate-code.html",
+                                "/reset-password.html",
                                 "/cadastroaluno.html",
                                 "/cadastroempresa.html",
                                 "/cadastrocoordenador.html",
+                                "/index.html",
                                 "/dashboardaluno.html",
-                                "/dashboardempresa.html",
-                                "/dashboardcoordenador.html"
+                                "/dashboardcoordenador.html",
+                                "/dashboardempresa.html"
+
                         ).permitAll()
 
-                        // Bloqueia o resto
                         .anyRequest().authenticated()
                 )
-
-                // 🚫 Desativa autenticação padrão
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
 
@@ -62,23 +66,22 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ Encoder de senha (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ Configuração global de CORS
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // aceita qualquer origem (Postman, localhost, etc.)
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(false); // false para evitar conflitos no Postman
+        configuration.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+
     }
 }
