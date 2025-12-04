@@ -109,9 +109,7 @@
                         <label for="obrigatorio">obrigatório</label>
                         <input type="radio" id="naoObrigatorio" name="modalidade" value="n">
                         <label for="naoObrigatorio">não-obrigatório</label>
-                        <button onclick="pesquisar()" class="px-2 py-1 border border-black rounded-md">
-                            PESQUISAR
-                        </button>
+                        <input type="button" value="PESQUISAR" onclick="pesquisar()" class="px-2 py-1 border border-blue-600 rounded-md">
                     </form>
                     <h4>Resultados:</h4>
                     <div id="resultados"></div>
@@ -385,7 +383,7 @@
             .then(response => response.json())
             .then(dados => {
                 let html = "";
-                dados.forEach(vaga => {
+                Object.values(dados).forEach(pesquisa => {
                     html += ` <p>${pesquisa.titulo} <br> Área: ${pesquisa.area} <br> Localização: ${pesquisa.local} <br> Modalidade: ${pesquisa.modalidade} <br> Descrição: ${pesquisa.descricao}</p> <hr> `;
                 });
                 document.getElementById("resultados").innerHTML = html;
