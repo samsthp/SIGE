@@ -13,6 +13,13 @@ public class AlunoService {
         this.repository = repository;
     }
 
+
+    public Aluno buscar(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+    }
+
+
     public Aluno atualizar(Long id, Aluno dados) {
 
         Aluno aluno = repository.findById(id)
@@ -21,6 +28,12 @@ public class AlunoService {
         aluno.setNome(dados.getNome());
         aluno.setEmail(dados.getEmail());
         aluno.setTelefone(dados.getTelefone());
+        aluno.setEndereco(dados.getEndereco());
+        aluno.setFotoPerfil(dados.getFotoPerfil());
+
+        if (dados.getSenha() != null && !dados.getSenha().isBlank()) {
+            aluno.setSenha(dados.getSenha());
+        }
 
         return repository.save(aluno);
     }

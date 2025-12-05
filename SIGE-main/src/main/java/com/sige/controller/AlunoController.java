@@ -15,6 +15,13 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
+
+    @GetMapping("/{id}")
+    public Aluno buscar(@PathVariable Long id) {
+        return alunoService.buscar(id);
+    }
+
+
     @PutMapping("/{id}")
     public Aluno atualizar(@PathVariable Long id, @RequestBody Aluno aluno) {
         return alunoService.atualizar(id, aluno);

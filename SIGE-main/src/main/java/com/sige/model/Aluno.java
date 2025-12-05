@@ -18,8 +18,10 @@ public class Aluno {
     private String nome;
     private String email;
     private String telefone;
-
     private String endereco;
-    private String senha;
+
+    @Column(length = 500_000)
     private String fotoPerfil;
+
+    private String senha;
 }

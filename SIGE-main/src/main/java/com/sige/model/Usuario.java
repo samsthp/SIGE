@@ -42,7 +42,7 @@ public class Usuario {
     private String endereco;
 
     @Column(nullable = false)
-    private String tipo; // aluno, empresa, coordenador
+    private String tipo;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

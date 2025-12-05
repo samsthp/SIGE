@@ -1,4 +1,3 @@
-// ID do aluno logado — futuramente pegará do login.
 const alunoId = 1;
 
 window.onload = function() {
