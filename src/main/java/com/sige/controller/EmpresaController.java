@@ -1,27 +1,26 @@
 package com.sige.controller;
 
-import com.sige.model.OfertaEstagio;
-import com.sige.service.OfertaService;
-import org.springframework.http.ResponseEntity;
+import com.sige.model.Empresa;
+import com.sige.repository.EmpresaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/empresa")
-@CrossOrigin(origins = "*")
+@RequestMapping("/empresas")
 public class EmpresaController {
 
-    private final OfertaService ofertaService;
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
-    public EmpresaController(OfertaService ofertaService) {
-        this.ofertaService = ofertaService;
+    @GetMapping
+    public List<Empresa> listar() {
+        return empresaRepository.findAll();
     }
 
-    // Endpoint para listar ofertas de uma empresa
-    @GetMapping("/{empresaId}/ofertas")
-    public ResponseEntity<List<OfertaEstagio>> listarOfertasPorEmpresa(@PathVariable Long empresaId) {
-        List<OfertaEstagio> ofertas = ofertaService.listarPorEmpresa(empresaId);
-        return ResponseEntity.ok(ofertas);
+    @PostMapping
+    public Empresa criar(@RequestBody Empresa empresa) {
+        return empresaRepository.save(empresa);
     }
 }

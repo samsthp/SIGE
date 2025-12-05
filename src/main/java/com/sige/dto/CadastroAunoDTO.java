@@ -1,28 +1,19 @@
-package com.sige.model;
+package com.sige.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "alunos")
-public class Aluno {
+public class CadastroAlunoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String nome;
-    private String email;
-    private String cpf;
-    private String nascimento;
-    private String matricula;
-    private String telefone;
-    private String endereco;
-    private String senha;
+    @NotBlank private String nome;
+    @NotBlank private String email;
+    @NotBlank private String cpf;
+    @NotBlank private String nascimento;
+    @NotBlank private String matricula;
+    @NotBlank private String telefone;
+    @NotBlank private String endereco;
+    @NotBlank private String senha;
 
     // Getters e setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 

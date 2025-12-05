@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,14 +14,16 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {primary: '#3b82f6', secondary: '#1e40af'},
-                    borderRadius: {'button': '8px'}
+                    colors: { primary: '#3b82f6', secondary: '#1e40af' },
+                    borderRadius: { 'button': '8px' }
                 }
             }
         }
     </script>
 </head>
+
 <body class="bg-gray-50 min-h-screen">
+
 
 <div class="w-full">
     <header class="bg-white shadow-sm border-b border-gray-200">
@@ -29,14 +32,25 @@
                 <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
                 <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
-                    <i class="ri-building-line text-lg"></i>
+
+            <div class="flex items-center gap-6">
+                <!-- Dados da empresa -->
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
+                        <i class="ri-building-line text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">TechCorp Solutions</p>
+                        <p class="text-xs text-gray-500">Empresa</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-sm font-medium text-gray-900">TechCorp Solutions</p>
-                    <p class="text-xs text-gray-500">Empresa</p>
-                </div>
+
+                <!-- BOTÃO DE LOGOUT -->
+                <button id="logoutBtn"
+                        class="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-button transition flex items-center gap-2">
+                    <i class="ri-logout-box-line"></i>
+                    Sair
+                </button>
             </div>
         </div>
     </header>
@@ -47,20 +61,17 @@
                 <button id="tab-ofertas"
                         class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap bg-primary text-white">
                     <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
-                            class="ri-briefcase-line"></i></div>
-                    Minhas Ofertas
+                            class="ri-briefcase-line"></i></div>Minhas Ofertas
                 </button>
                 <button id="tab-perfil"
                         class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
                     <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
-                            class="ri-user-settings-line"></i></div>
-                    Meu Perfil
+                            class="ri-user-settings-line"></i></div>Meu Perfil
                 </button>
                 <button id="tab-gerenciar"
                         class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
                     <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
-                            class="ri-settings-4-line"></i></div>
-                    Gerenciar Ofertas
+                            class="ri-settings-4-line"></i></div>Gerenciar Ofertas
                 </button>
             </div>
         </div>
@@ -75,10 +86,14 @@
                     <h2 class="text-2xl font-bold text-gray-900 mb-2">Minhas Ofertas de Estágio</h2>
                     <p class="text-gray-600">Gerencie suas vagas e acompanhe inscrições de candidatos</p>
                 </div>
-                <button id="btn-adicionar-oferta"
-                        class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
-                    Adicionar Oferta
-                </button>
+                <div class="flex gap-3">
+                    <button id="btn-adicionar-oferta"
+                            class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Adicionar
+                        Oferta</button>
+                    <button onclick="window.location.href='cadastrovaga.html'"
+                            class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Criar
+                        Nova Vaga</button>
+                </div>
             </div>
             <div id="ofertas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
@@ -117,9 +132,8 @@
                     </div>
                     <div class="flex justify-end">
                         <button type="submit"
-                                class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
-                            Salvar Alterações
-                        </button>
+                                class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Salvar
+                            Alterações</button>
                     </div>
                 </form>
             </div>
@@ -135,432 +149,70 @@
         </div>
 
     </main>
+</div>
 
-    <!-- Modal Candidatos -->
-    <div id="modal-candidatos" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 class="text-xl font-semibold mb-4">Candidatos</h3>
-            <ul id="lista-candidatos" class="space-y-2 text-gray-700 text-sm"></ul>
-            <div class="flex justify-end mt-4">
-                <button id="btn-fechar-candidatos"
-                        class="bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 text-sm">Fechar
-                </button>
-            </div>
-        </div>
-    </div>
+<script>
+    const formNovaVaga = document.getElementById('btn-adicionar-oferta');
 
-    <!-- Modal Adicionar Oferta -->
-    <div id="modal-add-oferta" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 class="text-xl font-semibold mb-4">Adicionar Nova Oferta</h3>
-            <form id="form-add-oferta" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Descrição da Vaga</label>
-                    <textarea id="input-descricao-vaga" rows="4"
-                              class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
-                              required></textarea>
-                </div>
-                <div class="flex justify-end gap-2">
-                    <button type="button" id="btn-cancelar-add"
-                            class="px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50">Cancelar
-                    </button>
-                    <button type="submit" class="bg-primary text-white px-4 py-2 rounded-md text-sm hover:bg-blue-600">
-                        Adicionar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    formNovaVaga.addEventListener('click', () => {
+        const titulo = prompt("Digite o título da vaga:");
+        const descricao = prompt("Digite a descrição da vaga:");
+        const local = prompt("Digite o local da vaga:");
+        const salario = prompt("Digite o salário (opcional):");
 
-    <script>
-        const ofertasGrid = document.getElementById('ofertas-grid');
-        const gerenciarGrid = document.getElementById('gerenciar-ofertas-grid');
-        const btnAdicionar = document.getElementById('btn-adicionar-oferta');
-        const modalAdd = document.getElementById('modal-add-oferta');
-        const btnCancelar = document.getElementById('btn-cancelar-add');
-        const formAddOferta = document.getElementById('form-add-oferta');
-        const modalCandidatos = document.getElementById('modal-candidatos');
-        const listaCandidatos = document.getElementById('lista-candidatos');
-        const btnFecharCandidatos = document.getElementById('btn-fechar-candidatos');
+        const vaga = { titulo, descricao, local, salario };
 
-        btnAdicionar.addEventListener('click', () => {
-            modalAdd.classList.remove('hidden');
-            modalAdd.classList.add('flex');
-        });
-        btnCancelar.addEventListener('click', () => {
-            modalAdd.classList.add('hidden');
-            modalAdd.classList.remove('flex');
-            formAddOferta.reset();
-        });
-
-        function adicionarOferta(empresa, descricao, candidatos = []) {
-            const ofertaId = Date.now();
-
-            // Minhas Ofertas
-            const cardMinhas = document.createElement('div');
-            cardMinhas.className = 'bg-white rounded-md shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow relative';
-            cardMinhas.innerHTML = `
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">${empresa}</h3>
-        <p class="text-gray-600 text-sm mb-4 line-clamp-3">${descricao}</p>
-        <div class="space-y-2 mb-4">
-            <div class="flex items-center text-sm text-gray-500"><i class="ri-phone-line mr-2"></i> (11) 3456-7890</div>
-            <div class="flex items-center text-sm text-gray-500"><i class="ri-mail-line mr-2"></i> contato@techcorp.com.br</div>
-        </div>
-        <div class="flex justify-between items-center">
-            <span class="text-sm text-gray-500">${candidatos.length} candidatos</span>
-            <button class="text-red-500 hover:text-red-700" data-id="${ofertaId}"><i class="ri-delete-bin-line"></i></button>
-        </div>
-    `;
-            ofertasGrid.appendChild(cardMinhas);
-
-            // Gerenciar Ofertas
-            const cardGerenciar = document.createElement('div');
-            cardGerenciar.className = 'bg-white rounded-md shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow relative';
-            cardGerenciar.dataset.candidatos = JSON.stringify(candidatos);
-            cardGerenciar.dataset.ofertaId = ofertaId;
-            cardGerenciar.innerHTML = `
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">${empresa}</h3>
-        <p class="text-gray-600 text-sm mb-4 line-clamp-3">${descricao}</p>
-        <div class="space-y-2">
-            <button class="bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600 ver-candidatos">Ver Candidatos</button>
-        </div>
-        <div class="mt-4">
-            <h4 class="font-medium text-gray-700 mb-1">Candidatos Aceitos:</h4>
-            <ul class="aceitos-list text-sm text-gray-600 list-disc list-inside"></ul>
-            <h4 class="font-medium text-gray-700 mt-3 mb-1">Candidatos Ativos:</h4>
-            <ul class="ativos-list text-sm text-green-600 list-disc list-inside">
-            </ul>
-            <h4 class="font-medium text-gray-700 mt-3 mb-1">Candidatos Recusados:</h4>
-            <ul class="recusados-list text-sm text-red-600 list-disc list-inside"></ul>
-        </div>
-    `;
-            gerenciarGrid.appendChild(cardGerenciar);
-        }
-
-        // Modal Avaliação
-        function criarModalAvaliacao() {
-            if (document.getElementById('modal-avaliacao')) return;
-            const modalAvaliacao = document.createElement('div');
-            modalAvaliacao.id = 'modal-avaliacao';
-            modalAvaliacao.className = 'fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4';
-            modalAvaliacao.innerHTML = `
-        <div class="bg-white rounded-lg max-w-lg w-full p-6">
-            <h3 class="text-lg font-semibold mb-4">Avaliar Empresa</h3>
-            <p id="empresa-avaliar" class="text-gray-700 mb-2"></p>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nota:</label>
-                <select id="nota-avaliacao" class="w-full border rounded-md p-2">
-                    <option value="1">1 ⭐</option>
-                    <option value="2">2 ⭐⭐</option>
-                    <option value="3">3 ⭐⭐⭐</option>
-                    <option value="4">4 ⭐⭐⭐⭐</option>
-                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Comentário:</label>
-                <textarea id="comentario-avaliacao" rows="4" class="w-full border rounded-md p-2" placeholder="Escreva sua avaliação..."></textarea>
-            </div>
-            <div class="flex justify-end gap-2">
-                <button id="cancelar-avaliacao" class="px-4 py-2 border rounded-md hover:bg-gray-100">Cancelar</button>
-                <button id="enviar-avaliacao" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600">Enviar</button>
-            </div>
-        </div>
-    `;
-            document.body.appendChild(modalAvaliacao);
-
-            document.getElementById('cancelar-avaliacao').addEventListener('click', () => {
-                modalAvaliacao.classList.add('hidden');
-                modalAvaliacao.classList.remove('flex');
-            });
-            document.getElementById('enviar-avaliacao').addEventListener('click', () => {
-                const empresa = document.getElementById('empresa-avaliar').textContent;
-                const nota = document.getElementById('nota-avaliacao').value;
-                const comentario = document.getElementById('comentario-avaliacao').value;
-                alert(`Avaliação enviada para ${empresa}!\nNota: ${nota}\nComentário: ${comentario}`);
-                modalAvaliacao.classList.add('hidden');
-                modalAvaliacao.classList.remove('flex');
-            });
-        }
-
-        // Atualizar alunos ativos com botão finalizar/avaliar
-        // Atualizar alunos ativos com botão finalizar/avaliar
-function atualizarAlunosAtivos(card) {
-    const ativosList = card.querySelectorAll('.ativos-list li');
-    criarModalAvaliacao();
-    ativosList.forEach(li => {
-        const btn = li.querySelector('.btn-finalizar');
-        if (btn) {
-            btn.addEventListener('click', async () => {
-                // 🔹 CORREÇÃO: Pega o ID do candidato (assumindo que está no data attribute do li)
-                const candidatoId = li.dataset.candidatoId;  // Adicione isso no loop de criação dos li
-                
-                try {
-                    // 🔹 CORREÇÃO: Faz a requisição para finalizar no backend
-                    const response = await fetch(`http://localhost:8081/api/candidatos/1/finalizar`, { method: 'POST' });
-                    if (!response.ok) throw new Error('Erro ao finalizar candidato');
-                    
-                    // 🔹 Só remove o botão e adiciona "Avaliar" se a requisição for bem-sucedida
-                    btn.remove();
-                    const btnAvaliar = document.createElement('button');
-                    btnAvaliar.textContent = 'Avaliar';
-                    btnAvaliar.className = 'ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 btn-avaliar';
-                    li.appendChild(btnAvaliar);
-                    btnAvaliar.addEventListener('click', () => {
-                        document.getElementById('empresa-avaliar').textContent = card.querySelector('h3').textContent;
-                        const modal = document.getElementById('modal-avaliacao');
-                        modal.classList.remove('hidden');
-                        modal.classList.add('flex');
-                    });
-                } catch (error) {
-                    console.error('Erro ao finalizar:', error);
-                    alert('Erro ao finalizar candidato. Tente novamente.');
-                }
-            });
-        }
-    });
-}
-
-        // Abrir modal de candidatos e mostrar os INSCRITOS dinamicamente
-        document.body.addEventListener('click', async function (e) {
-            if (e.target.closest('.ver-candidatos')) {
-                const card = e.target.closest('div.bg-white');
-                const ofertaId = card.dataset.ofertaId;
-
-                listaCandidatos.innerHTML = '<li class="text-gray-500">Carregando candidatos...</li>';
-
-                try {
-                    // 🔹 Busca os candidatos atualizados no backend
-                    const response = await fetch(`http://localhost:8081/api/ofertas/1/candidatos`);
-                    if (!response.ok) throw new Error('Erro ao carregar candidatos');
-                    const candidatos = await response.json();
-
-                    // 🔹 Limpa o conteúdo atual
-                    listaCandidatos.innerHTML = '';
-
-                    const ulAceitos = card.querySelector('.aceitos-list');
-                    const ulAtivos = card.querySelector('.ativos-list');
-                    const ulRecusados = card.querySelector('.recusados-list');
-
-                    ulAceitos.innerHTML = '';
-                    ulAtivos.innerHTML = '';
-                    ulRecusados.innerHTML = '';
-
-                    // 🔹 Popula o modal e listas conforme status
-                    candidatos.forEach(c => {
-                        // Pega os dados do aluno dentro do objeto candidato
-                        const nome = c.aluno?.nome || "Nome não informado";
-                        const email = c.aluno?.email || "E-mail não informado";
-                        const telefone = c.aluno?.telefone || "Telefone não informado";
-
-                        if (c.status === 'INSCRITO') {
-                            const li = document.createElement('li');
-                            li.className = 'flex justify-between items-center bg-gray-100 p-2 rounded-md';
-                            li.innerHTML = `
-            <div>
-                <span class="font-medium">${nome}</span><br>
-                <span class="text-xs text-gray-700">${email}</span><br>
-                <span class="text-xs text-gray-700">${telefone}</span>
-            </div>
-            <div class="flex gap-2 items-center">
-                <button class="px-2 py-1 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 btn-aceitar">Aceitar</button>
-                <button class="px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600 btn-recusar">Recusar</button>
-                <span class="ml-2 text-sm font-medium text-gray-700 status"></span>
-            </div>
-        `;
-
-                            // Botão aceitar
-                            li.querySelector('.btn-aceitar').addEventListener('click', async () => {
-                                const resp = await fetch(`http://localhost:8081/api/candidatos/${c.id}/aceitar`, { method: 'POST' });
-                                if (resp.ok) {
-                                    // 🔹 Atualiza o backend e interface
-                                    li.remove(); // remove o candidato da lista de inscritos
-
-                                    // 🔹 Move para lista de ATIVOS automaticamente
-                                    const ulAceito = card.querySelector('.aceitos-list');
-                                    const liAceito = document.createElement('li');
-                                    liAcceito.innerHTML = `
-            <span>${c.aluno?.nome || "Nome não informado"}</span>
-            <button class="ml-2 px-2 py-1 bg-yellow-500 text-white text-xs rounded-md hover:bg-yellow-600 btn-finalizar">Finalizar</button>
-        `;
-                                    ulAceito.appendChild(liAceito);
-
-                                    // 🔹 (Opcional) Atualiza status no backend para "ATIVA" (ativar estágio)
-                                    atualizarListas(card, c.aluno, 'ACEITO');
-
-                                    // 🔹 Garante que o botão “Finalizar” funciona
-                                    atualizarAlunosAtivos(card);
-                                } else {
-                                    alert('Erro ao aceitar candidato');
-                                }
-                            });
-
-
-                            // Botão recusar
-                            li.querySelector('.btn-recusar').addEventListener('click', async () => {
-                                const resp = await fetch(`http://localhost:8081/api/candidatos/${c.id}/recusar`, { method: 'POST' });
-                                if (resp.ok) {
-                                    li.querySelector('.status').textContent = 'Recusado ❌';
-                                    atualizarListas(card, c, 'RECUSADO');
-                                } else {
-                                    alert('Erro ao recusar candidato');
-                                }
-                            });
-
-                            listaCandidatos.appendChild(li);
-                        }
-
-                        // Preenche automaticamente as listas
-                        if (c.status === 'ACEITA') {
-                            const li = document.createElement('li');
-                            li.textContent = c.aluno?.nome || "Nome não informado";
-                            ulAceitos.appendChild(li);
-                        } else if (c.status === 'ATIVO') {
-                            const li = document.createElement('li');
-                            li.innerHTML = `
-        <span>${c.aluno?.nome || "Nome não informado"}</span>
-        <button class="ml-2 px-2 py-1 bg-yellow-500 text-white text-xs rounded-md hover:bg-yellow-600 btn-finalizar">Finalizar</button>
-    `;
-                            ulAtivos.appendChild(li);
-                        } else if (c.status === 'RECUSADA') {
-                            const li = document.createElement('li');
-                            li.textContent = c.aluno?.nome || "Nome não informado";
-                            ulRecusados.appendChild(li);
-                        }
-                    });
-
-                    atualizarAlunosAtivos(card);
-
-
-                    // Mostra modal
-                    modalCandidatos.classList.remove('hidden');
-                    modalCandidatos.classList.add('flex');
-                } catch (err) {
-                    console.error(err);
-                    listaCandidatos.innerHTML = '<li class="text-red-500">Erro ao carregar candidatos.</li>';
-                }
-            }
-        });
-
-        function atualizarListas(card, candidato, novoStatus) {
-            const ulAceitos = card.querySelector('.aceitos-list');
-            const ulRecusados = card.querySelector('.recusados-list');
-
-            if (novoStatus === 'ACEITO') {
-                const li = document.createElement('li');
-                li.textContent = candidato.nome;
-                ulAceitos.appendChild(li);
-                // Remove da lista de recusados, se estiver lá
-                Array.from(ulRecusados.children).forEach(li => {
-                    if (li.textContent === candidato.nome) li.remove();
-                });
-            } else if (novoStatus === 'RECUSADO') {
-                const li = document.createElement('li');
-                li.textContent = candidato.nome;
-                ulRecusados.appendChild(li);
-                // Remove da lista de aceitos, se estiver lá
-                Array.from(ulAceitos.children).forEach(li => {
-                    if (li.textContent === candidato.nome) li.remove();
-                });
-            }
-        }
-
-        // Fechar modal candidatos
-        btnFecharCandidatos.addEventListener('click', () => {
-            modalCandidatos.classList.add('hidden');
-            modalCandidatos.classList.remove('flex');
-        });
-
-        // Deletar ofertas
-        document.body.addEventListener('click', function (e) {
-            if (e.target.closest('button[data-id]')) {
-                const btn = e.target.closest('button[data-id]');
-                if (confirm('Deseja excluir esta oferta?')) {
-                    const card = btn.closest('div');
-                    card.remove();
-                }
-            }
-        });
-
-        // Tabs
-        const tabs = document.querySelectorAll('.tab-button');
-        const contents = document.querySelectorAll('.tab-content');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('bg-primary', 'text-white'));
-                tabs.forEach(t => t.classList.add('text-gray-600', 'hover:text-primary', 'hover:bg-blue-50'));
-                tab.classList.add('bg-primary', 'text-white');
-                tab.classList.remove('text-gray-600', 'hover:text-primary', 'hover:bg-blue-50');
-                const target = tab.id.replace('tab-', 'content-');
-                contents.forEach(c => c.classList.add('hidden'));
-                document.getElementById(target).classList.remove('hidden');
+        fetch('/vagas/publicar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(vaga)
+        })
+            .then(res => res.text())
+            .then(msg => {
+                alert(msg);
+                carregarVagas();
             })
-        });
+            .catch(err => console.error(err));
+    });
 
-        // Adicionar oferta via modal
-        formAddOferta.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const descricao = document.getElementById('input-descricao-vaga').value;
-            adicionarOferta("TechCorp Solutions", descricao, []);
-            modalAdd.classList.add('hidden');
-            modalAdd.classList.remove('flex');
-            formAddOferta.reset();
-        });
-
-        // Atualiza lista de aceitos e ativos
-        function atualizarAceitos(card, nome) {
-            const ulAceitos = card.querySelector('.aceitos-list');
-            if (!Array.from(ulAceitos.children).some(li => li.textContent === nome)) {
-                const li = document.createElement('li');
-                li.textContent = nome;
-                ulAceitos.appendChild(li);
-            }
-        }
-
-        function removerAceito(card, nome) {
-            const ulAceitos = card.querySelector('.aceitos-list');
-            Array.from(ulAceitos.children).forEach(li => {
-                if (li.textContent === nome) li.remove();
-            });
-        }
-
-        function adicionarRecusado(card, nome) {
-            const ulRec = card.querySelector('.recusados-list');
-            if (!Array.from(ulRec.children).some(li => li.textContent === nome)) {
-                const li = document.createElement('li');
-                li.textContent = nome;
-                ulRec.appendChild(li);
-            }
-        }
-
-        function removerRecusados(card, nome) {
-            const ulRec = card.querySelector('.recusados-list');
-            Array.from(ulRec.children).forEach(li => {
-                if (li.textContent === nome) li.remove();
-            });
-        }
-
-        // Ofertas de teste
-        async function carregarOfertas() {
-            try {
-                const response = await fetch("http://localhost:8081/empresa/1/ofertas");
-                const ofertas = await response.json();
-
-                ofertasGrid.innerHTML = "";
-                gerenciarGrid.innerHTML = "";
-
-                ofertas.forEach(oferta => {
-                    const candidatos = oferta.candidatos || [];
-                    adicionarOferta(oferta.empresa.nome, oferta.descricaoVaga, candidatos);
+    function carregarVagas() {
+        fetch('/vagas/listar')
+            .then(res => res.json())
+            .then(data => {
+                const grid = document.getElementById('ofertas-grid');
+                grid.innerHTML = '';
+                data.forEach((vaga) => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-md shadow-sm border border-gray-200 p-6 hover:shadow-md transition";
+                    card.innerHTML = `
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800">${vaga.titulo}</h3>
+                                    <p class="text-sm text-gray-500 mb-2">${vaga.local}</p>
+                                    <p class="text-gray-600 text-sm">${vaga.descricao}</p>
+                                </div>
+                            </div>
+                        `;
+                    grid.appendChild(card);
                 });
-            } catch (error) {
-                console.error("Erro ao carregar ofertas:", error);
-                ofertasGrid.innerHTML = "<p class='text-red-500'>Erro ao carregar ofertas do servidor.</p>";
-            }
-        }
+            });
+    }
 
-        // Chama ao iniciar
-        carregarOfertas();
-    </script>
+    carregarVagas();
+
+    /* ---------------- LOGOUT ---------------- */
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        await fetch("http://localhost:8081/api/auth/logout", {
+            method: "POST",
+            credentials: "include"
+        });
+
+        sessionStorage.clear();
+        localStorage.clear();
+
+        window.location.href = "login.html";
+    });
+</script>
+
 </body>
 </html>

@@ -1,36 +1,54 @@
 package com.sige.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
+@Table(name = "usuarios")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
+
+    // 🔹 CPF — obrigatório p/ aluno e coordenador
+    @Column(unique = true)
+    private String cpf;
+
+    // 🔹 CNPJ — obrigatório p/ empresa
+    @Column(unique = true)
+    private String cnpj;
+
+    // 🔹 Matrícula — gerada automaticamente p/ aluno
+    @Column(unique = true)
+    private String matricula;
+
+    @Column(unique = true)
     private String email;
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
+    @Column(nullable = false)
+    private String senha;
+
+    private String endereco;
+
+    @Column(nullable = false)
+    private String tipo; // aluno, empresa, coordenador
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EnumRole role;
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> role.name());
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getNome() {
-        return nome;
-    }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    };
 }
