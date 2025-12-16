@@ -13,8 +13,8 @@ public class VagaController {
 
     private final VagaService vagaService;
     private final VagaRepository vagaRepository;
-
-
+  
+  
     public VagaController(VagaService vagaService, VagaRepository vagaRepository) {
         this.vagaService = vagaService;
         this.vagaRepository = vagaRepository;
@@ -39,8 +39,8 @@ public class VagaController {
     public List<Vaga> buscarPorEmpresa(@PathVariable String empresa) {
         return vagaService.buscarPorEmpresa(empresa);
     }
-
-    @PostMapping("/publicar")
+  
+   @PostMapping("/publicar")
     public String publicarVaga(@RequestBody Vaga vaga) {
         vagaRepository.save(vaga);
         return "Vaga publicada com sucesso!";
@@ -49,5 +49,4 @@ public class VagaController {
     @GetMapping("/listar")
     public List<Vaga> listarVagas() {
         return vagaRepository.findAll();
-    }
 }

@@ -20,22 +20,22 @@ public class Vaga {
 
     @NotBlank
     private String titulo;
-
+  
     @NotBlank
     private String descricao;
-
+  
     private String empresa;
     private String estado;
     private String cursoRelacionado;
     private String contato;
-
+  
     @NotNull
     private String salario;
     private String requisitos;
-
+  
     @ManyToOne
     @JoinColumn(name = "empresa_id")
-    private Empresa e;
+    private Empresa empresa;
 
     private LocalDateTime criadoEm = LocalDateTime.now();
 
@@ -55,8 +55,8 @@ public class Vaga {
     public String getRequisitos() { return requisitos; }
     public void setRequisitos(String requisitos) { this.requisitos = requisitos; }
 
-    public Empresa getEmpresa() { return e; }
-    public void setEmpresa(Empresa empresa) { this.e= empresa; }
+    public Empresa getEmpresa() { return empresa; }
+    public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
 
     public LocalDateTime getCriadoEm() { return criadoEm; }
     public void setCriadoEm(LocalDateTime criadoEm) { this.criadoEm = criadoEm; }
