@@ -26,8 +26,4 @@ public class VagaService {
     public List<Vaga> buscarPorEstado(String estado) {
         return vagaRepository.findByEstadoContainingIgnoreCase(estado);
     }
-
-    public List<Vaga> buscarPorEmpresa(String empresa) {
-        return vagaRepository.findByEmpresaContainingIgnoreCase(empresa);
-    }
 }

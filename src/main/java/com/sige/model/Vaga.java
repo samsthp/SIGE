@@ -1,17 +1,12 @@
 package com.sige.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Vaga {
 
     @Id
@@ -20,44 +15,107 @@ public class Vaga {
 
     @NotBlank
     private String titulo;
-  
+
     @NotBlank
     private String descricao;
-  
-    private String empresa;
+
     private String estado;
     private String cursoRelacionado;
     private String contato;
-  
+
     @NotNull
     private String salario;
+
     private String requisitos;
-  
+
+    // EMPRESA É UM USUÁRIO (ROLE_EMPRESA)
     @ManyToOne
     @JoinColumn(name = "empresa_id")
-    private Empresa empresa;
+    private Usuario empresa;
 
     private LocalDateTime criadoEm = LocalDateTime.now();
 
-    // Getters e setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // ======================
+    // GETTERS E SETTERS
+    // ======================
 
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getSalario() { return salario; }
-    public void setSalario(String salario) { this.salario = salario; }
+    public String getTitulo() {
+        return titulo;
+    }
 
-    public String getRequisitos() { return requisitos; }
-    public void setRequisitos(String requisitos) { this.requisitos = requisitos; }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-    public Empresa getEmpresa() { return empresa; }
-    public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
+    public String getDescricao() {
+        return descricao;
+    }
 
-    public LocalDateTime getCriadoEm() { return criadoEm; }
-    public void setCriadoEm(LocalDateTime criadoEm) { this.criadoEm = criadoEm; }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getCursoRelacionado() {
+        return cursoRelacionado;
+    }
+
+    public void setCursoRelacionado(String cursoRelacionado) {
+        this.cursoRelacionado = cursoRelacionado;
+    }
+
+    public String getContato() {
+        return contato;
+    }
+
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
+
+    public String getSalario() {
+        return salario;
+    }
+
+    public void setSalario(String salario) {
+        this.salario = salario;
+    }
+
+    public String getRequisitos() {
+        return requisitos;
+    }
+
+    public void setRequisitos(String requisitos) {
+        this.requisitos = requisitos;
+    }
+
+    public Usuario getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Usuario empresa) {
+        this.empresa = empresa;
+    }
+
+    public LocalDateTime getCriadoEm() {
+        return criadoEm;
+    }
+
+    public void setCriadoEm(LocalDateTime criadoEm) {
+        this.criadoEm = criadoEm;
+    }
 }

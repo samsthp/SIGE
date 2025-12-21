@@ -131,6 +131,7 @@
                 btn.classList.remove("bg-primary", "text-white");
                 btn.classList.add("text-gray-600");
             });
+
             this.classList.add("bg-primary", "text-white");
             userType = this.getAttribute("data-type");
 
@@ -155,16 +156,21 @@
     });
 </script>
 
+
 <!-- Mostrar/esconder senha -->
 <script>
     document.getElementById("togglePassword").addEventListener("click", function () {
         const passwordInput = document.getElementById("password");
         const eyeIcon = this.querySelector("i");
+
         const isPassword = passwordInput.getAttribute("type") === "password";
         passwordInput.setAttribute("type", isPassword ? "text" : "password");
-        eyeIcon.className = isPassword ? "ri-eye-off-line text-gray-400 text-sm" : "ri-eye-line text-gray-400 text-sm";
+        eyeIcon.className = isPassword
+            ? "ri-eye-off-line text-gray-400 text-sm"
+            : "ri-eye-line text-gray-400 text-sm";
     });
 </script>
+
 
 <!-- Envio do login -->
 <script>
@@ -177,14 +183,14 @@
         const body = {
             identificador: identificador,
             senha: senha,
-            tipo: userType,
+            tipo: userType
         };
 
         try {
             const response = await fetch("http://localhost:8081/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
+                body: JSON.stringify(body)
             });
 
             const data = await response.json();
@@ -199,6 +205,8 @@
                 message.textContent = data.message || "Login bem-sucedido!";
                 message.classList.add("text-green-600");
 
+                // ✅ SALVANDO TOKEN E TIPO
+                sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("userType", data.tipo);
 
                 setTimeout(() => {
@@ -212,11 +220,15 @@
                         window.location.replace("dashboardcoordenador.html");
                     }
                 }, 1000);
+
             } else {
                 message.textContent = data.message || "Erro ao efetuar login.";
                 message.classList.add("text-red-600");
             }
+
         } catch (error) {
+            console.error(error);
+
             const errorMsg = document.createElement("div");
             errorMsg.className = "login-message text-center mt-4 text-red-600 font-medium";
             errorMsg.textContent = "Erro ao conectar com o servidor.";
@@ -224,6 +236,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
