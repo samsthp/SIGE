@@ -1,47 +1,57 @@
 package com.sige.controller;
 
 import com.sige.dto.CadastroEmpresaDTO;
-import com.sige.service.EmpresaService;
+import com.sige.model.EnumRole;
+import com.sige.model.Usuario;
+import com.sige.repository.UsuarioRepository;
 import com.sige.service.EmailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/cadastro/empresa")
+@RequiredArgsConstructor
 public class CadastroEmpresaController {
 
-    private final EmpresaService service;
+    private final UsuarioRepository usuarioRepository;
     private final EmailService emailService;
 
-    public CadastroEmpresaController(EmpresaService service, EmailService emailService) {
-        this.service = service;
-        this.emailService = emailService;
-    }
-
-    // GET: mostra o formulário de cadastro (HTML estático)
+    // GET — formulário
     @GetMapping
     public String mostrarFormulario() {
-        return "cadastroempresa.html"; // HTML estático na pasta /static
+        return "cadastroempresa.html";
     }
 
-    // POST: finaliza o cadastro
+    // POST — finalizar cadastro
     @PostMapping("/finalizar")
     @ResponseBody
     public String finalizar(@ModelAttribute CadastroEmpresaDTO dto) {
 
-        // Verifica CNPJ duplicado
-        if(service.existsByCnpj(dto.getCnpj())) {
+        // 🔒 Verifica CNPJ duplicado
+        if (usuarioRepository.findByCnpj(dto.getCnpj()).isPresent()) {
             return "<script>alert('CNPJ já cadastrado!'); window.history.back();</script>";
         }
 
-        // Salva a empresa
-        service.salvar(dto);
+        // ✅ Cria empresa como USUÁRIO
+        Usuario empresa = new Usuario();
+        empresa.setNome(dto.getNome());
+        empresa.setCnpj(dto.getCnpj());
+        empresa.setEmail(dto.getEmail());
+        empresa.setSenha(dto.getSenha()); // ⚠️ depois você pode criptografar
+        empresa.setTipo("empresa");
+        empresa.setRole(EnumRole.EMPRESA);
+        empresa.setEndereco(dto.getEndereco());
 
-        // Envia email de boas-vindas
-        emailService.enviarEmail(dto.getEmail(), "Cadastro concluído",
-                "Olá " + dto.getNome() + ", seu cadastro foi realizado com sucesso!");
+        usuarioRepository.save(empresa);
 
-        // Retorna script para mostrar mensagem e redirecionar para login.html
-        return "<script>alert('Cadastro realizado com sucesso! Verifique seu e-mail.'); window.location.href='/login.html';</script>";
+        // 📧 Email de boas-vindas
+        emailService.enviarEmail(
+                empresa.getEmail(),
+                "Cadastro concluído",
+                "Olá " + empresa.getNome() + ", seu cadastro foi realizado com sucesso!"
+        );
+
+        return "<script>alert('Cadastro realizado com sucesso!'); window.location.href='/login.html';</script>";
     }
 }
