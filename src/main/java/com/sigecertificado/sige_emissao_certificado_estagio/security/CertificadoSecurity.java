@@ -3,11 +3,16 @@ package com.sigecertificado.sige_emissao_certificado_estagio.security;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,12 +24,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class CertificadoSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(Customizer.withDefaults())   
+        http   
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/register").permitAll()
-                .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers("/api/**").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()    
                 .requestMatchers(
                     "/css/**",
                     "/js/**",
@@ -36,10 +40,13 @@ public class CertificadoSecurity {
                     "/dashboardaluno.html",
                     "/dashboardempresa.html",
                     "/dashboardcoordenador.html"
-                    ).permitAll()
-                    .anyRequest().permitAll()
-                )
-            .formLogin(form -> form.disable())
+                ).permitAll()
+                .anyRequest().permitAll()
+            )
+            .formLogin(form -> form
+                .loginPage("/login.html")
+                .permitAll()
+            )
             .httpBasic(basic -> basic.disable())
             .logout(logout -> logout
                 .logoutUrl("/logout")
@@ -53,16 +60,12 @@ public class CertificadoSecurity {
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:8081"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }    
-   
+    public UserDetailsService user(PasswordEncoder codificador) {
+        UserDetails user = User
+            .withUsername("admin")
+            .password(codificador.encode("123454321"))
+            .roles("USER")
+            .build();
+        return new InMemoryUserDetailsManager(user);
+    }
 }

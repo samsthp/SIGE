@@ -86,6 +86,11 @@
                         </div>
                         Meu Estágio
                     </button>
+                    <button id="tab-candidaturas"
+                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
+                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"></div>
+                        Minhas Candidaturas
+                    </button>
                 </div>
             </div>
         </nav>
@@ -209,6 +214,15 @@
                     <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum estágio ativo</h3>
                     <p class="text-gray-500 mb-6">Você ainda não possui um estágio ativo. Candidate-se às ofertas disponíveis para começar sua jornada profissional.</p>
                     <button id="btn-ver-ofertas" class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Ver Ofertas de Estágio</button>
+                </div>
+            </div>
+            
+            <!-- Minhas Candidaturas -->
+            <div id="content-candidaturas" class="tab-content hidden">
+                <div>
+                    <h3 class="text-lg font-semibold text-black mb-4">Listar Todas as Vagas em que Candidatou-se</h3>
+                    <input type="button" value="LISTAR" onclick="listarVagas()" class="px-2 py-1 border border-blue-600 rounded-md">
+                    <ul id='lista'></ul>
                 </div>
             </div>
         </main>
@@ -388,7 +402,27 @@
                 });
                 document.getElementById("resultados").innerHTML = html;
             });
-        }             
+        }
+        function listarVagas() {
+            fetch("http://localhost:8081/api/listadevagas")
+                    .then(resposta => resposta.json())
+                    .then(dados => {
+                        const lista = document.getElementById("lista");
+                        lista.innerHTML = "";
+                        [dados].forEach(vaga => {
+                            const li = document.createElement("li");
+                            li.innerHTML =
+                                    vaga.titulo + "<br>" +
+                                    vaga.area + "<br>" +
+                                    vaga.local + "<br>" +
+                                    vaga.modalidade + "<br>" +
+                                    vaga.descricao + "<br>" +
+                                    vaga.status + "<br>" +
+                                    vaga.data;
+                            lista.appendChild(li);
+                        }); 
+                    });
+        }
     </script>
 </body>
 

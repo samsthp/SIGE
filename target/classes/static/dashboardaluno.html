@@ -210,6 +210,11 @@
                     <p class="text-gray-500 mb-6">Você ainda não possui um estágio ativo. Candidate-se às ofertas disponíveis para começar sua jornada profissional.</p>
                     <button id="btn-ver-ofertas" class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Ver Ofertas de Estágio</button>
                 </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-black mb-4">Listar Todas as Vagas em que Candidatou-se</h3>
+                    <input type="button" value="LISTAR" onclick="listarVagas()" class="px-2 py-1 border border-blue-600 rounded-md">
+                    <ul id='lista'></ul>
+                </div>
             </div>
         </main>
     </div>
@@ -388,7 +393,27 @@
                 });
                 document.getElementById("resultados").innerHTML = html;
             });
-        }             
+        }
+        function listarVagas() {
+            fetch("http://localhost:8081/api/listadevagas")
+                    .then(resposta => resposta.json())
+                    .then(dados => {
+                        const lista = document.getElementById("lista");
+                        lista.innerHTML = "";
+                        [dados].forEach(vaga => {
+                            const li = document.createElement("li");
+                            li.innerHTML =
+                                    vaga.titulo + "<br>" +
+                                    vaga.area + "<br>" +
+                                    vaga.local + "<br>" +
+                                    vaga.modalidade + "<br>" +
+                                    vaga.descricao + "<br>" +
+                                    vaga.status + "<br>" +
+                                    vaga.data;
+                            lista.appendChild(li);
+                        }); 
+                    });
+        }
     </script>
 </body>
 
