@@ -1,652 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro de Aluno - SIGE</title>
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
-    />
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#3b82f6",
-              secondary: "#1e40af",
-            },
-            borderRadius: {
-              none: "0px",
-              sm: "4px",
-              DEFAULT: "8px",
-              md: "12px",
-              lg: "16px",
-              xl: "20px",
-              "2xl": "24px",
-              "3xl": "32px",
-              full: "9999px",
-              button: "8px",
-            },
-          },
-        },
-      };
-    </script>
-    <style>
-      :where([class^="ri-"])::before {
-        content: "\f3c2";
-      }
-    </style>
-  </head>
-  <body
-    class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50"
-  >
-    <div class="min-h-screen py-8 px-4">
-      <div class="max-w-2xl mx-auto">
-        <div class="mb-8">
-          <div class="flex items-center justify-between mb-6">
-            <a
-              href="login.html"
-              data-readdy="true"
-              class="flex items-center text-gray-600 hover:text-primary transition-colors duration-200"
-            >
-              <div class="w-8 h-8 flex items-center justify-center mr-2">
-                <i class="ri-arrow-left-line text-lg"></i>
-              </div>
-              <span class="text-sm font-medium">Voltar ao Login</span>
-            </a>
-          </div>
-          <div class="text-center">
-            <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-            <p class="text-gray-600 text-lg font-medium mb-6">
-              Sistema Integrado de Gestão de Estágio
-            </p>
-            <div
-              class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100"
-            >
-              <h2 class="text-2xl font-bold text-gray-800 mb-2">
-                Cadastro de Aluno
-              </h2>
-              <p class="text-gray-600 mb-8">
-                Crie sua conta para acessar o sistema como estudante
-              </p>
-              <form class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="md:col-span-2">
-                    <label
-                      for="nome"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Nome Completo</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <div class="w-5 h-5 flex items-center justify-center">
-                          <i class="ri-user-line text-gray-400 text-sm"></i>
-                        </div>
-                      </div>
-                      <input
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        placeholder="Digite seu nome completo"
-                        required
-                      />
-                    </div>
-                    <div class="text-xs text-red-600 hidden" id="nome-error">
-                      Nome completo é obrigatório
-                    </div>
-                  </div>
-                  <div>
-                    <label
-                      for="cpf"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >CPF</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <div class="w-5 h-5 flex items-center justify-center">
-                          <i class="ri-id-card-line text-gray-400 text-sm"></i>
-                        </div>
-                      </div>
-                      <input
-                        type="text"
-                        id="cpf"
-                        name="cpf"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        placeholder="000.000.000-00"
-                        maxlength="14"
-                        required
-                      />
-                    </div>
-                    <div class="text-xs text-red-600 hidden" id="cpf-error">
-                      CPF inválido
-                    </div>
-                  </div>
-                  <div>
-                    <label
-                      for="nascimento"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Data de Nascimento</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <div class="w-5 h-5 flex items-center justify-center">
-                          <i class="ri-calendar-line text-gray-400 text-sm"></i>
-                        </div>
-                      </div>
-                      <input
-                        type="date"
-                        id="nascimento"
-                        name="nascimento"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        required
-                      />
-                    </div>
-                    <div
-                      class="text-xs text-red-600 hidden"
-                      id="nascimento-error"
-                    >
-                      Data de nascimento é obrigatória
-                    </div>
-                  </div>
-                  <div>
-                    <label
-                      for="matricula"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Número de Matrícula</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <div class="w-5 h-5 flex items-center justify-center">
-                          <i class="ri-number-line text-gray-400 text-sm"></i>
-                        </div>
-                      </div>
-                      <input
-                        type="text"
-                        id="matricula"
-                        name="matricula"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        placeholder="Digite seu número de matrícula"
-                        required
-                      />
-                    </div>
-                    <div
-                      class="text-xs text-red-600 hidden"
-                      id="matricula-error"
-                    >
-                      Número de matrícula é obrigatório
-                    </div>
-                  </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Aluno - SIGE</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center">
 
-                  <!-- NOVOS CAMPOS -->
-                  <div>
-                    <label
-                      for="email"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >E-mail</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-mail-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        placeholder="exemplo@email.com"
-                        required
-                      />
-                    </div>
-                    <div class="text-xs text-red-600 hidden" id="email-error">
-                      E-mail inválido
-                    </div>
-                  </div>
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-2xl">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center font-['Pacifico']">Cadastro de Aluno</h2>
 
-                  <div>
-                    <label
-                      for="telefone"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Telefone</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-phone-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="tel"
-                        id="telefone"
-                        name="telefone"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        placeholder="(00) 00000-0000"
-                        maxlength="15"
-                        required
-                      />
-                    </div>
-                    <div class="text-xs text-red-600 hidden" id="telefone-error">
-                      Telefone inválido
-                    </div>
-                  </div>
+    <form method="POST" action="/cadastro/aluno/finalizar">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                  <div class="md:col-span-2">
-                    <label
-                      for="endereco"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Endereço</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-map-pin-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="text"
-                        id="endereco"
-                        name="endereco"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                        placeholder="Rua, número, bairro, cidade"
-                        required
-                      />
-                    </div>
-                    <div class="text-xs text-red-600 hidden" id="endereco-error">
-                      Endereço é obrigatório
-                    </div>
-                  </div>
-                  <!-- FIM DOS CAMPOS ADICIONADOS -->
-
-                </div>
-                <div class="border-t border-gray-200 pt-6">
-                  <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                    Credenciais de Acesso
-                  </h3>
-                  <div class="space-y-4">
-                    <div>
-                      <label
-                        for="senha"
-                        class="block text-sm font-medium text-gray-700 mb-2"
-                        >Senha</label
-                      >
-                      <div class="relative">
-                        <div
-                          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                        >
-                          <div class="w-5 h-5 flex items-center justify-center">
-                            <i class="ri-lock-line text-gray-400 text-sm"></i>
-                          </div>
-                        </div>
-                        <input
-                          type="password"
-                          id="senha"
-                          name="senha"
-                          class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                          placeholder="Digite sua senha"
-                          required
-                        />
-                        <button
-                          type="button"
-                          class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                          id="toggleSenha"
-                        >
-                          <div class="w-5 h-5 flex items-center justify-center">
-                            <i class="ri-eye-line text-gray-400 text-sm"></i>
-                          </div>
-                        </button>
-                      </div>
-                      <div class="mt-2">
-                        <div class="flex items-center space-x-2 text-xs">
-                          <div class="flex-1 bg-gray-200 rounded-full h-1">
-                            <div
-                              class="h-1 rounded-full transition-all duration-300"
-                              id="password-strength-bar"
-                            ></div>
-                          </div>
-                          <span
-                            class="text-gray-500"
-                            id="password-strength-text"
-                            >Fraca</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <label
-                        for="confirmarSenha"
-                        class="block text-sm font-medium text-gray-700 mb-2"
-                        >Confirmar Senha</label
-                      >
-                      <div class="relative">
-                        <div
-                          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                        >
-                          <div class="w-5 h-5 flex items-center justify-center">
-                            <i class="ri-lock-line text-gray-400 text-sm"></i>
-                          </div>
-                        </div>
-                        <input
-                          type="password"
-                          id="confirmarSenha"
-                          name="confirmarSenha"
-                          class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                          placeholder="Confirme sua senha"
-                          required
-                        />
-                        <button
-                          type="button"
-                          class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                          id="toggleConfirmarSenha"
-                        >
-                          <div class="w-5 h-5 flex items-center justify-center">
-                            <i class="ri-eye-line text-gray-400 text-sm"></i>
-                          </div>
-                        </button>
-                      </div>
-                      <div
-                        class="text-xs text-red-600 hidden"
-                        id="confirmar-senha-error"
-                      >
-                        As senhas não coincidem
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-4">
-                  <button
-                    type="button"
-                    class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-4 !rounded-button transition-colors duration-200 whitespace-nowrap"
-                    id="limparForm"
-                  >
-                    Limpar Formulário
-                  </button>
-                  <button
-                    type="submit"
-                    class="flex-1 bg-primary hover:bg-secondary text-white font-medium py-3 px-4 !rounded-button transition-colors duration-200 whitespace-nowrap"
-                    id="finalizarCadastro"
-                  >
-                    Finalizar Cadastro
-                  </button>
-                </div>
-                <div class="text-center pt-4 border-t border-gray-200">
-                  <p class="text-sm text-gray-600">
-                    Já possui uma conta?
-                    <a
-                      href="login.html"
-                      data-readdy="true"
-                      class="text-primary hover:text-secondary transition-colors duration-200"
-                      >Fazer login</a
-                    >
-                  </p>
-                </div>
-              </form>
-            </div>
-          </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+          <input type="text" name="nome" class="w-full p-3 border rounded-lg" required>
         </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input type="email" name="email" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">CPF</label>
+          <input type="text" id="cpf" name="cpf" class="w-full p-3 border rounded-lg" maxlength="14" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Data de Nascimento</label>
+          <input type="date" name="nascimento" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Matrícula</label>
+          <input type="text" name="matricula" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+          <input type="tel" id="telefone" name="telefone" class="w-full p-3 border rounded-lg" maxlength="15" required>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
+          <input type="text" name="endereco" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+          <input type="password" name="senha" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Senha</label>
+          <input type="password" name="confirmarSenha" class="w-full p-3 border rounded-lg" required>
+        </div>
+
       </div>
-      <footer class="mt-12 text-center text-sm text-gray-500">
-        <p>
-          &copy; 2025 SIGE - Sistema Integrado de Gestão de Estágio. Todos os
-          direitos reservados.
-        </p>
-        <p class="mt-1">Versão 2.1.0</p>
-      </footer>
-    </div>
 
-    <!-- seus scripts originais continuam exatamente iguais -->
-    <!-- MÁSCARA DE CPF -->
-<script id="cpf-mask">
-  document.addEventListener("DOMContentLoaded", function () {
+      <div class="mt-6 flex justify-end">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg">
+          Finalizar Cadastro
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
     const cpfInput = document.getElementById("cpf");
-    cpfInput.addEventListener("input", function (e) {
-      let value = e.target.value.replace(/\D/g, "");
-      value = value.replace(/(\d{3})(\d)/, "$1.$2");
-      value = value.replace(/(\d{3})(\d)/, "$1.$2");
-      value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-      e.target.value = value;
-    });
-  });
-</script>
+    const telInput = document.getElementById("telefone");
 
-<!-- MÁSCARA DE TELEFONE -->
-<script id="telefone-mask">
-  document.addEventListener("DOMContentLoaded", function () {
-    const telefoneInput = document.getElementById("telefone");
-    telefoneInput.addEventListener("input", function (e) {
-      let value = e.target.value.replace(/\D/g, "");
-      if (value.length > 11) value = value.slice(0, 11);
-      if (value.length > 6)
-        value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, "($1) $2-$3");
-      else if (value.length > 2)
-        value = value.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
-      e.target.value = value;
-    });
-  });
-</script>
-
-<!-- MOSTRAR/OCULTAR SENHA -->
-<script id="password-toggle">
-  document.addEventListener("DOMContentLoaded", function () {
-    function setupPasswordToggle(inputId, toggleId) {
-      const toggleButton = document.getElementById(toggleId);
-      const passwordInput = document.getElementById(inputId);
-      const eyeIcon = toggleButton.querySelector("i");
-
-      toggleButton.addEventListener("click", function () {
-        const type =
-          passwordInput.getAttribute("type") === "password" ? "text" : "password";
-        passwordInput.setAttribute("type", type);
-        eyeIcon.className =
-          type === "password"
-            ? "ri-eye-line text-gray-400 text-sm"
-            : "ri-eye-off-line text-gray-400 text-sm";
-      });
-    }
-
-    setupPasswordToggle("senha", "toggleSenha");
-    setupPasswordToggle("confirmarSenha", "toggleConfirmarSenha");
-  });
-</script>
-
-<!-- FORÇA DA SENHA -->
-<script id="password-strength">
-  document.addEventListener("DOMContentLoaded", function () {
-    const senhaInput = document.getElementById("senha");
-    const strengthBar = document.getElementById("password-strength-bar");
-    const strengthText = document.getElementById("password-strength-text");
-
-    senhaInput.addEventListener("input", function () {
-      const password = this.value;
-      let strength = 0;
-
-      if (password.length >= 8) strength++;
-      if (/[a-z]/.test(password)) strength++;
-      if (/[A-Z]/.test(password)) strength++;
-      if (/[0-9]/.test(password)) strength++;
-      if (/[^A-Za-z0-9]/.test(password)) strength++;
-
-      const colors = [
-        "bg-red-500",
-        "bg-orange-500",
-        "bg-yellow-500",
-        "bg-blue-500",
-        "bg-green-500",
-      ];
-      const texts = ["Muito Fraca", "Fraca", "Regular", "Boa", "Forte"];
-      const widths = ["20%", "40%", "60%", "80%", "100%"];
-
-      strengthBar.className = `h-1 rounded-full transition-all duration-300 ${
-        colors[strength] || "bg-gray-300"
-      }`;
-      strengthBar.style.width = widths[strength] || "0%";
-      strengthText.textContent = texts[strength] || "Fraca";
-    });
-  });
-</script>
-
-<!-- CHECKBOX DE TERMOS -->
-<script id="checkbox-toggle">
-  document.addEventListener("DOMContentLoaded", function () {
-    const checkbox = document.getElementById("termos");
-    const checkboxDisplay = document.getElementById("termosDisplay");
-    const checkboxIcon = document.getElementById("termosIcon");
-
-    checkboxDisplay.addEventListener("click", function () {
-      checkbox.checked = !checkbox.checked;
-      if (checkbox.checked) {
-        checkboxDisplay.classList.add("bg-primary", "border-primary");
-        checkboxDisplay.classList.remove("bg-white", "border-gray-300");
-        checkboxIcon.classList.remove("opacity-0");
-        checkboxIcon.classList.add("opacity-100");
-      } else {
-        checkboxDisplay.classList.remove("bg-primary", "border-primary");
-        checkboxDisplay.classList.add("bg-white", "border-gray-300");
-        checkboxIcon.classList.add("opacity-0");
-        checkboxIcon.classList.remove("opacity-100");
-      }
-    });
-  });
-</script>
-
-<!-- VALIDAÇÃO DO FORMULÁRIO -->
-<script id="form-validation">
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-    const limparBtn = document.getElementById("limparForm");
-
-    function validateCPF(cpf) {
-      cpf = cpf.replace(/\D/g, "");
-      if (cpf.length !== 11) return false;
-      if (/^(\d)\1{10}$/.test(cpf)) return false;
-
-      let sum = 0;
-      for (let i = 0; i < 9; i++) sum += parseInt(cpf[i]) * (10 - i);
-      let remainder = (sum * 10) % 11;
-      if (remainder === 10 || remainder === 11) remainder = 0;
-      if (remainder !== parseInt(cpf[9])) return false;
-
-      sum = 0;
-      for (let i = 0; i < 10; i++) sum += parseInt(cpf[i]) * (11 - i);
-      remainder = (sum * 10) % 11;
-      if (remainder === 10 || remainder === 11) remainder = 0;
-      return remainder === parseInt(cpf[10]);
-    }
-
-    function showError(fieldId, message) {
-      const errorElement = document.getElementById(fieldId + "-error");
-      const field = document.getElementById(fieldId);
-      if (errorElement) {
-        errorElement.textContent = message;
-        errorElement.classList.remove("hidden");
-      }
-      field.classList.add("border-red-500");
-    }
-
-    function hideError(fieldId) {
-      const errorElement = document.getElementById(fieldId + "-error");
-      const field = document.getElementById(fieldId);
-      if (errorElement) errorElement.classList.add("hidden");
-      field.classList.remove("border-red-500");
-    }
-
-    // Validações específicas
-    document.getElementById("cpf").addEventListener("blur", function () {
-      if (!validateCPF(this.value)) showError("cpf", "CPF inválido");
-      else hideError("cpf");
+    // Máscara CPF
+    cpfInput.addEventListener("input", e => {
+      let v = e.target.value.replace(/\D/g, "");
+      v = v.replace(/^(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+      v = v.replace(/\.(\d{3})(\d)/, ".$1-$2");
+      e.target.value = v.slice(0, 14);
     });
 
-    document
-      .getElementById("confirmarSenha")
-      .addEventListener("input", function () {
-        const senha = document.getElementById("senha").value;
-        if (this.value !== senha && this.value.length > 0)
-          showError("confirmar-senha", "As senhas não coincidem");
-        else hideError("confirmar-senha");
-      });
-
-    // Botão limpar
-    limparBtn.addEventListener("click", function () {
-      form.reset();
-      document
-        .querySelectorAll('[id$="-error"]')
-        .forEach((e) => e.classList.add("hidden"));
-      document
-        .querySelectorAll("input")
-        .forEach((input) => input.classList.remove("border-red-500"));
-      document.getElementById("password-strength-bar").style.width = "0%";
-      document.getElementById("password-strength-text").textContent = "Fraca";
-      const termosDisplay = document.getElementById("termosDisplay");
-      const termosIcon = document.getElementById("termosIcon");
-      termosDisplay.classList.remove("bg-primary", "border-primary");
-      termosDisplay.classList.add("bg-white", "border-gray-300");
-      termosIcon.classList.add("opacity-0");
-      termosIcon.classList.remove("opacity-100");
+    // Máscara telefone
+    telInput.addEventListener("input", e => {
+      let v = e.target.value.replace(/\D/g, "");
+      v = v.replace(/^(\d{2})(\d)/, "($1) $2");
+      v = v.replace(/(\d{5})(\d{4})$/, "$1-$2");
+      e.target.value = v.slice(0, 15);
     });
+  </script>
 
-    // SUBMIT FINAL
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      let isValid = true;
-
-      const nome = document.getElementById("nome").value.trim();
-      const cpf = document.getElementById("cpf").value;
-      const nascimento = document.getElementById("nascimento").value;
-      const matricula = document.getElementById("matricula").value.trim();
-      const telefone = document.getElementById("telefone").value.trim();
-      const endereco = document.getElementById("endereco").value.trim();
-      const senha = document.getElementById("senha").value;
-      const confirmarSenha = document.getElementById("confirmarSenha").value;
-      const termos = document.getElementById("termos").checked;
-
-      if (!nome) { showError("nome", "Nome completo é obrigatório"); isValid = false; }
-      else hideError("nome");
-
-      if (!validateCPF(cpf)) { showError("cpf", "CPF inválido"); isValid = false; }
-      else hideError("cpf");
-
-      if (!nascimento) { showError("nascimento", "Data de nascimento é obrigatória"); isValid = false; }
-      else hideError("nascimento");
-
-      if (!matricula) { showError("matricula", "Número de matrícula é obrigatório"); isValid = false; }
-      else hideError("matricula");
-
-      if (!telefone) { showError("telefone", "Telefone é obrigatório"); isValid = false; }
-      else hideError("telefone");
-
-      if (!endereco) { showError("endereco", "Endereço é obrigatório"); isValid = false; }
-      else hideError("endereco");
-
-      if (senha !== confirmarSenha) { showError("confirmar-senha", "As senhas não coincidem"); isValid = false; }
-      else hideError("confirmar-senha");
-
-      if (!termos) {
-        alert("Você deve aceitar os termos de uso para continuar");
-        isValid = false;
-      }
-
-      if (isValid) {
-        alert("Cadastro realizado com sucesso! Você será redirecionado para o login.");
-        window.location.href = "login.html";
-      }
-    });
-  });
-</script>
 </body>
+</html>
