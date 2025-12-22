@@ -1,35 +1,35 @@
 package com.sige.service;
 
-import com.sige.dto.VagaDTO;
-import com.sige.model.Empresa;
 import com.sige.model.Vaga;
-import com.sige.repository.EmpresaRepository;
 import com.sige.repository.VagaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VagaService {
 
-    private final VagaRepository vagaRepository;
-    private final EmpresaRepository empresaRepository;
+    @Autowired
+    private VagaRepository vagaRepository;
 
-    public VagaService(VagaRepository vagaRepository, EmpresaRepository empresaRepository) {
-        this.vagaRepository = vagaRepository;
-        this.empresaRepository = empresaRepository;
+    public List<Vaga> listarTodas() {
+        return vagaRepository.findAll();
     }
 
-    public Vaga salvar(VagaDTO dto) {
+    public List<Vaga> buscarPorCurso(String curso) {
+        return vagaRepository.findByCursoRelacionadoContainingIgnoreCase(curso);
+    }
 
-        Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
-                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+    public List<Vaga> buscarPorEstado(String estado) {
+        return vagaRepository.findByEstadoContainingIgnoreCase(estado);
+    }
 
-        Vaga vaga = new Vaga();
-        vaga.setTitulo(dto.getTitulo());
-        vaga.setDescricao(dto.getDescricao());
-        vaga.setSalario(dto.getSalario());
-        vaga.setRequisitos(dto.getRequisitos());
-        vaga.setEmpresa(empresa);
+    public List<Vaga> buscarPorEmpresa(Long empresaId) {
+        return vagaRepository.findByEmpresa_Id(empresaId);
+    }
 
+    public Vaga salvar(Vaga vaga) {
         return vagaRepository.save(vaga);
     }
 }

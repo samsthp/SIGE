@@ -10,143 +10,156 @@
 
 <body class="bg-gray-50 min-h-screen flex justify-center items-center">
 
-    <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-2xl border border-gray-200">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Cadastrar Nova Vaga</h1>
+<div class="bg-white shadow-md rounded-lg p-8 w-full max-w-2xl border border-gray-200">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Cadastrar Nova Vaga</h1>
 
-        <form id="form-vaga" class="space-y-4">
+    <form id="form-vaga" class="space-y-4">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Título da vaga</label>
-                    <input type="text" id="titulo" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Área / Departamento</label>
-                    <input type="text" id="area"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                </div>
-            </div>
-
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                <textarea id="descricao" rows="2" required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Título da vaga</label>
+                <input type="text" id="titulo" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
             </div>
-
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Requisitos</label>
-                <textarea id="requisitos" rows="2" required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Área / Departamento</label>
+                <input type="text" id="area"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
             </div>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Benefícios</label>
-                    <textarea id="beneficios" rows="2"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Local de trabalho</label>
-                    <input type="text" id="local" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+            <textarea id="descricao" rows="2" required
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Requisitos</label>
+            <textarea id="requisitos" rows="2" required
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Benefícios</label>
+                <textarea id="beneficios" rows="2"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de contrato</label>
-                    <select id="contrato" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                        <option value="">Selecione</option>
-                        <option>Estágio</option>
-                        <option>CLT</option>
-                        <option>Temporário</option>
-                        <option>Autônomo</option>
-                        <option>Freelancer</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Salário</label>
-                    <input type="text" id="salario" placeholder="Ex: R$ 2.500,00"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Local de trabalho</label>
+                <input type="text" id="local" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
             </div>
+        </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Data de abertura</label>
-                    <input type="date" id="abertura" required
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de contrato</label>
+                <select id="contrato" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Data de fechamento</label>
-                    <input type="date" id="fechamento"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                </div>
+                    <option value="">Selecione</option>
+                    <option>Estágio</option>
+                    <option>CLT</option>
+                    <option>Temporário</option>
+                    <option>Autônomo</option>
+                    <option>Freelancer</option>
+                </select>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Contato para envio do currículo</label>
-                    <input type="email" id="contato" placeholder="exemplo@empresa.com" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Observações adicionais</label>
-                    <textarea id="observacoes" rows="2"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Salário</label>
+                <input type="text" id="salario" placeholder="Ex: R$ 2.500,00"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
             </div>
+        </div>
 
-            <div class="flex justify-between mt-6">
-                <button type="button" onclick="window.location.href='dashboardempresa.html'"
-                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-md font-medium transition">Voltar
-                    à Dashboard</button>
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-medium transition">Publicar
-                    Vaga</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Data de abertura</label>
+                <input type="date" id="abertura" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
             </div>
-        </form>
-    </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Data de fechamento</label>
+                <input type="date" id="fechamento"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+            </div>
+        </div>
 
-    <script>
-        document.getElementById('form-vaga').addEventListener('submit', async e => {
-            e.preventDefault();
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Contato para envio do currículo</label>
+                <input type="email" id="contato" placeholder="exemplo@empresa.com" required
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Observações adicionais</label>
+                <textarea id="observacoes" rows="2"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+        </div>
 
-            const vaga = {
-                titulo: document.getElementById('titulo').value.trim(),
-                descricao: document.getElementById('descricao').value.trim(),
-                requisitos: document.getElementById('requisitos').value.trim(),
-                salario: document.getElementById('salario').value.trim(),
-                local: document.getElementById('local').value.trim()
-                // Você pode adicionar outros campos opcionais se quiser
-            };
+        <div class="flex justify-between mt-6">
+            <button type="button" onclick="window.location.href='dashboardempresa.html'"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-md font-medium transition">
+                Voltar à Dashboard
+            </button>
 
-            // Validação simples
-            if (!vaga.titulo || !vaga.descricao || !vaga.requisitos || !vaga.local) {
-                alert('Por favor, preencha todos os campos obrigatórios!');
-                return;
-            }
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-medium transition">
+                Publicar Vaga
+            </button>
+        </div>
+    </form>
+</div>
 
-            try {
-                const response = await fetch('/vagas/publicar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(vaga)
-                });
+<!-- 🔥 ÚNICA PARTE MODIFICADA -->
+<script>
+    document.getElementById('form-vaga').addEventListener('submit', async e => {
+        e.preventDefault();
 
-                const msg = await response.text();
-                alert(msg);
-                window.location.href = 'dashboardempresa.html';
+        const token = sessionStorage.getItem("token");
 
-            } catch (error) {
-                console.error(error);
-                alert('Erro ao publicar a vaga. Tente novamente.');
-            }
-        });
-    </script>
+        if (!token) {
+            alert("Empresa não autenticada!");
+            return;
+        }
+
+        const vaga = {
+            titulo: document.getElementById('titulo').value.trim(),
+            descricao: document.getElementById('descricao').value.trim(),
+            requisitos: document.getElementById('requisitos').value.trim(),
+            salario: document.getElementById('salario').value.trim(),
+            estado: document.getElementById('local').value.trim(),
+            contato: document.getElementById('contato').value.trim()
+        };
+
+        if (!vaga.titulo || !vaga.descricao || !vaga.requisitos || !vaga.estado) {
+            alert('Por favor, preencha todos os campos obrigatórios!');
+            return;
+        }
+
+        try {
+            const response = await fetch('/vagas/publicar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(vaga)
+            });
+
+            const msg = await response.text();
+            alert(msg);
+
+            window.location.href = 'dashboardempresa.html';
+
+        } catch (error) {
+            console.error(error);
+            alert('Erro ao publicar a vaga. Tente novamente.');
+        }
+    });
+</script>
 
 </body>
-
 </html>

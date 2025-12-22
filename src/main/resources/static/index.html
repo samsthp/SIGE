@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar Vagas de Estágio - SIGE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Visualizar Vagas de Estágio</h1>
+
+<div class="filtros">
+    <input type="text" id="filtroCurso" placeholder="Filtrar por curso">
+    <input type="text" id="filtroEstado" placeholder="Filtrar por estado">
+    <input type="text" id="filtroEmpresa" placeholder="Filtrar por empresa">
+    <button onclick="buscarVagas()">Buscar</button>
+    <button onclick="listarTodas()">Listar todas</button>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Título</th>
+        <th>Empresa</th>
+        <th>Descrição</th>
+        <th>Curso</th>
+        <th>Estado</th>
+        <th>Contato</th>
+    </tr>
+    </thead>
+    <tbody id="tabelaVagas"></tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
