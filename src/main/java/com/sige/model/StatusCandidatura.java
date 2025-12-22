@@ -3,7 +3,8 @@ package com.sige.model;
 public enum StatusCandidatura {
     INSCRITO,
     ACEITA,
-    RECUSADA,
     ATIVO,
-    FINALIZADO
+    FINALIZADO,
+    RECUSADA,
+    CANCELADA // 🔥 novo status para punição / remoção
 }
