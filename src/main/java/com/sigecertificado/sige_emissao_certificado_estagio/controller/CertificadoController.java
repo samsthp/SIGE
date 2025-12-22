@@ -14,7 +14,7 @@ public class CertificadoController {
         emitirCertificado = emitir;
     }
     
-    @GetMapping
+    @PostMapping
     public byte[] gerarPdf(Long Id) {
         byte[] pdf = emitirCertificado.emitirPdf(Id);
         return pdf;

@@ -1,17 +1,16 @@
 package com.sigecertificado.sige_emissao_certificado_estagio.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "certificado_aluno")
 public class Certificado {
-    @Id  
+    @Id
     private Long id;
     private String nome;
     private String empresa;
+    @Column(name= "data_emissao")
     private ZonedDateTime dataEmissao;
     
     public Certificado(Long id, String nome, String empresa, ZonedDateTime dataEmissao) {

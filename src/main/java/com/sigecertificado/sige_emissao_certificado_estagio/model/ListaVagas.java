@@ -7,13 +7,14 @@ import java.time.LocalDate;
 @Table(name = "lista_de_vagas")
 public class ListaVagas {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
+    @Column(name= "data_vaga")
     private LocalDate data;
     private String titulo;
     private String descricao;
     private String area;
+    @Column(name= "local_vaga")
     private String local;
     private String modalidade;
 }

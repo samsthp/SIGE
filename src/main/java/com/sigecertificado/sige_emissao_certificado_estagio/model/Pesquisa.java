@@ -6,11 +6,11 @@ import jakarta.persistence.*;
 @Table(name = "pesquisa_com_filtros")
 public class Pesquisa {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
     private String descricao;
     private String area;
+    @Column(name= "local_vaga")
     private String local;
     private String modalidade;
 }
