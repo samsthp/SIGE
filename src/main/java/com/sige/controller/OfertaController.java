@@ -23,12 +23,6 @@ public class OfertaController {
         return ResponseEntity.ok(ofertaService.criar(oferta));
     }
 
-    @GetMapping("/{id}/candidatos")
-    public ResponseEntity<List<Candidatura>> listarCandidatos(@PathVariable Long id) {
-        List<Candidatura> candidaturas = ofertaService.listarCandidatosPorOferta(id);
-        return ResponseEntity.ok(candidaturas);
-    }
-
     @GetMapping
     public List<OfertaEstagio> listarTodas() {
         return ofertaService.listarTodas();

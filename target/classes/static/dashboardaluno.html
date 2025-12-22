@@ -6,7 +6,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
 
     <script>
         tailwind.config = {
@@ -18,7 +19,6 @@
         }
     </script>
 </head>
-
 <body class="bg-gray-50 min-h-screen">
 
 <!-- HEADER -->
@@ -35,7 +35,7 @@
                     <i class="ri-user-line"></i>
                 </div>
                 <div>
-                    <p id="nomeAluno" class="text-sm font-semibold">Aluno Logado</p>
+                    <p id="nomeAluno" class="text-sm font-semibold">Aluno</p>
                     <p class="text-xs text-gray-500">Aluno</p>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <i class="ri-file-list-line"></i> Minhas Candidaturas
         </button>
 
-        <button onclick="abrirModalMatricula()"
+        <button onclick="abrirModalEstagio()"
                 class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100 transition">
             <i class="ri-graduation-cap-line"></i> Meu Estágio
         </button>
@@ -97,87 +97,43 @@
             <h2 class="text-2xl font-bold">Meu Estágio</h2>
             <p class="text-gray-600">Informações do seu estágio atual</p>
         </div>
-        <div class="bg-white p-6 rounded-md shadow text-gray-500">
-            Em breve…
+        <div id="estagioConteudo"
+             class="bg-white p-6 rounded-md shadow text-gray-500">
+            Carregando…
         </div>
     </section>
 
 </main>
 
-<!-- MODAL DETALHES -->
-<div id="modalDetalhes"
-     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-md w-full max-w-lg animate-fadeIn">
-        <h3 id="dTitulo" class="text-xl font-bold mb-2"></h3>
-        <p id="dDescricao" class="text-gray-600 mb-4"></p>
-
-        <ul class="space-y-2 text-sm">
-            <li><i class="ri-building-line"></i> <b>Empresa:</b> <span id="dEmpresa"></span></li>
-            <li><i class="ri-money-dollar-circle-line"></i> <b>Salário:</b> R$ <span id="dSalario"></span></li>
-            <li><i class="ri-book-line"></i> <b>Curso:</b> <span id="dCurso"></span></li>
-            <li><i class="ri-map-pin-line"></i> <b>Estado:</b> <span id="dEstado"></span></li>
-            <li><i class="ri-mail-line"></i> <b>Email:</b> <span id="dEmail"></span></li>
-        </ul>
-
-        <div class="flex gap-3 mt-6">
-            <button onclick="candidatar()"
-                    class="bg-primary text-white px-4 py-2 rounded-md hover:scale-105 transition">
-                Candidatar-se
-            </button>
-            <button onclick="fecharModal()"
-                    class="border px-4 py-2 rounded-md hover:bg-gray-100 transition">
-                Fechar
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL SEM ESTÁGIO -->
-<div id="modalMatricula"
-     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-md w-full max-w-sm">
-        <h3 class="text-lg font-bold mb-2">Acesso ao Estágio</h3>
-        <p class="text-sm text-gray-600 mb-4">
-            Disponível após aprovação da empresa
-        </p>
-        <button onclick="modalMatricula.classList.add('hidden')"
-                class="w-full bg-primary text-white py-2 rounded-md">
-            Ok
-        </button>
-    </div>
-</div>
-
-<!-- MODAL DENÚNCIA -->
-<div id="modalDenuncia"
-     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-md w-full max-w-lg">
-        <h3 class="text-xl font-bold mb-2 text-red-600">
-            🚨 Denunciar Estágio
-        </h3>
-
-        <textarea id="textoDenuncia"
-                  class="w-full border rounded-md p-3 h-32 resize-none"
-                  placeholder="Descreva o problema ocorrido no estágio..."></textarea>
-
-        <div class="flex justify-end gap-3 mt-4">
-            <button onclick="fecharModalDenuncia()"
-                    class="border px-4 py-2 rounded-md hover:bg-gray-100">
-                Cancelar
-            </button>
-            <button onclick="enviarDenuncia()"
-                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
-                Enviar Denúncia
-            </button>
-        </div>
-    </div>
-</div>
-
 <script>
-    let vagaAtual = null;
-    let estagioAtual = null;
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+        window.location.href = "/login.html";
+    }
+
+        fetch("/api/aluno/dashboard", {
+        headers: {
+        "Authorization": "Bearer " + token
+    }
+    })
+        .then(res => {
+        if (res.status === 403 || res.status === 401) {
+        localStorage.clear();
+        window.location.href = "/login.html";
+    }
+        return res.json();
+    })
+        .then(data => {
+        console.log(data);
+    });
+
+
+let estagioAtual = null;
 
     function logout() {
-        sessionStorage.clear();
+        localStorage.clear();
         location.href = "login.html";
     }
 
@@ -200,71 +156,35 @@
         if (id === "candidaturas") carregarMinhasCandidaturas();
     }
 
-    /* VAGAS */
     async function carregarVagas() {
-        const res = await fetch("http://localhost:8081/vagas");
+        const res = await fetch("/api/aluno/vagas", {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        })
+
         const vagas = await res.json();
         listaVagas.innerHTML = "";
 
         vagas.forEach(v => {
             listaVagas.innerHTML += `
-        <div class="bg-white p-6 rounded-md shadow hover:shadow-lg transition">
-            <h3 class="font-semibold">${v.titulo}</h3>
-            <p class="text-sm text-gray-600">${v.empresaNome}</p>
-            <p class="text-primary font-semibold mt-2">💰 R$ ${v.salario}</p>
-            <button onclick='abrirDetalhes(${JSON.stringify(v)})'
-                    class="mt-4 w-full bg-primary text-white py-2 rounded-md hover:scale-105 transition">
-                Ver Detalhes
-            </button>
-        </div>`;
+                <div class="bg-white p-6 rounded-md shadow">
+                    <h3 class="font-semibold">${v.titulo}</h3>
+                    <p class="text-sm text-gray-600">${v.empresaNome}</p>
+                    <p class="text-primary font-semibold mt-2">R$ ${v.salario}</p>
+                </div>`;
         });
     }
 
-    function abrirDetalhes(v) {
-        vagaAtual = v;
-        dTitulo.innerText = v.titulo;
-        dDescricao.innerText = v.descricao;
-        dEmpresa.innerText = v.empresaNome;
-        dSalario.innerText = v.salario;
-        dCurso.innerText = v.cursoRelacionado;
-        dEstado.innerText = v.estado;
-        dEmail.innerText = v.emailEmpresa;
-        modalDetalhes.classList.remove("hidden");
-    }
-
-    function fecharModal() {
-        modalDetalhes.classList.add("hidden");
-    }
-
-    async function candidatar() {
-        const token = sessionStorage.getItem("token");
-
-        const res = await fetch("http://localhost:8081/candidaturas", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
-            },
-            body: JSON.stringify({ vagaId: vagaAtual.id })
-        });
-
-        if (!res.ok) {
-            alert("Erro ao candidatar");
-            return;
-        }
-
-        alert("Candidatura enviada com sucesso!");
-        fecharModal();
-        mostrar("candidaturas");
-    }
-
-    /* CANDIDATURAS */
     async function carregarMinhasCandidaturas() {
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-        const res = await fetch("http://localhost:8081/candidaturas/minhas", {
-            headers: { "Authorization": "Bearer " + token }
-        });
+        const res = await fetch("/api/aluno/vagas", {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        })
+
 
         const dados = await res.json();
         listaCandidaturas.innerHTML = "";
@@ -277,104 +197,38 @@
 
         dados.forEach(c => {
             listaCandidaturas.innerHTML += `
-        <div class="bg-white p-6 rounded-md shadow">
-            <h3 class="font-semibold">${c.vagaTitulo}</h3>
-            <span class="text-yellow-600">⏳ ${c.status}</span>
-        </div>`;
+                <div class="bg-white p-6 rounded-md shadow">
+                    <h3 class="font-semibold">${c.vagaTitulo}</h3>
+                    <span class="text-yellow-600">${c.status}</span>
+                </div>`;
         });
     }
 
-    /* MEU ESTÁGIO (CORRIGIDO) */
-    async function abrirModalMatricula() {
-        const token = sessionStorage.getItem("token");
+    async function abrirModalEstagio() {
+        const token = localStorage.getItem("token");
 
         const res = await fetch("http://localhost:8081/estagios/meu", {
-            headers: { "Authorization": "Bearer " + token }
+            headers: { Authorization: "Bearer " + token }
         });
 
         const lista = await res.json();
 
-        if (!Array.isArray(lista) || lista.length === 0) {
-            modalMatricula.classList.remove("hidden");
+        if (!lista || lista.length === 0) {
+            estagioConteudo.innerHTML = "Nenhum estágio ativo.";
+            mostrar("estagio");
             return;
         }
 
-        estagioAtual = lista[0];
-
-        document.querySelector("#estagio .bg-white").innerHTML = `
-        <h3 class="text-lg font-bold mb-2">
-            <i class="ri-briefcase-line"></i> ${estagioAtual.vaga.titulo}
-        </h3>
-        <p><b>Empresa:</b> ${estagioAtual.empresa.nome}</p>
-        <p class="mb-4">
-            <b>Status:</b>
-            <span class="text-green-600 font-semibold">
-                ${estagioAtual.status}
-            </span>
-        </p>
-
-        <button onclick="abrirModalDenuncia()"
-                class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
-            <i class="ri-alert-line"></i> Denunciar Estágio
-        </button>
-    `;
-
+        const e = lista[0];
+        estagioConteudo.innerHTML = `
+            <h3 class="text-lg font-bold">${e.vaga.titulo}</h3>
+            <p><b>Empresa:</b> ${e.empresa.nome}</p>
+            <p><b>Status:</b> ${e.status}</p>
+        `;
         mostrar("estagio");
     }
 
-    /* DENÚNCIA */
-    function abrirModalDenuncia() {
-        modalDenuncia.classList.remove("hidden");
-    }
-
-    function fecharModalDenuncia() {
-        modalDenuncia.classList.add("hidden");
-    }
-
-    async function enviarDenuncia() {
-        const texto = textoDenuncia.value.trim();
-        const token = sessionStorage.getItem("token");
-
-        if (!texto) {
-            alert("Descreva a denúncia.");
-            return;
-        }
-
-        if (!estagioAtual || !estagioAtual.id) {
-            alert("Estágio inválido.");
-            return;
-        }
-
-        try {
-            const res = await fetch("http://localhost:8081/denuncias", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token
-                },
-                body: JSON.stringify({
-                    estagioId: estagioAtual.id,
-                    descricao: texto
-                })
-            });
-
-            if (!res.ok) {
-                const erro = await res.text();
-                console.error("Erro backend:", erro);
-                alert("Erro ao enviar denúncia.");
-                return;
-            }
-
-            alert("Denúncia enviada com sucesso!");
-            textoDenuncia.value = "";
-            fecharModalDenuncia();
-
-        } catch (e) {
-            console.error("Erro:", e);
-            alert("Falha de conexão.");
-        }
-    }
-document.addEventListener("DOMContentLoaded", carregarVagas);
+    document.addEventListener("DOMContentLoaded", carregarVagas);
 </script>
 
 </body>

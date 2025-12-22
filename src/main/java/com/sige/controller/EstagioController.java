@@ -3,8 +3,9 @@ package com.sige.controller;
 import com.sige.dto.HistoricoDTO;
 import com.sige.model.Estagio;
 import com.sige.model.Usuario;
-import com.sige.service.EstagioService;
 import com.sige.repository.UsuarioRepository;
+import com.sige.service.EstagioService;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class EstagioController {
     // ========================= HISTÓRICO DO ALUNO =========================
     @GetMapping("/historico/{alunoId}")
     public List<HistoricoDTO> listarHistorico(@PathVariable Long alunoId) {
+
         List<Estagio> estagios = estagioService.listarHistorico(alunoId);
 
         return estagios.stream()

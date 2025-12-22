@@ -18,6 +18,9 @@ public class Usuario {
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     private String cpf;
     private String cnpj;
     private String matricula;
@@ -26,7 +29,7 @@ public class Usuario {
     private String senha;
 
     @Column(nullable = false)
-    private String tipo; // aluno, empresa, coordenador
+    private String tipo; // aluno | empresa | coordenador
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

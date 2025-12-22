@@ -34,7 +34,10 @@ public class VagaController {
     public List<VagaResponseDTO> listarTodas() {
         return vagaRepository.findAll()
                 .stream()
-                .map(v -> new VagaResponseDTO(v, candidaturaRepository.countByVaga(v)))
+                .map(v -> new VagaResponseDTO(
+                        v,
+                        candidaturaRepository.countByVagaId(v.getId())
+                ))
                 .toList();
     }
 
@@ -48,7 +51,10 @@ public class VagaController {
 
         return vagaRepository.findByEmpresa(empresa)
                 .stream()
-                .map(v -> new VagaResponseDTO(v, candidaturaRepository.countByVaga(v)))
+                .map(v -> new VagaResponseDTO(
+                        v,
+                        candidaturaRepository.countByVagaId(v.getId())
+                ))
                 .toList();
     }
 

@@ -5,17 +5,14 @@
     <title>SIGE - Dashboard Empresa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fonte + Ícones -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50 min-h-screen">
 
-<!-- HEADER -->
 <header class="bg-white shadow border-b">
     <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
         <div>
@@ -23,7 +20,6 @@
             <p class="text-gray-600">Sistema Integrado de Gestão de Estágio</p>
         </div>
 
-        <!-- Empresa logada -->
         <div class="flex items-center gap-4">
             <div class="flex items-center gap-2 text-gray-700 font-semibold">
                 <i class="ri-building-line text-xl"></i>
@@ -31,386 +27,101 @@
             </div>
 
             <button onclick="logout()"
-                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
+                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
                 <i class="ri-logout-box-r-line"></i> Sair
             </button>
         </div>
     </div>
 </header>
 
-<!-- NAV -->
 <nav class="bg-white border-b">
-    <div class="max-w-7xl mx-auto px-6 py-3 flex gap-3 flex-wrap">
-        <button onclick="mostrar('ofertas')" class="tab-btn bg-blue-500 text-white px-5 py-2 rounded-md">
-            <i class="ri-briefcase-line"></i> Minhas Ofertas
+    <div class="max-w-7xl mx-auto px-6 py-3 flex gap-3">
+        <button onclick="mostrar('vagas')" class="tab-btn bg-blue-500 text-white px-5 py-2 rounded-md">
+            <i class="ri-briefcase-line"></i> Minhas Vagas
         </button>
 
-        <button onclick="mostrar('gerenciar')" class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100">
+        <button onclick="mostrar('candidaturas')" class="tab-btn border px-5 py-2 rounded-md">
             <i class="ri-file-list-line"></i> Candidaturas
         </button>
 
-        <button onclick="mostrar('funcionarios')" class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100">
-            <i class="ri-team-line"></i> Funcionários do Sistema
-        </button>
-
-        <button onclick="mostrar('perfil')" class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100">
-            <i class="ri-settings-3-line"></i> Editar Perfil
+        <button onclick="mostrar('funcionarios')" class="tab-btn border px-5 py-2 rounded-md">
+            <i class="ri-team-line"></i> Funcionários
         </button>
     </div>
 </nav>
 
-<!-- MAIN -->
 <main class="max-w-7xl mx-auto px-6 py-8">
 
-    <!-- VAGAS -->
-    <section id="ofertas">
+    <section id="vagas">
         <h2 class="text-2xl font-bold mb-6">Minhas Vagas</h2>
         <div id="listaVagas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- CANDIDATURAS -->
-    <section id="gerenciar" class="hidden">
+    <section id="candidaturas" class="hidden">
         <h2 class="text-2xl font-bold mb-6">Candidaturas</h2>
         <div id="listaCandidaturas" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
     </section>
 
-    <!-- FUNCIONÁRIOS -->
     <section id="funcionarios" class="hidden">
-        <h2 class="text-2xl font-bold mb-6">Funcionários do Sistema</h2>
+        <h2 class="text-2xl font-bold mb-6">Funcionários Ativos</h2>
         <div id="listaFuncionarios" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-    </section>
-
-    <!-- PERFIL -->
-    <section id="perfil" class="hidden">
-        <h2 class="text-2xl font-bold mb-6">Editar Perfil da Empresa</h2>
-
-        <div class="bg-white p-6 rounded-xl shadow max-w-xl">
-            <p class="text-gray-600 mb-4">
-                <i class="ri-information-line"></i>
-                Em breve você poderá editar os dados da empresa aqui.
-            </p>
-
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-not-allowed opacity-60">
-                Salvar Alterações
-            </button>
-        </div>
     </section>
 
 </main>
 
 <script>
-    /* =====================
-       UTIL
-    ===================== */
     function getToken() {
         return sessionStorage.getItem("token");
     }
 
     function logout() {
         sessionStorage.clear();
-        window.location.href = "login.html";
+        location.href = "login.html";
     }
 
     function mostrar(id) {
-        ["ofertas", "gerenciar", "funcionarios", "perfil"].forEach(sec => {
-            document.getElementById(sec).classList.add("hidden");
-        });
-
+        ["vagas", "candidaturas", "funcionarios"].forEach(s =>
+            document.getElementById(s).classList.add("hidden")
+        );
         document.getElementById(id).classList.remove("hidden");
-
-        window.mockSession = {
-    alunoId: 1,
-    empresaId: 1
-};
-
-// Modal Avaliação
-function criarModalAvaliacao() {
-    if (document.getElementById('modal-avaliacao')) return;
-
-    const modalAvaliacao = document.createElement('div');
-    modalAvaliacao.id = 'modal-avaliacao';
-    modalAvaliacao.className = 'fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4';
-
-    modalAvaliacao.innerHTML = `
-        <div class="bg-white rounded-lg max-w-lg w-full p-6">
-            <h3 class="text-lg font-semibold mb-4">Avaliar Empresa</h3>
-            <p id="empresa-avaliar" class="text-gray-700 mb-2"></p>
-
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nota:</label>
-                <select id="nota-avaliacao" class="w-full border rounded-md p-2">
-                    <option value="1">1 ⭐</option>
-                    <option value="2">2 ⭐⭐</option>
-                    <option value="3">3 ⭐⭐⭐</option>
-                    <option value="4">4 ⭐⭐⭐⭐</option>
-                    <option value="5">5 ⭐⭐⭐⭐⭐</option>
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Comentário:</label>
-                <textarea id="comentario-avaliacao" rows="4" class="w-full border rounded-md p-2" placeholder="Escreva sua avaliação..."></textarea>
-            </div>
-
-            <div class="flex justify-end gap-2">
-                <button id="cancelar-avaliacao" class="px-4 py-2 border rounded-md hover:bg-gray-100">Cancelar</button>
-                <button id="enviar-avaliacao" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600">Enviar</button>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(modalAvaliacao);
-
-    // cancelar
-    document.getElementById('cancelar-avaliacao').addEventListener('click', () => {
-        modalAvaliacao.classList.add('hidden');
-        modalAvaliacao.classList.remove('flex');
-    });
-
-    // enviar avaliação
-    document.getElementById('enviar-avaliacao').addEventListener('click', async () => {
-        const nota = document.getElementById('nota-avaliacao').value;
-        const comentario = document.getElementById('comentario-avaliacao').value;
-
-        const body = {
-            alunoId: window.mockSession.alunoId,
-            empresaId: window.mockSession.empresaId,
-            nota: parseInt(nota),
-            descricao: comentario
-        };
-
-        console.log("Enviando avaliação:", body);
-
-        try {
-            const response = await fetch(`http://localhost:8081/api/avaliacoes`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
-
-            if (!response.ok) throw new Error("Erro ao enviar avaliação!");
-
-            alert('Avaliação enviada com sucesso!');
-            modalAvaliacao.classList.add('hidden');
-            modalAvaliacao.classList.remove('flex');
-
-        } catch (err) {
-            console.error(err);
-            alert('Erro ao enviar avaliação');
-        }
-    });
-}
-        // Atualizar alunos ativos com botão finalizar/avaliar
-        // Atualizar alunos ativos com botão finalizar/avaliar
-function atualizarAlunosAtivos(card) {
-    const ativosList = card.querySelectorAll('.ativos-list li');
-    criarModalAvaliacao();
-    ativosList.forEach(li => {
-        const btn = li.querySelector('.btn-finalizar');
-        if (btn) {
-            btn.addEventListener('click', async () => {
-                // 🔹 CORREÇÃO: Pega o ID do candidato (assumindo que está no data attribute do li)
-                const candidatoId = li.dataset.candidatoId;  // Adicione isso no loop de criação dos li
-                
-                try {
-                    // 🔹 CORREÇÃO: Faz a requisição para finalizar no backend
-                    const response = await fetch(`http://localhost:8081/api/candidatos/1/finalizar`, { method: 'POST' });
-                    if (!response.ok) throw new Error('Erro ao finalizar candidato');
-                    
-                    // 🔹 Só remove o botão e adiciona "Avaliar" se a requisição for bem-sucedida
-                    btn.remove();
-                    const btnAvaliar = document.createElement('button');
-                    btnAvaliar.textContent = 'Avaliar';
-                    btnAvaliar.className = 'ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 btn-avaliar';
-                    li.appendChild(btnAvaliar);
-                    btnAvaliar.addEventListener('click', () => {
-                        document.getElementById('empresa-avaliar').textContent = card.querySelector('h3').textContent;
-                        const modal = document.getElementById('modal-avaliacao');
-                        modal.classList.remove('hidden');
-                        modal.classList.add('flex');
-                    });
-                } catch (error) {
-                    console.error('Erro ao finalizar:', error);
-                    alert('Erro ao finalizar candidato. Tente novamente.');
-                }
-            });
-        }
-    });
-}
-
-        // Abrir modal de candidatos e mostrar os INSCRITOS dinamicamente
-        document.body.addEventListener('click', async function (e) {
-            if (e.target.closest('.ver-candidatos')) {
-                const card = e.target.closest('div.bg-white');
-                const ofertaId = card.dataset.ofertaId;
-
-                listaCandidatos.innerHTML = '<li class="text-gray-500">Carregando candidatos...</li>';
-
-                try {
-                    // 🔹 Busca os candidatos atualizados no backend
-                    const response = await fetch(`http://localhost:8081/api/ofertas/1/candidatos`);
-                    if (!response.ok) throw new Error('Erro ao carregar candidatos');
-                    const candidatos = await response.json();
-
-                    // 🔹 Limpa o conteúdo atual
-                    listaCandidatos.innerHTML = '';
-
-                    const ulAceitos = card.querySelector('.aceitos-list');
-                    const ulAtivos = card.querySelector('.ativos-list');
-                    const ulRecusados = card.querySelector('.recusados-list');
-
-                    ulAceitos.innerHTML = '';
-                    ulAtivos.innerHTML = '';
-                    ulRecusados.innerHTML = '';
-
-                    // 🔹 Popula o modal e listas conforme status
-                    candidatos.forEach(c => {
-                        // Pega os dados do aluno dentro do objeto candidato
-                        const nome = c.aluno?.nome || "Nome não informado";
-                        const email = c.aluno?.email || "E-mail não informado";
-                        const telefone = c.aluno?.telefone || "Telefone não informado";
-
-                        if (c.status === 'INSCRITO') {
-                            const li = document.createElement('li');
-                            li.className = 'flex justify-between items-center bg-gray-100 p-2 rounded-md';
-                            li.innerHTML = `
-            <div>
-                <span class="font-medium">${nome}</span><br>
-                <span class="text-xs text-gray-700">${email}</span><br>
-                <span class="text-xs text-gray-700">${telefone}</span>
-            </div>
-            <div class="flex gap-2 items-center">
-                <button class="px-2 py-1 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 btn-aceitar">Aceitar</button>
-                <button class="px-2 py-1 bg-red-500 text-white text-xs rounded-md hover:bg-red-600 btn-recusar">Recusar</button>
-                <span class="ml-2 text-sm font-medium text-gray-700 status"></span>
-            </div>
-        `;
-
-                            // Botão aceitar
-                            li.querySelector('.btn-aceitar').addEventListener('click', async () => {
-                                const resp = await fetch(`http://localhost:8081/api/candidatos/${c.id}/aceitar`, { method: 'POST' });
-                                if (resp.ok) {
-                                    // 🔹 Atualiza o backend e interface
-                                    li.remove(); // remove o candidato da lista de inscritos
-
-                                    // 🔹 Move para lista de ATIVOS automaticamente
-                                    const ulAceito = card.querySelector('.aceitos-list');
-                                    const liAceito = document.createElement('li');
-                                    liAcceito.innerHTML = `
-            <span>${c.aluno?.nome || "Nome não informado"}</span>
-            <button class="ml-2 px-2 py-1 bg-yellow-500 text-white text-xs rounded-md hover:bg-yellow-600 btn-finalizar">Finalizar</button>
-        `;
-                                    ulAceito.appendChild(liAceito);
-
-                                    // 🔹 (Opcional) Atualiza status no backend para "ATIVA" (ativar estágio)
-                                    atualizarListas(card, c.aluno, 'ACEITO');
-
-                                    // 🔹 Garante que o botão “Finalizar” funciona
-                                    atualizarAlunosAtivos(card);
-                                } else {
-                                    alert('Erro ao aceitar candidato');
-                                }
-                            });
-
-
-                            // Botão recusar
-                            li.querySelector('.btn-recusar').addEventListener('click', async () => {
-                                const resp = await fetch(`http://localhost:8081/api/candidatos/${c.id}/recusar`, { method: 'POST' });
-                                if (resp.ok) {
-                                    li.querySelector('.status').textContent = 'Recusado ❌';
-                                    atualizarListas(card, c, 'RECUSADO');
-                                } else {
-                                    alert('Erro ao recusar candidato');
-                                }
-                            });
-
-                            listaCandidatos.appendChild(li);
-                        }
-
-                        // Preenche automaticamente as listas
-                        if (c.status === 'ACEITA') {
-                            const li = document.createElement('li');
-                            li.textContent = c.aluno?.nome || "Nome não informado";
-                            ulAceitos.appendChild(li);
-                        } else if (c.status === 'ATIVO') {
-                            const li = document.createElement('li');
-                            li.innerHTML = `
-        <span>${c.aluno?.nome || "Nome não informado"}</span>
-        <button class="ml-2 px-2 py-1 bg-yellow-500 text-white text-xs rounded-md hover:bg-yellow-600 btn-finalizar">Finalizar</button>
-    `;
-                            ulAtivos.appendChild(li);
-                        } else if (c.status === 'RECUSADA') {
-                            const li = document.createElement('li');
-                            li.textContent = c.aluno?.nome || "Nome não informado";
-                            ulRecusados.appendChild(li);
-                        }
-                    });
-
-                    atualizarAlunosAtivos(card);
-
-
-                    // Mostra modal
-                    modalCandidatos.classList.remove('hidden');
-                    modalCandidatos.classList.add('flex');
-                } catch (err) {
-                    console.error(err);
-                    listaCandidatos.innerHTML = '<li class="text-red-500">Erro ao carregar candidatos.</li>';
-                }
-            }
-        if (id === "funcionarios") carregarFuncionarios();
     }
 
-    /* =====================
-       EMPRESA LOGADA
-    ===================== */
     async function carregarEmpresa() {
         const res = await fetch("http://localhost:8081/empresas/me", {
-            headers: { "Authorization": "Bearer " + getToken() }
+            headers: { Authorization: "Bearer " + getToken() }
         });
-
         if (res.ok) {
             const empresa = await res.json();
             document.getElementById("nomeEmpresa").innerText = empresa.nome;
         }
     }
 
-    /* =====================
-       VAGAS
-    ===================== */
     async function carregarVagas() {
         const res = await fetch("http://localhost:8081/vagas/minhas", {
-            headers: { "Authorization": "Bearer " + getToken() }
+            headers: { Authorization: "Bearer " + getToken() }
         });
-
         const vagas = await res.json();
         const lista = document.getElementById("listaVagas");
         lista.innerHTML = "";
 
         vagas.forEach(v => {
-            const card = document.createElement("div");
-            card.className = "bg-white p-6 rounded-xl shadow hover:shadow-lg transition";
-
-            card.innerHTML =
-                "<h3 class='font-semibold text-lg flex items-center gap-2'>" +
-                "<i class='ri-building-line text-blue-500'></i>" +
-                v.titulo +
-                "</h3>" +
-                "<button class='mt-3 text-blue-500 hover:underline' onclick='verCandidaturas(" + v.id + ")'>" +
-                "<i class='ri-eye-line'></i> Ver candidatos</button>";
-
-            lista.appendChild(card);
+            lista.innerHTML += `
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="font-semibold text-lg">${v.titulo}</h3>
+                    <button class="mt-3 text-blue-500 hover:underline"
+                            onclick="verCandidaturas(${v.id})">
+                        Ver candidatos
+                    </button>
+                </div>`;
         });
     }
 
-    /* =====================
-       CANDIDATURAS
-    ===================== */
     async function verCandidaturas(vagaId) {
-        mostrar("gerenciar");
+        mostrar("candidaturas");
 
         const res = await fetch(
             "http://localhost:8081/candidaturas/vaga/" + vagaId,
-            { headers: { "Authorization": "Bearer " + getToken() } }
+            { headers: { Authorization: "Bearer " + getToken() } }
         );
 
         const dados = await res.json();
@@ -418,92 +129,66 @@ function atualizarAlunosAtivos(card) {
         lista.innerHTML = "";
 
         dados.forEach(c => {
-            const card = document.createElement("div");
-            card.className = "bg-white p-6 rounded-xl shadow";
-
-            card.innerHTML =
-                "<p class='font-semibold'><i class='ri-user-line'></i> " + c.alunoNome + "</p>" +
-                "<button class='mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600' " +
-                "onclick='aceitar(" + c.id + ")'>" +
-                "<i class='ri-check-line'></i> Aceitar</button>";
-
-            lista.appendChild(card);
+            lista.innerHTML += `
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <p class="font-semibold">${c.alunoNome}</p>
+                    <button class="mt-3 bg-green-500 text-white px-4 py-2 rounded-md"
+                            onclick="aceitar(${c.id})">
+                        Aceitar
+                    </button>
+                </div>`;
         });
     }
 
     async function aceitar(id) {
         await fetch("http://localhost:8081/candidaturas/aceitar/" + id, {
             method: "POST",
-            headers: { "Authorization": "Bearer " + getToken() }
+            headers: { Authorization: "Bearer " + getToken() }
         });
-
         alert("Candidatura aceita!");
+        carregarFuncionarios();
         mostrar("funcionarios");
     }
 
-    /* =====================
-       FUNCIONÁRIOS
-    ===================== */
     async function carregarFuncionarios() {
         const res = await fetch("http://localhost:8081/estagios/empresa", {
-            headers: { "Authorization": "Bearer " + getToken() }
+            headers: { Authorization: "Bearer " + getToken() }
         });
 
         const dados = await res.json();
         const lista = document.getElementById("listaFuncionarios");
         lista.innerHTML = "";
 
-        if (dados.length === 0) {
-            lista.innerHTML = "<p class='text-gray-500'>Nenhum funcionário ativo.</p>";
-            return;
-        }
-
         dados.forEach(e => {
-            const card = document.createElement("div");
-            card.className = "bg-white p-6 rounded-xl shadow hover:shadow-lg transition";
-
-            card.innerHTML =
-                "<h3 class='font-semibold text-lg'><i class='ri-user-star-line'></i> " + e.aluno.nome + "</h3>" +
-                "<p class='text-sm text-gray-600'><i class='ri-briefcase-line'></i> " + e.vaga.titulo + "</p>" +
-                "<p class='text-green-600 font-semibold mt-2'><i class='ri-checkbox-circle-line'></i> ATIVO</p>" +
-                "<div class='flex gap-3 mt-4'>" +
-                "<button class='bg-gray-200 px-3 py-2 rounded-md'><i class='ri-time-line'></i> Horas Trabalhadas</button>" +
-                "<button class='bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600' " +
-                "onclick='concluirEstagio(" + e.id + ")'>" +
-                "<i class='ri-flag-line'></i> Concluir Estágio</button>" +
-                "</div>";
-
-            lista.appendChild(card);
+            lista.innerHTML += `
+                <div class="bg-white p-6 rounded-xl shadow">
+                    <h3 class="font-semibold">${e.aluno.nome}</h3>
+                    <p class="text-sm">${e.vaga.titulo}</p>
+                    <button class="mt-3 bg-red-500 text-white px-3 py-2 rounded-md"
+                            onclick="concluir(${e.id})">
+                        Concluir estágio
+                    </button>
+                </div>`;
         });
     }
 
-    async function concluirEstagio(id) {
-        if (!confirm("Deseja concluir este estágio?")) return;
+    async function concluir(id) {
+        if (!confirm("Concluir estágio?")) return;
 
         await fetch("http://localhost:8081/estagios/concluir/" + id, {
             method: "POST",
-            headers: { "Authorization": "Bearer " + getToken() }
+            headers: { Authorization: "Bearer " + getToken() }
         });
 
         alert("Estágio concluído!");
         carregarFuncionarios();
     }
 
-    /* =====================
-       INIT
-    ===================== */
     document.addEventListener("DOMContentLoaded", () => {
         carregarEmpresa();
         carregarVagas();
     });
 </script>
 
-        // Chama ao iniciar
-        carregarOfertas();
-
-
-
-
-    </script>
 </body>
 </html>

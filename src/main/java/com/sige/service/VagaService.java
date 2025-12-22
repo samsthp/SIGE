@@ -1,8 +1,9 @@
 package com.sige.service;
 
+import com.sige.model.Usuario;
 import com.sige.model.Vaga;
+import com.sige.repository.UsuarioRepository;
 import com.sige.repository.VagaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 public class VagaService {
 
     private final VagaRepository vagaRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public VagaService(VagaRepository vagaRepository) {
+    public VagaService(VagaRepository vagaRepository, UsuarioRepository usuarioRepository) {
         this.vagaRepository = vagaRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public List<Vaga> listarTodas() {
@@ -28,12 +31,12 @@ public class VagaService {
         return vagaRepository.findByEstadoContainingIgnoreCase(estado);
     }
 
+    // ✅ CORRETO
     public List<Vaga> buscarPorEmpresa(Long empresaId) {
-        return vagaRepository.findByEmpresa_Id(empresaId);
-    }
+        Usuario empresa = usuarioRepository.findById(empresaId)
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
 
-    public Vaga salvar(Vaga vaga) {
-        return vagaRepository.save(vaga);
+        return vagaRepository.findByEmpresa(empresa);
     }
 
     public Vaga salvar(Vaga vaga) {

@@ -1,6 +1,5 @@
 package com.sige.controller;
 
-
 import com.sige.dto.CadastroEmpresaDTO;
 import com.sige.model.EnumRole;
 import com.sige.model.Usuario;
@@ -39,10 +38,9 @@ public class CadastroEmpresaController {
         empresa.setNome(dto.getNome());
         empresa.setCnpj(dto.getCnpj());
         empresa.setEmail(dto.getEmail());
-        empresa.setSenha(dto.getSenha()); // depois pode criptografar
+        empresa.setSenha(dto.getSenha()); // depois criptografar com BCrypt
         empresa.setTipo("empresa");
         empresa.setRole(EnumRole.EMPRESA);
-        empresa.setEndereco(dto.getEndereco());
 
         usuarioRepository.save(empresa);
 

@@ -16,7 +16,7 @@ public class CandidaturaResponseDTO {
 
     public CandidaturaResponseDTO(Candidatura c) {
         this.id = c.getId();
-        this.status = c.getStatus();
+        this.status = c.getStatus().name(); // 🔥 AQUI ESTÁ A CORREÇÃO
 
         this.vagaId = c.getVaga().getId();
         this.vagaTitulo = c.getVaga().getTitulo();

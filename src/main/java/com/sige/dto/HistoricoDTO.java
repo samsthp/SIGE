@@ -1,39 +1,44 @@
 package com.sige.dto;
 
 import com.sige.model.Estagio;
+import com.sige.model.Usuario;
 
 public class HistoricoDTO {
-    private String empresa;
-    private String periodo;
-    private String atividades;
-    private String tarefas;
-    private String avaliacao;
-    private int horasCumpridas;
-    private String documentos;
-    private String statusGeral;
-    private String situacaoFinal;
+
+    private String empresaNome;
+    private String empresaEmail;
+
+    private String status;
+    private String dataInicio;
 
     // Construtor que recebe um Estagio
     public HistoricoDTO(Estagio estagio) {
-        this.empresa = estagio.getEmpresa();
-        this.periodo = estagio.getPeriodo();
-        this.atividades = estagio.getAtividades();
-        this.tarefas = estagio.getTarefas();
-        this.avaliacao = estagio.getAvaliacao();
-        this.horasCumpridas = estagio.getHorasCumpridas();
-        this.documentos = estagio.getDocumentos();
-        this.statusGeral = estagio.getStatusGeral();
-        this.situacaoFinal = estagio.getSituacaoFinal();
+
+        Usuario empresa = estagio.getEmpresa();
+        if (empresa != null) {
+            this.empresaNome = empresa.getNome();
+            this.empresaEmail = empresa.getEmail();
+        }
+
+        this.status = estagio.getStatus();
+        this.dataInicio = estagio.getDataInicio() != null
+                ? estagio.getDataInicio().toString()
+                : null;
     }
 
-    // Getters
-    public String getEmpresa() { return empresa; }
-    public String getPeriodo() { return periodo; }
-    public String getAtividades() { return atividades; }
-    public String getTarefas() { return tarefas; }
-    public String getAvaliacao() { return avaliacao; }
-    public int getHorasCumpridas() { return horasCumpridas; }
-    public String getDocumentos() { return documentos; }
-    public String getStatusGeral() { return statusGeral; }
-    public String getSituacaoFinal() { return situacaoFinal; }
+    public String getEmpresaNome() {
+        return empresaNome;
+    }
+
+    public String getEmpresaEmail() {
+        return empresaEmail;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDataInicio() {
+        return dataInicio;
+    }
 }

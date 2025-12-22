@@ -1,25 +1,23 @@
 package com.sige.repository;
 
 import com.sige.model.Candidatura;
-import com.sige.model.Vaga;
+import com.sige.model.StatusCandidatura;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CandidaturaRepository extends JpaRepository<Candidatura, Long> {
 
-    // 🔢 Conta quantos alunos se candidataram a uma vaga (usado no DTO da vaga)
-    long countByVaga(Vaga vaga);
-
-    // 🔢 Conta quantos alunos se candidataram pelo ID da vaga
-    long countByVagaId(Long vagaId);
-
-    // 📄 Lista todas as candidaturas de uma vaga (EMPRESA)
+    // ✅ Por VAGA
     List<Candidatura> findByVagaId(Long vagaId);
 
-    // 📄 Lista todas as candidaturas de um aluno (ALUNO)
+    long countByVagaId(Long vagaId);
+
+    // ✅ Por ALUNO
     List<Candidatura> findByAlunoId(Long alunoId);
 
-    // 📄 Lista candidaturas por status (opcional, mas útil)
-    List<Candidatura> findByStatus(String status);
+    // ✅ Por STATUS
+    List<Candidatura> findByStatus(StatusCandidatura status);
 }

@@ -32,9 +32,7 @@ public class CandidaturaController {
         this.estagioRepository = estagioRepository;
     }
 
-    // =====================================================
     // 1️⃣ ALUNO SE CANDIDATA
-    // =====================================================
     @PostMapping
     public Map<String, Object> candidatar(@RequestBody Map<String, String> body) {
 
@@ -64,21 +62,18 @@ public class CandidaturaController {
         Candidatura candidatura = new Candidatura();
         candidatura.setAluno(aluno);
         candidatura.setVaga(vaga);
-        candidatura.setStatus("PENDENTE");
+        candidatura.setStatus(StatusCandidatura.INSCRITO); // 🔥 AQUI
 
         candidaturaRepository.save(candidatura);
 
         return Map.of("status", "success", "message", "Candidatura realizada");
     }
 
-    // =====================================================
     // 2️⃣ ALUNO — MINHAS CANDIDATURAS
-    // =====================================================
     @GetMapping("/minhas")
     public List<CandidaturaResponseDTO> minhasCandidaturas() {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String principal = auth.getName();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Usuario aluno = usuarioRepository.findByPrincipal(principal)
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
@@ -89,28 +84,9 @@ public class CandidaturaController {
                 .toList();
     }
 
-    // =====================================================
-    // 3️⃣ EMPRESA — LISTAR CANDIDATURAS POR VAGA
-    // =====================================================
+    // 3️⃣ EMPRESA — LISTAR POR VAGA
     @GetMapping("/vaga/{vagaId}")
     public List<CandidaturaResponseDTO> listarPorVaga(@PathVariable Long vagaId) {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String principal = auth.getName();
-
-        Usuario empresa = usuarioRepository.findByPrincipal(principal)
-                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
-
-        if (empresa.getRole() != EnumRole.EMPRESA) {
-            throw new RuntimeException("Usuário não é empresa");
-        }
-
-        Vaga vaga = vagaRepository.findById(vagaId)
-                .orElseThrow(() -> new RuntimeException("Vaga não encontrada"));
-
-        if (!vaga.getEmpresa().getId().equals(empresa.getId())) {
-            throw new RuntimeException("Acesso negado");
-        }
 
         return candidaturaRepository.findByVagaId(vagaId)
                 .stream()
@@ -118,9 +94,7 @@ public class CandidaturaController {
                 .toList();
     }
 
-    // =====================================================
     // 4️⃣ EMPRESA ACEITA → CRIA ESTÁGIO
-    // =====================================================
     @PostMapping("/aceitar/{id}")
     public Map<String, Object> aceitar(@PathVariable Long id) {
 
@@ -131,24 +105,25 @@ public class CandidaturaController {
         estagio.setAluno(candidatura.getAluno());
         estagio.setEmpresa(candidatura.getVaga().getEmpresa());
         estagio.setVaga(candidatura.getVaga());
-        estagio.setStatus("ATIVO");
+        estagio.setStatus("ATIVO"); // Estagio ainda é String, OK
 
         estagioRepository.save(estagio);
-        candidaturaRepository.delete(candidatura);
+
+        candidatura.setStatus(StatusCandidatura.ATIVO);
+        candidaturaRepository.save(candidatura);
 
         return Map.of("status", "success", "message", "Estágio criado");
     }
 
-    // =====================================================
     // 5️⃣ EMPRESA RECUSA
-    // =====================================================
     @PostMapping("/recusar/{id}")
     public Map<String, Object> recusar(@PathVariable Long id) {
 
         Candidatura candidatura = candidaturaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Candidatura não encontrada"));
 
-        candidaturaRepository.delete(candidatura);
+        candidatura.setStatus(StatusCandidatura.RECUSADA);
+        candidaturaRepository.save(candidatura);
 
         return Map.of("status", "success", "message", "Candidatura recusada");
     }

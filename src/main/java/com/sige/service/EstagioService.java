@@ -2,7 +2,6 @@ package com.sige.service;
 
 import com.sige.model.Estagio;
 import com.sige.repository.EstagioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,16 +9,25 @@ import java.util.List;
 @Service
 public class EstagioService {
 
-    @Autowired
-    private EstagioRepository estagioRepository;
+    private final EstagioRepository estagioRepository;
 
-    // Lista todos os estágios de um aluno
+    public EstagioService(EstagioRepository estagioRepository) {
+        this.estagioRepository = estagioRepository;
+    }
+
+    // Histórico completo do aluno
     public List<Estagio> listarHistorico(Long alunoId) {
         return estagioRepository.findByAluno_Id(alunoId);
     }
 
-    // Busca um estágio específico
+    // Estágio específico
     public Estagio acompanharEstagio(Long estagioId) {
-        return estagioRepository.findById(estagioId).orElse(null);
+        return estagioRepository.findById(estagioId)
+                .orElseThrow(() -> new RuntimeException("Estágio não encontrado"));
+    }
+
+    // Estágios ATIVOS do aluno
+    public List<Estagio> buscarAtivosPorAluno(Long alunoId) {
+        return estagioRepository.findByAluno_IdAndStatus(alunoId, "ATIVO");
     }
 }
