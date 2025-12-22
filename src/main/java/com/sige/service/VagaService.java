@@ -2,6 +2,7 @@ package com.sige.service;
 
 import com.sige.model.Vaga;
 import com.sige.repository.VagaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public class VagaService {
 
     public List<Vaga> buscarPorEmpresa(Long empresaId) {
         return vagaRepository.findByEmpresa_Id(empresaId);
+    }
+
+    public Vaga salvar(Vaga vaga) {
+        return vagaRepository.save(vaga);
     }
 
     public Vaga salvar(Vaga vaga) {
