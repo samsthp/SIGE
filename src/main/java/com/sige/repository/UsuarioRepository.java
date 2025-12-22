@@ -4,11 +4,13 @@ import com.sige.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
+import java.util.List;
+
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+<<<<<<< HEAD
 
-    Optional<Usuario> findByCpf(String cpf);
+    List<Usuario> findByMatricula(String matricula);
+    List<Usuario> findByCnpj(String cnpj);
+    List<Usuario> findByCpf(String cpf);
 
-    Optional<Usuario> findByCnpj(String cnpj);
-
-    Optional<Usuario> findByMatricula(String matricula);
 }

@@ -1,5 +1,6 @@
 package com.sige.controller;
 
+<<<<<<< HEAD
 import com.sige.dto.LoginRequest;
 import com.sige.model.Usuario;
 import com.sige.service.AuthService;
@@ -18,11 +19,24 @@ public class AuthController {
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody LoginRequest request) {
-        return authService.login(request);
+        try {
+            return authService.login(request);
+        } catch (Exception e) {
+            e.printStackTrace(); // 👈 mostra o erro completo no console
+            return Map.of(
+                "status", "error",
+                "message", "Erro interno: " + e.getMessage()
+            );
+        }
     }
 
     @PostMapping("/register")
     public String registerUser(@RequestBody Usuario usuario) {
-        return authService.registerUser(usuario);
+        try {
+            return authService.registerUser(usuario);
+        } catch (Exception e) {
+            e.printStackTrace(); // 👈 mostra o erro completo no console
+            return "Erro interno ao registrar usuário: " + e.getMessage();
+        }
     }
 }

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico e Acompanhamento de Estágio - SIGE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-blue-50 min-h-screen p-6">
+
+  <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-6">
+
+    <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">
+      Histórico e Acompanhamento do Estágio
+    </h2>
+
+    <!-- Filtro de Situação Final -->
+    <div class="mb-4">
+      <label for="filtroSituacao" class="mr-2 font-semibold">Filtrar por Situação:</label>
+      <select id="filtroSituacao" class="border px-2 py-1 rounded">
+        <option value="">Todas</option>
+        <option value="Concluído">Concluído</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Cancelado">Cancelado</option>
+      </select>
+    </div>
+
+    <!-- Tabela do Histórico -->
+    <table class="min-w-full border border-gray-300 text-sm">
+      <thead class="bg-blue-100 text-gray-800">
+        <tr>
+          <th class="px-3 py-2 border">Empresa</th>
+          <th class="px-3 py-2 border">Período</th>
+          <th class="px-3 py-2 border">Atividades</th>
+          <th class="px-3 py-2 border">Tarefas</th>
+          <th class="px-3 py-2 border">Avaliação</th>
+          <th class="px-3 py-2 border">Horas Cumpridas</th>
+          <th class="px-3 py-2 border">Documentos</th>
+          <th class="px-3 py-2 border">Status Geral</th>
+          <th class="px-3 py-2 border">Situação Final</th>
+        </tr>
+      </thead>
+
+      <tbody id="historico-body" class="text-gray-700">
+        <!-- Dados inseridos via JavaScript -->
+      </tbody>
+
+      <tfoot>
+        <tr class="font-bold bg-blue-50">
+          <td colspan="5" class="px-3 py-2 border text-right">Total de Horas:</td>
+          <td id="total-horas" class="px-3 py-2 border text-center">0h</td>
+          <td colspan="3" class="border"></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <!-- Botão para voltar à dashboard -->
+    <div class="text-center mt-6">
+      <button 
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        onclick="window.location.href='/dashboardaluno.html'">
+        Voltar para Dashboard
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    const alunoId = 1; // Substitua pelo ID do aluno logado
+    let todosEstagios = []; // Guarda todos os dados
+
+    function corDocumento(doc) {
+      if(doc === 'Aprovados') return 'text-green-700';
+      if(doc === 'Pendentes') return 'text-yellow-600';
+      return '';
+    }
+
+    function corStatus(status) {
+      if(status === 'Em dia') return 'text-green-700';
+      if(status === 'Atenção') return 'text-yellow-600';
+      if(status === 'Atrasado') return 'text-red-600';
+      return '';
+    }
+
+    function corSituacao(situacao) {
+      if(situacao === 'Concluído') return 'text-green-700';
+      if(situacao === 'Em andamento') return 'text-yellow-600';
+      if(situacao === 'Cancelado') return 'text-red-600';
+      return '';
+    }
+
+    // Função para atualizar a tabela
+    function atualizarTabela(estagios) {
+      const body = document.getElementById("historico-body");
+      body.innerHTML = ""; // limpa tabela
+
+      let totalHoras = 0;
+
+      estagios.forEach(estagio => {
+        totalHoras += estagio.horasCumpridas || 0;
+
+        body.innerHTML += `
+          <tr class="hover:bg-blue-50">
+            <td class="border px-2 py-2">${estagio.empresa}</td>
+            <td class="border px-2 py-2">${estagio.periodo}</td>
+            <td class="border px-2 py-2">${estagio.atividades}</td>
+            <td class="border px-2 py-2">${estagio.tarefas}</td>
+            <td class="border px-2 py-2">${estagio.avaliacao || ''}</td>
+            <td class="border px-2 py-2 text-center">${estagio.horasCumpridas || 0}h</td>
+            <td class="border px-2 py-2 font-semibold ${corDocumento(estagio.documentos)}">${estagio.documentos || ''}</td>
+            <td class="border px-2 py-2 font-semibold ${corStatus(estagio.statusGeral)}">${estagio.statusGeral || ''}</td>
+            <td class="border px-2 py-2 font-semibold ${corSituacao(estagio.situacaoFinal)}">${estagio.situacaoFinal || ''}</td>
+          </tr>
+        `;
+      });
+
+      document.getElementById("total-horas").textContent = totalHoras + 'h';
+    }
+
+    // Busca os dados do backend
+    fetch(`/api/estagios/historico/${alunoId}`)
+      .then(response => {
+        if (!response.ok) throw new Error('Erro ao carregar histórico');
+        return response.json();
+      })
+      .then(dados => {
+        todosEstagios = dados;           // guarda todos
+        atualizarTabela(todosEstagios);  // mostra na tabela
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Não foi possível carregar o histórico do aluno.');
+      });
+
+    // Evento do filtro
+    document.getElementById("filtroSituacao").addEventListener("change", (e) => {
+      const situacao = e.target.value;
+      if (!situacao) {
+        atualizarTabela(todosEstagios); // mostra todos
+      } else {
+        const filtrados = todosEstagios.filter(est => est.situacaoFinal === situacao);
+        atualizarTabela(filtrados);     // mostra apenas filtrados
+      }
+    });
+  </script>
+
+</body>
+</html>

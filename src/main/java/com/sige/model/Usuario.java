@@ -1,10 +1,7 @@
 package com.sige.model;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -20,35 +17,85 @@ public class Usuario {
 
     @Column(nullable = false)
     private String nome;
-
-    // 🔹 CPF — obrigatório p/ aluno e coordenador
-    @Column(unique = true)
+<<<<<<< HEAD
     private String cpf;
-
-    // 🔹 CNPJ — obrigatório p/ empresa
-    @Column(unique = true)
     private String cnpj;
-
-    // 🔹 Matrícula — gerada automaticamente p/ aluno
-    @Column(unique = true)
     private String matricula;
-
-    @Column(unique = true)
-    private String email;
-
-    @Column(nullable = false)
     private String senha;
+    private String tipo;
+=======
 
-    private String endereco;
-
-    @Column(nullable = false)
-    private String tipo; // aluno, empresa, coordenador
-
+<<<<<<< HEAD
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private EnumRole role;
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> role.name());
+    // ================= GETTERS =================
+    public Long getId() {
+        return id;
+
     }
+<<<<<<< HEAD
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public EnumRole getRole() {
+        return role;
+    }
+
+    // ================= SETTERS =================
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setRole(EnumRole role) {
+        this.role = role;
+    }
+=======
+>>>>>>> 6e516700151d0d8c92cf620a360faec33aa9aa0d
 }
