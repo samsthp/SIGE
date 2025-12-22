@@ -35,4 +35,10 @@ public class EmpresaController {
     public Empresa atualizar(@PathVariable Long id, @RequestBody Empresa empresa) {
         return empresaService.atualizar(id, empresa);
     }
+
+    @GetMapping("/api/empresa/teste")
+    public String rotaEmpresa() {
+        return "Acesso permitido: EMPRESA";
+    }
+
 }

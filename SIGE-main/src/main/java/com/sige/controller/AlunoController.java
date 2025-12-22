@@ -9,21 +9,25 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AlunoController {
 
-    private final AlunoService alunoService;
+    private final AlunoService service;
 
-    public AlunoController(AlunoService alunoService) {
-        this.alunoService = alunoService;
+    public AlunoController(AlunoService service) {
+        this.service = service;
     }
-
 
     @GetMapping("/{id}")
     public Aluno buscar(@PathVariable Long id) {
-        return alunoService.buscar(id);
+        return service.buscar(id);
     }
-
 
     @PutMapping("/{id}")
-    public Aluno atualizar(@PathVariable Long id, @RequestBody Aluno aluno) {
-        return alunoService.atualizar(id, aluno);
+    public Aluno atualizar(@PathVariable Long id, @RequestBody Aluno dados) {
+        return service.atualizar(id, dados);
     }
+
+    @GetMapping("/api/aluno/teste")
+    public String rotaAluno() {
+        return "Acesso permitido: ALUNO";
+    }
+
 }

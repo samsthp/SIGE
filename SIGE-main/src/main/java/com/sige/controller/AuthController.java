@@ -1,5 +1,6 @@
 package com.sige.controller;
 
+import org.springframework.http.ResponseEntity;
 import com.sige.dto.LoginRequest;
 import com.sige.model.Usuario;
 import com.sige.service.AuthService;
@@ -22,7 +23,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody Usuario usuario) {
-        return authService.registerUser(usuario);
+    public ResponseEntity<String> registerUser(@RequestBody Usuario usuario) {
+        String resposta = authService.registerUser(usuario);
+        return ResponseEntity.ok(resposta);
     }
+
 }

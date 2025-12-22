@@ -13,17 +13,13 @@ public class AlunoService {
         this.repository = repository;
     }
 
-
     public Aluno buscar(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
     }
 
-
     public Aluno atualizar(Long id, Aluno dados) {
-
-        Aluno aluno = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+        Aluno aluno = buscar(id);
 
         aluno.setNome(dados.getNome());
         aluno.setEmail(dados.getEmail());

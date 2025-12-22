@@ -13,13 +13,16 @@ public class UsuarioService {
         this.repository = repository;
     }
 
+    public Usuario buscar(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
 
     public Usuario atualizarPerfil(Long id, Usuario dados) {
 
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        usuario.setNome(dados.getNome());
         usuario.setEmail(dados.getEmail());
         usuario.setEndereco(dados.getEndereco());
 

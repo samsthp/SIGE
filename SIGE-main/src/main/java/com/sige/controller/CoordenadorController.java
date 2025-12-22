@@ -19,4 +19,10 @@ public class CoordenadorController {
     public Usuario atualizarPerfil(@PathVariable Long id, @RequestBody Usuario dados) {
         return usuarioService.atualizarPerfil(id, dados);
     }
+
+    @GetMapping("/api/coordenador/teste")
+    public String rotaCoordenador() {
+        return "Acesso permitido: COORDENADOR";
+    }
+
 }
