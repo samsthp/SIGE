@@ -38,4 +38,3 @@ public class AlunoService {
         return repository.existsByCpf(cpf);
     }
 }
-

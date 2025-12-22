@@ -45,4 +45,3 @@ public class CadastroAlunoController {
         return "redirect:/login.html?success=true";
     }
 }
-

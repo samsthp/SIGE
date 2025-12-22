@@ -35,4 +35,3 @@ public class CadastroEmpresaController {
         return "<script>alert('Cadastro realizado com sucesso!'); window.location.href='/login.html';</script>";
     }
 }
-

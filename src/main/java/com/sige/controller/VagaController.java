@@ -1,38 +1,68 @@
 package com.sige.controller;
 
+import com.sige.dto.VagaResponseDTO;
+import com.sige.model.Usuario;
 import com.sige.model.Vaga;
-import com.sige.service.VagaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sige.repository.CandidaturaRepository;
+import com.sige.repository.UsuarioRepository;
+import com.sige.repository.VagaRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vagas")
+@RequestMapping("/vagas")
 @CrossOrigin(origins = "*")
-
 public class VagaController {
 
-    @Autowired
-    private VagaService vagaService;
+    private final VagaRepository vagaRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final CandidaturaRepository candidaturaRepository;
+
+    public VagaController(
+            VagaRepository vagaRepository,
+            UsuarioRepository usuarioRepository,
+            CandidaturaRepository candidaturaRepository
+    ) {
+        this.vagaRepository = vagaRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.candidaturaRepository = candidaturaRepository;
+    }
 
     @GetMapping
-    public List<Vaga> listarTodas() {
-        return vagaService.listarTodas();
-
+    public List<VagaResponseDTO> listarTodas() {
+        return vagaRepository.findAll()
+                .stream()
+                .map(v -> new VagaResponseDTO(v, candidaturaRepository.countByVaga(v)))
+                .toList();
     }
 
-    @GetMapping("/curso")
-    public List<Vaga> buscarPorCurso(@RequestParam String curso) {
-        return vagaService.buscarPorCurso(curso);
+    @GetMapping("/minhas")
+    public List<VagaResponseDTO> minhasVagas() {
 
-    @GetMapping("/estado")
-    public List<Vaga> buscarPorEstado(@RequestParam String estado) {
-        return vagaService.buscarPorEstado(estado);
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario empresa = usuarioRepository.findByPrincipal(principal)
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
+        return vagaRepository.findByEmpresa(empresa)
+                .stream()
+                .map(v -> new VagaResponseDTO(v, candidaturaRepository.countByVaga(v)))
+                .toList();
     }
 
-    @PostMapping
-    public Vaga cadastrar(@RequestBody Vaga vaga) {
-        return vagaService.salvar(vaga);
-    }
+    @PostMapping("/publicar")
+    public String publicar(@RequestBody Vaga vaga) {
 
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario empresa = usuarioRepository.findByPrincipal(principal)
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
+        vaga.setEmpresa(empresa);
+        vagaRepository.save(vaga);
+
+        return "Vaga publicada com sucesso";
+    }
 }
