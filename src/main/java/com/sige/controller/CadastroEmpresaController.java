@@ -1,5 +1,6 @@
 package com.sige.controller;
 
+
 import com.sige.dto.CadastroEmpresaDTO;
 import com.sige.model.EnumRole;
 import com.sige.model.Usuario;
@@ -17,13 +18,13 @@ public class CadastroEmpresaController {
     private final UsuarioRepository usuarioRepository;
     private final EmailService emailService;
 
-    // GET — formulário
+    // ========================= GET — formulário =========================
     @GetMapping
     public String mostrarFormulario() {
         return "cadastroempresa.html";
     }
 
-    // POST — finalizar cadastro
+    // ========================= POST — finalizar cadastro =========================
     @PostMapping("/finalizar")
     @ResponseBody
     public String finalizar(@ModelAttribute CadastroEmpresaDTO dto) {
@@ -38,7 +39,7 @@ public class CadastroEmpresaController {
         empresa.setNome(dto.getNome());
         empresa.setCnpj(dto.getCnpj());
         empresa.setEmail(dto.getEmail());
-        empresa.setSenha(dto.getSenha()); // ⚠️ depois você pode criptografar
+        empresa.setSenha(dto.getSenha()); // depois pode criptografar
         empresa.setTipo("empresa");
         empresa.setRole(EnumRole.EMPRESA);
         empresa.setEndereco(dto.getEndereco());

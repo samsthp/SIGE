@@ -14,11 +14,14 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findByMatricula(String matricula);
+
     Optional<Usuario> findByCpf(String cpf);
+
     Optional<Usuario> findByCnpj(String cnpj);
+
     Optional<Usuario> findByEmail(String email);
 
-    // 🔥 BUSCA GENÉRICA PELO LOGIN (JWT)
+    // 🔥 BUSCA GENÉRICA PELO LOGIN (JWT / AUTH)
     default Optional<Usuario> findByPrincipal(String principal) {
         return findByEmail(principal)
                 .or(() -> findByCpf(principal))
@@ -26,7 +29,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                 .or(() -> findByMatricula(principal));
     }
 
-    // 🔥 FIX REAL: força UPDATE no banco
+    // 🔐 ATUALIZA SENHA
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("""

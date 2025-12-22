@@ -4,9 +4,9 @@ import com.sige.dto.LoginRequest;
 import com.sige.model.EnumRole;
 import com.sige.model.ResetCode;
 import com.sige.model.Usuario;
-import com.sige.config.JwtUtil;
 import com.sige.repository.ResetCodeRepository;
 import com.sige.repository.UsuarioRepository;
+import com.sige.config.JwtUtil;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,9 @@ public class AuthService {
     public Map<String, Object> login(LoginRequest request) {
 
         if (request.getIdentificador() == null ||
-                request.getSenha() == null ||
-                request.getTipo() == null) {
+            request.getSenha() == null ||
+            request.getTipo() == null) {
+
             return Map.of(
                     "status", "error",
                     "message", "Preencha todos os campos!"
@@ -50,20 +51,11 @@ public class AuthService {
 
         Usuario usuario = switch (request.getTipo().toLowerCase()) {
             case "aluno" ->
-                    usuarioRepository.findByMatricula(
-                            request.getIdentificador()
-                    ).orElse(null);
-
+                    usuarioRepository.findByMatricula(request.getIdentificador()).orElse(null);
             case "empresa" ->
-                    usuarioRepository.findByCnpj(
-                            request.getIdentificador()
-                    ).orElse(null);
-
+                    usuarioRepository.findByCnpj(request.getIdentificador()).orElse(null);
             case "coordenador" ->
-                    usuarioRepository.findByCpf(
-                            request.getIdentificador()
-                    ).orElse(null);
-
+                    usuarioRepository.findByCpf(request.getIdentificador()).orElse(null);
             default -> null;
         };
 
@@ -81,7 +73,6 @@ public class AuthService {
             );
         }
 
-        // 🔐 GERA O TOKEN JWT
         String token = JwtUtil.generateToken(usuario);
 
         return Map.of(
@@ -92,57 +83,61 @@ public class AuthService {
         );
     }
 
-
     // ==============================================
     //                  REGISTRO
     // ==============================================
     public Map<String, Object> registerUser(Usuario usuario) {
-        try {
-            if (usuario.getTipo() == null ||
-                    usuario.getSenha() == null ||
-                    usuario.getSenha().isBlank()) {
-                return Map.of("status", "error", "message", "Tipo e senha são obrigatórios!");
-            }
 
-            String tipo = usuario.getTipo().toLowerCase();
+        if (usuario.getTipo() == null ||
+            usuario.getSenha() == null ||
+            usuario.getSenha().isBlank()) {
 
-            switch (tipo) {
-                case "empresa" -> {
-                    if (usuario.getCnpj() == null || usuario.getCnpj().isBlank())
-                        return Map.of("status", "error", "message", "CNPJ obrigatório!");
-                }
-                case "aluno" -> {
-                    if (usuario.getCpf() == null || usuario.getCpf().isBlank())
-                        return Map.of("status", "error", "message", "CPF obrigatório!");
-                    if (usuario.getMatricula() == null || usuario.getMatricula().isBlank())
-                        usuario.setMatricula("A" + System.currentTimeMillis());
-                }
-                case "coordenador" -> {
-                    if (usuario.getCpf() == null || usuario.getCpf().isBlank())
-                        return Map.of("status", "error", "message", "CPF obrigatório!");
-                }
-                default -> {
-                    return Map.of("status", "error", "message", "Tipo inválido!");
-                }
-            }
-
-            usuario.setRole(
-                    switch (tipo) {
-                        case "aluno" -> EnumRole.ALUNO;
-                        case "empresa" -> EnumRole.EMPRESA;
-                        case "coordenador" -> EnumRole.COORDENADOR;
-                        default -> EnumRole.ALUNO;
-                    }
+            return Map.of(
+                    "status", "error",
+                    "message", "Tipo e senha são obrigatórios!"
             );
-
-            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-            usuarioRepository.save(usuario);
-
-            return Map.of("status", "success", "message", "Usuário cadastrado com sucesso!");
-
-        } catch (Exception e) {
-            return Map.of("status", "error", "message", "Erro inesperado: " + e.getMessage());
         }
+
+        String tipo = usuario.getTipo().toLowerCase();
+
+        switch (tipo) {
+            case "empresa" -> {
+                if (usuario.getCnpj() == null || usuario.getCnpj().isBlank())
+                    return Map.of("status", "error", "message", "CNPJ obrigatório!");
+            }
+            case "aluno" -> {
+                if (usuario.getCpf() == null || usuario.getCpf().isBlank())
+                    return Map.of("status", "error", "message", "CPF obrigatório!");
+                if (usuario.getMatricula() == null || usuario.getMatricula().isBlank())
+                    usuario.setMatricula("A" + System.currentTimeMillis());
+            }
+            case "coordenador" -> {
+                if (usuario.getCpf() == null || usuario.getCpf().isBlank())
+                    return Map.of("status", "error", "message", "CPF obrigatório!");
+            }
+            default -> {
+                return Map.of("status", "error", "message", "Tipo inválido!");
+            }
+        }
+
+        usuario.setRole(
+                switch (tipo) {
+                    case "aluno" -> EnumRole.ALUNO;
+                    case "empresa" -> EnumRole.EMPRESA;
+                    case "coordenador" -> EnumRole.COORDENADOR;
+                    default -> EnumRole.ALUNO;
+                }
+        );
+
+        usuario.setTipo(tipo);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+
+        usuarioRepository.save(usuario);
+
+        return Map.of(
+                "status", "success",
+                "message", "Usuário cadastrado com sucesso!"
+        );
     }
 
     // ==============================================
@@ -155,7 +150,6 @@ public class AuthService {
             return Map.of("status", "error", "message", "E-mail não cadastrado!");
         }
 
-        // invalida códigos antigos
         resetCodeRepository.findAllByEmailAndUsadoFalse(email)
                 .forEach(rc -> {
                     rc.setUsado(true);
@@ -173,7 +167,10 @@ public class AuthService {
         resetCodeRepository.save(rc);
         enviarEmail(email, codigo);
 
-        return Map.of("status", "success", "message", "Código enviado para seu e-mail!");
+        return Map.of(
+                "status", "success",
+                "message", "Código enviado para seu e-mail!"
+        );
     }
 
     public Map<String, Object> validarCodigo(String email, String codigo) {
@@ -193,7 +190,7 @@ public class AuthService {
     }
 
     // ==============================================
-    //            RESETAR SENHA (FIX REAL)
+    //            RESETAR SENHA
     // ==============================================
     @Transactional
     public Map<String, Object> resetarSenha(String email, String novaSenha, String codigo) {
@@ -207,25 +204,21 @@ public class AuthService {
                 .findByEmailAndCodigoAndUsadoFalse(email, codigo)
                 .orElse(null);
 
-        if (rc == null) {
-            return Map.of("status", "error", "message", "Código inválido!");
-        }
-
-        if (rc.getExpiration().isBefore(LocalDateTime.now())) {
-            return Map.of("status", "error", "message", "Código expirado!");
+        if (rc == null || rc.getExpiration().isBefore(LocalDateTime.now())) {
+            return Map.of("status", "error", "message", "Código inválido ou expirado!");
         }
 
         if (passwordEncoder.matches(novaSenha, user.getSenha())) {
-            return Map.of("status", "error", "message", "A nova senha não pode ser igual à atual!");
+            return Map.of(
+                    "status", "error",
+                    "message", "A nova senha não pode ser igual à atual!"
+            );
         }
 
-        String novaSenhaHash = passwordEncoder.encode(novaSenha);
-
-        int linhas = usuarioRepository.atualizarSenha(email, novaSenhaHash);
-
-        if (linhas == 0) {
-            return Map.of("status", "error", "message", "Falha ao atualizar a senha!");
-        }
+        usuarioRepository.atualizarSenha(
+                email,
+                passwordEncoder.encode(novaSenha)
+        );
 
         rc.setUsado(true);
         resetCodeRepository.save(rc);
@@ -248,19 +241,15 @@ public class AuthService {
             helper.setSubject("SIGE - Recuperação de Senha");
 
             String html = """
-               <html>
-               <body style="font-family:Arial; background:#f8fafc; padding:20px">
-                   <div style="max-width:480px;margin:auto;background:white;
-                       padding:24px;border-radius:12px;border:1px solid #e5e7eb">
-                       <h1 style="text-align:center;color:#3b82f6">SIGE</h1>
-                       <p>Seu código de recuperação:</p>
-                       <div style="font-size:32px;text-align:center;
-                           letter-spacing:4px;font-weight:bold">%s</div>
-                       <p>Válido por 10 minutos.</p>
-                   </div>
-               </body>
-               </html>
-           """.formatted(codigo);
+                <html>
+                <body style="font-family:Arial;padding:20px">
+                    <h2>SIGE</h2>
+                    <p>Seu código de recuperação:</p>
+                    <h1>%s</h1>
+                    <p>Válido por 10 minutos.</p>
+                </body>
+                </html>
+            """.formatted(codigo);
 
             helper.setText(html, true);
             mailSender.send(mime);
