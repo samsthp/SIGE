@@ -76,7 +76,7 @@
             document.getElementById('emitir').addEventListener('click', async () => {
                 const nome = document.getElementById('nome').value.trim();
                 const empresa = document.getElementById('empresa').value.trim();
-                const dataEmissao = document.getElementById('data').value.trim();
+                const data = document.getElementById('data').value.trim();
                 const mensagem = document.getElementById('mensagem');
 
                 if(!nome || !empresa || !data) {
@@ -90,7 +90,7 @@
                     const resposta = await fetch('http://localhost:8081/api/certificados', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nome, empresa, data })
+                        body: JSON.stringify({ nome: nome, empresa: empresa, dataEmissao: data })
                     });
                     if(!resposta.ok)
                         throw new Error("Falha ao gerar o certificado!");

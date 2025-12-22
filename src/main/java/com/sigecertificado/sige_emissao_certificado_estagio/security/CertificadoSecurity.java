@@ -20,39 +20,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 @Configuration
-@EnableWebSecurity
 public class CertificadoSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http   
             .csrf(csrf -> csrf.disable())
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()    
-                .requestMatchers(
-                    "/css/**",
-                    "/js/**",
-                    "/images/**",
-                    "/login.html",
-                    "/cadastroaluno.html",
-                    "/cadastroempresa.html",
-                    "/cadastrocoordenador.html",
-                    "/dashboardaluno.html",
-                    "/dashboardempresa.html",
-                    "/dashboardcoordenador.html"
-                ).permitAll()
                 .anyRequest().permitAll()
             )
-            .formLogin(form -> form
-                .loginPage("/login.html")
-                .permitAll()
-            )
-            .httpBasic(basic -> basic.disable())
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login.html")
-                .permitAll()
-            );
+            .formLogin(form -> form.disable())
+            .httpBasic(basic -> basic.disable());
         return http.build();
     }
     @Bean

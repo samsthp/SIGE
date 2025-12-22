@@ -1,23 +1,26 @@
 package com.sigecertificado.sige_emissao_certificado_estagio.model;
 
 import jakarta.persistence.*;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "certificado_aluno")
 public class Certificado {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String empresa;
     @Column(name= "data_emissao")
-    private ZonedDateTime dataEmissao;
+    private LocalDate dataEmissao;
     
-    public Certificado(Long id, String nome, String empresa, ZonedDateTime dataEmissao) {
+    public Certificado(Long id, String nome, String empresa, LocalDate dataEmissao) {
         this.id = id;
         this.nome = nome;
         this.empresa = empresa;
         this.dataEmissao = dataEmissao;
+    }
+    public Certificado() {
     }
     
     public Long getId() {
@@ -29,7 +32,7 @@ public class Certificado {
     public String getEmpresa() {
         return empresa;
     }
-    public ZonedDateTime getDataEmissao() {
+    public LocalDate getDataEmissao() {
         return dataEmissao;
     }
     public void setId(Long id) {
@@ -41,7 +44,7 @@ public class Certificado {
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }
-    public void setDataEmissao(ZonedDateTime dataEmissao) {
+    public void setDataEmissao(LocalDate dataEmissao) {
         this.dataEmissao = dataEmissao;
     }
 }

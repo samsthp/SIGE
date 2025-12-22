@@ -1,3 +1,0 @@
-INSERT INTO lista_de_vagas(id, status, data_vaga, titulo, descricao, area, local_vaga, modalidade) VALUES (1, 'não aceito', '2025-12-10', 'AveMaria Tecnologias', 'Estágio em instalar e configurar dispositivos físicos, como computador, impressora, sensor de alarme, etc.', 'Progamação', 'Sion, Belo Horizonte', 'obrigatório');
-INSERT INTO certificado_aluno(id, nome, empresa, data_emissao) VALUES (2, 'Wesley Sousa', 'Fundação Cristiano Maffort', '2025-12-21');
-INSERT INTO pesquisa_com_filtros(id, titulo, descricao, area, local_vaga, modalidade) VALUES (5, 'HyperSecurityTechnology', 'Estágio para programar dispositivos de segurança, como sensores e câmeras', 'Programação', 'Milionários, Belo Horizonte', 'obrigatório');
