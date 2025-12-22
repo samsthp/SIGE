@@ -1,29 +1,33 @@
 package com.sige.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Candidatura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER) // carregar aluno para serialização simples
+    // aluno que se candidatou
+    @ManyToOne(optional = false)
     @JoinColumn(name = "aluno_id")
-    private Aluno aluno;
+    private Usuario aluno;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "oferta_id")
-    @JsonIgnoreProperties({"empresa"}) // evitar serializar toda empresa em candidato
-    private OfertaEstagio oferta;
+    // vaga escolhida
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "vaga_id")
+    private Vaga vaga;
 
-    @Enumerated(EnumType.STRING)
-    private StatusCandidatura status = StatusCandidatura.INSCRITO;
+    @Column(nullable = false)
+    private String status; // PENDENTE, ACEITA, RECUSADA
+
+    @Column(nullable = false)
+    private LocalDateTime dataCandidatura = LocalDateTime.now();
 }
