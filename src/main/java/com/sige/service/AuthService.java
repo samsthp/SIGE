@@ -1,6 +1,5 @@
 package com.sige.service;
 
-<<<<<<< HEAD
 import com.sige.dto.LoginRequest;
 import com.sige.model.EnumRole;
 import com.sige.model.Usuario;

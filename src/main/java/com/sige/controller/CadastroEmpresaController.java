@@ -1,6 +1,6 @@
 package com.sige.controller;
 
-<<<<<<< HEAD
+
 import com.sige.dto.CadastroEmpresaDTO;
 import com.sige.service.EmpresaService;
 import org.springframework.stereotype.Controller;

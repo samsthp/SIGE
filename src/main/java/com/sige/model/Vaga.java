@@ -24,7 +24,6 @@ public class Vaga {
   
     @NotBlank
     private String descricao;
-<<<<<<< HEAD
 
     private String estado;
     private String cursoRelacionado;

@@ -1,6 +1,5 @@
 package com.sige.controller;
 
-<<<<<<< HEAD
 import com.sige.dto.LoginRequest;
 import com.sige.model.Usuario;
 import com.sige.service.AuthService;

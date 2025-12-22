@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-<<<<<<< HEAD
 
     List<Usuario> findByMatricula(String matricula);
     List<Usuario> findByCnpj(String cnpj);

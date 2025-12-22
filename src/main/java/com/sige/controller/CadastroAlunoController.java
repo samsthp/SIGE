@@ -1,6 +1,6 @@
 package com.sige.controller;
 
-<<<<<<< HEAD
+
 import com.sige.dto.CadastroAlunoDTO;
 import com.sige.service.AlunoService;
 import jakarta.validation.Valid;

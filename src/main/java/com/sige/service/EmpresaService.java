@@ -1,6 +1,5 @@
 package com.sige.service;
 
-<<<<<<< HEAD
 import com.sige.dto.CadastroEmpresaDTO;
 import com.sige.model.Empresa;
 import com.sige.repository.EmpresaRepository;

@@ -1,6 +1,5 @@
 package com.sige.model;
 
-<<<<<<< HEAD
 import jakarta.persistence.*;
 
 @Entity
@@ -17,15 +16,14 @@ public class Usuario {
 
     @Column(nullable = false)
     private String nome;
-<<<<<<< HEAD
+
     private String cpf;
     private String cnpj;
     private String matricula;
     private String senha;
     private String tipo;
-=======
 
-<<<<<<< HEAD
+
     @Enumerated(EnumType.STRING)
     private EnumRole role;
 
@@ -96,6 +94,5 @@ public class Usuario {
     public void setRole(EnumRole role) {
         this.role = role;
     }
-=======
->>>>>>> 6e516700151d0d8c92cf620a360faec33aa9aa0d
+
 }

@@ -1,6 +1,5 @@
 package com.sige.service;
 
-<<<<<<< HEAD
 import com.sige.model.Vaga;
 import com.sige.repository.VagaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

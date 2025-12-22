@@ -1,6 +1,5 @@
 package com.sige.service;
 
-<<<<<<< HEAD
 import com.sige.dto.CadastroAlunoDTO;
 import com.sige.model.Aluno;
 import com.sige.repository.AlunoRepository;

@@ -1,6 +1,5 @@
 package com.sige.model;
 
-<<<<<<< HEAD
 import jakarta.persistence.*;
 
 @Entity
