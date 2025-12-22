@@ -24,14 +24,16 @@ public class SigeApplication {
 									AlunoRepository alunoRepository,
 									OfertaEstagioRepository ofertaRepository,
 									CandidaturaRepository candidaturaRepository,
-									JdbcTemplate jdbcTemplate) {
+									JdbcTemplate jdbcTemplate, AvaliacaoRepository avaliacaoRepository) {
 		return args -> {
 
 			// Limpar banco de dados
+						avaliacaoRepository.deleteAll();
 			candidaturaRepository.deleteAll();
 			ofertaRepository.deleteAll();
 			alunoRepository.deleteAll();
 			empresaRepository.deleteAll();
+
 
 			// Resetar sequences
 			jdbcTemplate.execute("ALTER SEQUENCE empresa_id_seq RESTART WITH 1");
