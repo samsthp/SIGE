@@ -1,195 +1,204 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SIGE - Dashboard Aluno</title>
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-<style>
-:where([class^="ri-"])::before { content: "\f3c2"; }
-</style>
-<script>
-tailwind.config = {
-    theme: {
-        extend: {
-            colors: { primary:'#3b82f6', secondary:'#1e40af' },
-            borderRadius: { 'button':'8px' }
-        }
-    }
-}
-</script>
-</head>
-<body class="bg-gray-50 min-h-screen">
-<div class="w-full">
+    <meta charset="UTF-8">
+    <title>SIGE - Aluno</title>
 
-<header class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex items-center justify-between">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#3b82f6' }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+<!-- HEADER -->
+<header class="bg-white shadow border-b">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
         <div>
-            <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-            <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
+            <h1 class="font-['Pacifico'] text-4xl text-primary">SIGE</h1>
+            <p class="text-gray-600">Sistema Integrado de Gestão de Estágio</p>
         </div>
+
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
-                <i class="ri-user-line text-lg"></i>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
+                    <i class="ri-user-line"></i>
+                </div>
+                <div>
+                    <p id="nomeAluno" class="text-sm font-semibold">Aluno</p>
+                    <p class="text-xs text-gray-500">Aluno</p>
+                </div>
             </div>
-            <div>
-                <p class="text-sm font-medium text-gray-900">João Silva</p>
-                <p class="text-xs text-gray-500">Aluno</p>
-            </div>
+
+            <button onclick="logout()"
+                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
+                <i class="ri-logout-box-r-line"></i> Sair
+            </button>
         </div>
     </div>
 </header>
 
-<nav class="bg-white border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="flex space-x-1">
-            <button id="tab-ofertas" class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap bg-primary text-white">
-                <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i class="ri-briefcase-line"></i></div>
-                Ofertas de Estágio
-            </button>
-            <button id="tab-perfil" class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
-                <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i class="ri-user-settings-line"></i></div>
-                Meu Perfil
-            </button>
-            <button id="tab-estagio" class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
-                <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i class="ri-graduation-cap-line"></i></div>
-                Meu Estágio
-            </button>
-        </div>
+<!-- NAV -->
+<nav class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex gap-3">
+        <button onclick="mostrar('ofertas', this)"
+                class="tab-btn bg-primary text-white px-5 py-2 rounded-md transition">
+            <i class="ri-briefcase-line"></i> Ofertas
+        </button>
+
+        <button onclick="mostrar('candidaturas', this)"
+                class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100 transition">
+            <i class="ri-file-list-line"></i> Minhas Candidaturas
+        </button>
+
+        <button onclick="abrirModalEstagio()"
+                class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100 transition">
+            <i class="ri-graduation-cap-line"></i> Meu Estágio
+        </button>
     </div>
 </nav>
 
+<!-- MAIN -->
 <main class="max-w-7xl mx-auto px-6 py-8">
-    <!-- Ofertas -->
-    <div id="content-ofertas" class="tab-content">
+
+    <!-- OFERTAS -->
+    <section id="ofertas">
         <div class="mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Ofertas de Estágio Disponíveis</h2>
-            <p class="text-gray-600">Encontre as melhores oportunidades de estágio para sua carreira</p>
+            <h2 class="text-2xl font-bold">Vagas Disponíveis</h2>
+            <p class="text-gray-600">Confira as oportunidades abertas</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer oferta-card"
-                data-empresa="TechCorp Solutions"
-                data-descricao="Estágio em Desenvolvimento Web com foco em tecnologias modernas."
-                data-telefone="(11) 3456-7890" data-email="rh@techcorp.com.br">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-md">
-                        <i class="ri-code-s-slash-line text-primary text-xl"></i>
-                    </div>
-                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Ativo</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">TechCorp Solutions</h3>
-                <p class="text-gray-600 text-sm mb-4 line-clamp-3">Estágio em Desenvolvimento Web...</p>
-                <div class="space-y-2 mb-4">
-                    <div class="flex items-center text-sm text-gray-500">
-                        <div class="w-4 h-4 flex items-center justify-center mr-2"><i class="ri-phone-line"></i></div>(11) 3456-7890
-                    </div>
-                    <div class="flex items-center text-sm text-gray-500">
-                        <div class="w-4 h-4 flex items-center justify-center mr-2"><i class="ri-mail-line"></i></div>rh@techcorp.com.br
-                    </div>
-                </div>
-                <button class="w-full bg-primary text-white py-2 px-4 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Ver Detalhes</button>
-            </div>
-        </div>
-    </div>
+        <div id="listaVagas"
+             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
 
-    <!-- Perfil -->
-    <div id="content-perfil" class="tab-content hidden">
+    <!-- CANDIDATURAS -->
+    <section id="candidaturas" class="hidden">
         <div class="mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Meu Perfil</h2>
-            <p class="text-gray-600">Mantenha suas informações atualizadas</p>
+            <h2 class="text-2xl font-bold">Minhas Candidaturas</h2>
+            <p class="text-gray-600">Vagas que você já se candidatou</p>
         </div>
-        <div class="bg-white rounded-md shadow-sm border border-gray-200 p-8">
-            <form class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Nome Completo</label>
-                        <input type="text" value="João Silva Santos" class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">E-mail</label>
-                        <input type="email" value="joao.silva@email.com" class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                    </div>
-                </div>
-                <div class="flex justify-end">
-                    <button type="submit" class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
-                        Salvar Alterações
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <div id="listaCandidaturas"
+             class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
 
-    <!-- Meu Estágio -->
-    <div id="content-estagio" class="tab-content hidden">
+    <!-- ESTÁGIO -->
+    <section id="estagio" class="hidden">
         <div class="mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">Meu Estágio</h2>
-            <p class="text-gray-600">Acompanhe informações sobre seu estágio atual</p>
+            <h2 class="text-2xl font-bold">Meu Estágio</h2>
+            <p class="text-gray-600">Informações do seu estágio atual</p>
         </div>
-
-        <div id="estagio-lista" class="bg-white rounded-md shadow-sm border border-gray-200 p-8 text-center mb-6">
-            <div class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mx-auto mb-4">
-                <i class="ri-file-list-3-line text-gray-400 text-2xl"></i>
-            </div>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum estágio ativo</h3>
-            <p class="text-gray-500 mb-6">Você ainda não possui um estágio ativo. Candidate-se às ofertas disponíveis para começar sua jornada profissional.</p>
-            <button id="btn-ver-ofertas" class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Ver Ofertas de Estágio</button>
+        <div id="estagioConteudo"
+             class="bg-white p-6 rounded-md shadow text-gray-500">
+            Carregando…
         </div>
+    </section>
 
-        <button id="btn-ver-historico" class="bg-secondary text-white px-4 py-2 !rounded-button hover:bg-blue-800 mb-4">
-            Ver Histórico
-        </button>
-    </div>
 </main>
-</div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const targetId = this.id.replace('tab-', 'content-');
-            tabButtons.forEach(btn => btn.classList.remove('bg-primary','text-white'));
-            tabButtons.forEach(btn => btn.classList.add('text-gray-600','hover:text-primary','hover:bg-blue-50'));
-            this.classList.remove('text-gray-600','hover:text-primary','hover:bg-blue-50');
-            this.classList.add('bg-primary','text-white');
-            tabContents.forEach(c => c.classList.add('hidden'));
-            document.getElementById(targetId).classList.remove('hidden');
+    let estagioAtual = null;
+
+    function logout() {
+        sessionStorage.clear();
+        location.href = "login.html";
+    }
+
+    function mostrar(id, btn) {
+        ["ofertas", "candidaturas", "estagio"].forEach(s =>
+            document.getElementById(s).classList.add("hidden")
+        );
+        document.getElementById(id).classList.remove("hidden");
+
+        document.querySelectorAll(".tab-btn").forEach(b => {
+            b.classList.remove("bg-primary", "text-white");
+            b.classList.add("border");
         });
-    });
 
-    document.getElementById('btn-ver-ofertas').addEventListener('click', function(){
-        document.getElementById('tab-ofertas').click();
-    });
+        if (btn) {
+            btn.classList.add("bg-primary", "text-white");
+            btn.classList.remove("border");
+        }
 
-    const estagiosSimulados = [
-        { empresa:"TechCorp Solutions", descricao:"Desenvolvimento Web", telefone:"(11) 3456-7890", email:"rh@techcorp.com.br", status:"Aceito"},
-        { empresa:"Inovação Digital", descricao:"Suporte Técnico", telefone:"(11) 98765-4321", email:"contato@inovacaodigital.com", status:"Concluído"}
-    ];
+        if (id === "candidaturas") carregarMinhasCandidaturas();
+    }
 
-    document.getElementById('btn-ver-historico').addEventListener('click', function() {
-        const alunoId = localStorage.getItem("alunoId");
-        fetch(`/api/estagios/historico/${alunoId}`)
-        .then(res => res.json())
-        .then(dados => {
-            if(!dados || dados.length===0){
-                localStorage.setItem('historicoParaMostrar', JSON.stringify(estagiosSimulados));
-            } else {
-                localStorage.setItem('historicoParaMostrar', JSON.stringify(dados));
-            }
-            window.location.href = 'historicoestagio.html';
-        })
-        .catch(err=>{
-            console.warn("API não disponível, usando dados simulados.", err);
-            localStorage.setItem('historicoParaMostrar', JSON.stringify(estagiosSimulados));
-            window.location.href = 'historicoestagio.html';
+    async function carregarVagas() {
+        const res = await fetch("http://localhost:8081/vagas");
+        const vagas = await res.json();
+        listaVagas.innerHTML = "";
+
+        vagas.forEach(v => {
+            listaVagas.innerHTML += `
+                <div class="bg-white p-6 rounded-md shadow">
+                    <h3 class="font-semibold">${v.titulo}</h3>
+                    <p class="text-sm text-gray-600">${v.empresaNome}</p>
+                    <p class="text-primary font-semibold mt-2">R$ ${v.salario}</p>
+                </div>`;
         });
-    });
-});
+    }
+
+    async function carregarMinhasCandidaturas() {
+        const token = sessionStorage.getItem("token");
+
+        const res = await fetch("http://localhost:8081/candidaturas/minhas", {
+            headers: { Authorization: "Bearer " + token }
+        });
+
+        const dados = await res.json();
+        listaCandidaturas.innerHTML = "";
+
+        if (dados.length === 0) {
+            listaCandidaturas.innerHTML =
+                "<p class='text-gray-500'>Nenhuma candidatura ainda.</p>";
+            return;
+        }
+
+        dados.forEach(c => {
+            listaCandidaturas.innerHTML += `
+                <div class="bg-white p-6 rounded-md shadow">
+                    <h3 class="font-semibold">${c.vagaTitulo}</h3>
+                    <span class="text-yellow-600">${c.status}</span>
+                </div>`;
+        });
+    }
+
+    async function abrirModalEstagio() {
+        const token = sessionStorage.getItem("token");
+
+        const res = await fetch("http://localhost:8081/estagios/meu", {
+            headers: { Authorization: "Bearer " + token }
+        });
+
+        const lista = await res.json();
+
+        if (!lista || lista.length === 0) {
+            estagioConteudo.innerHTML = "Nenhum estágio ativo.";
+            mostrar("estagio");
+            return;
+        }
+
+        const e = lista[0];
+        estagioConteudo.innerHTML = `
+            <h3 class="text-lg font-bold">${e.vaga.titulo}</h3>
+            <p><b>Empresa:</b> ${e.empresa.nome}</p>
+            <p><b>Status:</b> ${e.status}</p>
+        `;
+        mostrar("estagio");
+    }
+
+    document.addEventListener("DOMContentLoaded", carregarVagas);
 </script>
+
 </body>
 </html>

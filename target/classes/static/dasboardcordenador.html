@@ -821,59 +821,6 @@ document.getElementById("form-cadastro").addEventListener("submit", async (e) =>
         alert("Erro ao cadastrar. Verifique os dados.");
     }
 });
-
-
-
-async function carregarAvaliacoes() {
-    const container = document.getElementById("avaliacoes-list");
-    container.innerHTML = "<p class='text-gray-500'>Carregando avaliações...</p>";
-
-    try {
-        const response = await fetch("http://localhost:8081/api/avaliacoes");
-        if (!response.ok) throw new Error("Erro ao buscar avaliações");
-
-        const avaliacoes = await response.json();
-
-        if (avaliacoes.length === 0) {
-            container.innerHTML = "<p class='text-gray-500'>Nenhuma avaliação encontrada.</p>";
-            return;
-        }
-
-        container.innerHTML = "";
-
-        avaliacoes.forEach(av => {
-            const card = document.createElement("div");
-            card.className = "border p-4 rounded-lg shadow-sm bg-white";
-
-            card.innerHTML = `
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-semibold text-gray-900">
-                        Nota: ${"⭐".repeat(av.nota)}
-                    </h3>
-                    <span class="text-sm text-gray-600">
-                        ID: ${av.id}
-                    </span>
-                </div>
-
-                <p class="mt-2 text-gray-700"><b>Comentário:</b> ${av.descricao}</p>
-
-                <div class="mt-3 text-sm text-gray-600">
-                    <p><b>Aluno:</b> ${av.aluno?.nome || "Não informado"}</p>
-                    <p><b>Empresa:</b> ${av.empresa?.nome || "Não informada"}</p>
-                </div>
-            `;
-
-            container.appendChild(card);
-        });
-
-    } catch (error) {
-        console.error(error);
-        container.innerHTML = `<p class="text-red-600">Erro ao carregar avaliações.</p>`;
-    }
-}
-
-carregarAvaliacoes();
-
 </script>
 </body>
 </html>

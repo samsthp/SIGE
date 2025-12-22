@@ -1,15 +1,28 @@
 package com.sige.model;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 
 @Entity
 @Table(name = "estagios")
+=======
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> origin/main
 public class Estagio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+<<<<<<< HEAD
     private String empresa;
     private String periodo;
     private String atividades;
@@ -59,3 +72,22 @@ public class Estagio {
     public Aluno getAluno() { return aluno; }
     public void setAluno(Aluno aluno) { this.aluno = aluno; }
 }
+=======
+    @ManyToOne
+    @JoinColumn(name = "aluno_id", nullable = false)
+    private Usuario aluno;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", nullable = false)
+    private Usuario empresa;
+
+    @ManyToOne
+    @JoinColumn(name = "vaga_id", nullable = false)
+    private Vaga vaga;
+
+    @Column(nullable = false)
+    private String status; // ATIVO, CONCLUIDO, CANCELADO
+
+    private LocalDateTime dataInicio = LocalDateTime.now();
+}
+>>>>>>> origin/main

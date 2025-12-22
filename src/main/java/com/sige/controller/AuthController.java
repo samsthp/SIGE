@@ -16,26 +16,54 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    // ========================= LOGIN =========================
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody LoginRequest request) {
+    public Map<String, Object> login(@RequestBody LoginRequest request) {
         try {
             return authService.login(request);
         } catch (Exception e) {
-            e.printStackTrace(); // 👈 mostra o erro completo no console
+            e.printStackTrace();
             return Map.of(
-                "status", "error",
-                "message", "Erro interno: " + e.getMessage()
+                    "status", "error",
+                    "message", "Erro interno: " + e.getMessage()
             );
         }
     }
 
+    // ========================= REGISTRO =========================
     @PostMapping("/register")
-    public String registerUser(@RequestBody Usuario usuario) {
+    public Map<String, Object> registerUser(@RequestBody Usuario usuario) {
         try {
             return authService.registerUser(usuario);
         } catch (Exception e) {
-            e.printStackTrace(); // 👈 mostra o erro completo no console
-            return "Erro interno ao registrar usuário: " + e.getMessage();
+            e.printStackTrace();
+            return Map.of(
+                    "status", "error",
+                    "message", "Erro interno ao registrar usuário: " + e.getMessage()
+            );
         }
+    }
+
+    // ========================= ESQUECI A SENHA =========================
+    @PostMapping("/forgot")
+    public Map<String, Object> forgot(@RequestBody Map<String, String> body) {
+        return authService.enviarCodigo(body.get("email"));
+    }
+
+    @PostMapping("/validate-code")
+    public Map<String, Object> validate(@RequestBody Map<String, String> body) {
+        return authService.validarCodigo(
+                body.get("email"),
+                body.get("codigo")
+        );
+    }
+
+    @PostMapping("/reset-password")
+    public Map<String, Object> reset(@RequestBody Map<String, String> body) {
+        return authService.resetarSenha(
+                body.get("email"),
+                body.get("novaSenha"),
+                body.get("codigo")
+        );
     }
 }

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Coordenador SIGE</title>
+
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b82f6',
+            secondary: '#1e40af'
+          },
+          borderRadius: {
+            button: '8px'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen text-gray-800">
+
+<!-- ================= HEADER ================= -->
+<header class="bg-white shadow-sm border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
+    <div>
+      <h1 class="font-['Pacifico'] text-4xl text-primary">SIGE</h1>
+      <p class="text-gray-600">Sistema Integrado de Gestão de Estágio</p>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
+        <i class="ri-user-line"></i>
+      </div>
+      <div>
+        <p class="text-sm font-medium">Gabriel</p>
+        <p class="text-xs text-gray-500">Coordenador</p>
+      </div>
+      <button id="logout-btn"
+              class="ml-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-button">
+        Sair
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= NAV ================= -->
+<nav class="bg-white border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 flex space-x-1">
+    <button id="tab-ofertas" class="tab-button px-6 py-4 bg-primary text-white rounded-button">
+      <i class="ri-briefcase-line mr-2"></i>Ofertas
+    </button>
+    <button id="tab-perfil" class="tab-button px-6 py-4 text-gray-600 hover:bg-blue-50 rounded-button">
+      <i class="ri-user-settings-line mr-2"></i>Meu Perfil
+    </button>
+    <button id="tab-gerenciar" class="tab-button px-6 py-4 text-gray-600 hover:bg-blue-50 rounded-button">
+      <i class="ri-folder-open-line mr-2"></i>Gerenciar
+    </button>
+    <button id="tab-avaliacoes" class="tab-button px-6 py-4 text-gray-600 hover:bg-blue-50 rounded-button">
+      <i class="ri-star-line mr-2"></i>Avaliações
+    </button>
+    <button id="tab-denuncias" class="tab-button px-6 py-4 text-gray-600 hover:bg-blue-50 rounded-button">
+      <i class="ri-alert-line mr-2"></i>Denúncias
+    </button>
+  </div>
+</nav>
+
+<!-- ================= MAIN ================= -->
+<main class="max-w-7xl mx-auto px-6 py-8">
+
+  <!-- ===== OFERTAS ===== -->
+  <section id="content-ofertas" class="tab-content">
+    <h2 class="text-2xl font-bold mb-4">Ofertas de Estágio</h2>
+    <div id="ofertas-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- ===== PERFIL ===== -->
+  <section id="content-perfil" class="tab-content hidden">
+    <h2 class="text-2xl font-bold mb-4">Meu Perfil</h2>
+    <form id="form-perfil" class="bg-white p-6 rounded-md shadow space-y-4">
+      <input class="w-full border p-2 rounded" placeholder="Nome">
+      <input class="w-full border p-2 rounded" placeholder="Email">
+      <input class="w-full border p-2 rounded" placeholder="Telefone">
+      <button class="bg-primary text-white px-4 py-2 rounded-button">Salvar</button>
+    </form>
+  </section>
+
+  <!-- ===== GERENCIAR ===== -->
+  <section id="content-gerenciar" class="tab-content hidden">
+    <h2 class="text-2xl font-bold mb-4">Gerenciar Estágios</h2>
+    <div id="gerenciar-ofertas-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- ===== AVALIAÇÕES ===== -->
+  <section id="content-avaliacoes" class="tab-content hidden">
+    <h2 class="text-2xl font-bold mb-4">Avaliações</h2>
+    <div id="avaliacoes-list"></div>
+  </section>
+
+  <!-- ===== DENÚNCIAS (BACKEND REAL) ===== -->
+  <section id="content-denuncias" class="tab-content hidden">
+    <h2 class="text-2xl font-bold mb-4">Denúncias</h2>
+    <div id="denuncias-list" class="space-y-4"></div>
+  </section>
+
+</main>
+
+<!-- ================= TOAST ================= -->
+<div id="toast"
+     class="fixed bottom-6 right-6 hidden bg-white border shadow-lg rounded-lg px-6 py-4 z-50">
+  <p id="toast-msg" class="text-sm font-medium"></p>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+  /* ===== TOAST ===== */
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.remove('hidden');
+    setTimeout(()=>t.classList.add('hidden'), 3000);
+  }
+
+  /* ===== DENÚNCIAS (FUSÃO PERFEITA) ===== */
+  const denunciasList = document.getElementById('denuncias-list');
+
+  async function carregarDenuncias(){
+    denunciasList.innerHTML = '<p class="text-gray-500">Carregando...</p>';
+
+    try{
+      const token = sessionStorage.getItem("token");
+
+      const res = await fetch('http://localhost:8081/denuncias/pendentes', {
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      });
+      const dados = await res.json();
+      denunciasList.innerHTML = '';
+
+      if(dados.length === 0){
+        denunciasList.innerHTML = '<p class="text-gray-500">Nenhuma denúncia.</p>';
+        return;
+      }
+
+      dados.forEach(d=>{
+        const div = document.createElement('div');
+        div.className = 'bg-white p-6 rounded-md border';
+
+        div.innerHTML = `
+        <h3 class="font-semibold">Aluno: ${d.aluno.nome}</h3>
+        <p class="text-sm text-gray-600">Empresa: ${d.estagio.empresa.nome}</p>
+        <p class="mt-2">${d.descricao}</p>
+        <div class="flex gap-3 mt-4">
+          <button class="manter bg-green-500 text-white px-4 py-2 rounded">Manter</button>
+          <button class="remover bg-red-500 text-white px-4 py-2 rounded">Remover</button>
+        </div>
+      `;
+
+        div.querySelector('.manter').onclick = async ()=>{
+          await fetch(`/denuncias/manter/${d.id}`, {method:'POST'});
+          showToast('Aluno mantido no estágio.');
+          carregarDenuncias();
+        };
+
+        div.querySelector('.remover').onclick = async ()=>{
+          await fetch(`/denuncias/remover/${d.id}`, {method:'POST'});
+          showToast('Aluno removido do estágio.');
+          carregarDenuncias();
+        };
+
+        denunciasList.appendChild(div);
+      });
+    }catch{
+      denunciasList.innerHTML = '<p class="text-red-500">Erro ao carregar denúncias.</p>';
+    }
+  }
+
+  /* ===== TABS ===== */
+  document.querySelectorAll('.tab-button').forEach(btn=>{
+    btn.onclick = ()=>{
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.add('hidden'));
+      document.getElementById(btn.id.replace('tab','content')).classList.remove('hidden');
+
+      if(btn.id === 'tab-denuncias'){
+        carregarDenuncias();
+      }
+    }
+  });
+
+  /* ===== LOGOUT ===== */
+  document.getElementById('logout-btn').onclick = ()=>{
+    fetch('/api/auth/logout',{method:'POST'}).finally(()=>{
+      location.href='login.html';
+    });
+  };
+</script>
+
+</body>
+</html>

@@ -2,13 +2,22 @@ package com.sige.service;
 
 import com.sige.dto.LoginRequest;
 import com.sige.model.EnumRole;
+import com.sige.model.ResetCode;
 import com.sige.model.Usuario;
+import com.sige.repository.ResetCodeRepository;
 import com.sige.repository.UsuarioRepository;
+import com.sige.config.JwtUtil;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -16,33 +25,37 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // ========================= LOGIN =========================
-    public Map<String, String> login(LoginRequest request) {
+    @Autowired
+    private ResetCodeRepository resetCodeRepository;
 
-        String identificador = request.getIdentificador();
-        String senhaDigitada = request.getSenha();
-        String tipo = request.getTipo();
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        if (identificador == null || senhaDigitada == null || tipo == null) {
+    @Autowired
+    private JavaMailSender mailSender;
+
+    // ==============================================
+    //                  LOGIN
+    // ==============================================
+    public Map<String, Object> login(LoginRequest request) {
+
+        if (request.getIdentificador() == null ||
+            request.getSenha() == null ||
+            request.getTipo() == null) {
+
             return Map.of(
                     "status", "error",
                     "message", "Preencha todos os campos!"
             );
         }
 
-        Usuario usuario = switch (tipo.toLowerCase()) {
-            case "aluno" -> {
-                List<Usuario> lista = usuarioRepository.findByMatricula(identificador);
-                yield lista.isEmpty() ? null : lista.get(0);
-            }
-            case "empresa" -> {
-                List<Usuario> lista = usuarioRepository.findByCnpj(identificador);
-                yield lista.isEmpty() ? null : lista.get(0);
-            }
-            case "coordenador" -> {
-                List<Usuario> lista = usuarioRepository.findByCpf(identificador);
-                yield lista.isEmpty() ? null : lista.get(0);
-            }
+        Usuario usuario = switch (request.getTipo().toLowerCase()) {
+            case "aluno" ->
+                    usuarioRepository.findByMatricula(request.getIdentificador()).orElse(null);
+            case "empresa" ->
+                    usuarioRepository.findByCnpj(request.getIdentificador()).orElse(null);
+            case "coordenador" ->
+                    usuarioRepository.findByCpf(request.getIdentificador()).orElse(null);
             default -> null;
         };
 
@@ -53,77 +66,196 @@ public class AuthService {
             );
         }
 
-        // LOGS DE DEPURAÇÃO
-        System.out.println("Senha digitada: " + senhaDigitada);
-        System.out.println("Senha no banco: " + usuario.getSenha());
-
-        // Comparação segura (evita NullPointerException)
-        if (usuario.getSenha() == null || !senhaDigitada.equals(usuario.getSenha())) {
+        if (!passwordEncoder.matches(request.getSenha(), usuario.getSenha())) {
             return Map.of(
                     "status", "error",
                     "message", "Senha incorreta!"
             );
         }
 
+        String token = JwtUtil.generateToken(usuario);
+
         return Map.of(
                 "status", "success",
                 "message", "Login bem-sucedido!",
+                "token", token,
                 "tipo", usuario.getTipo()
         );
     }
 
-    // ========================= REGISTRO =========================
-    public String registerUser(Usuario usuario) {
+    // ==============================================
+    //                  REGISTRO
+    // ==============================================
+    public Map<String, Object> registerUser(Usuario usuario) {
+
+        if (usuario.getTipo() == null ||
+            usuario.getSenha() == null ||
+            usuario.getSenha().isBlank()) {
+
+            return Map.of(
+                    "status", "error",
+                    "message", "Tipo e senha são obrigatórios!"
+            );
+        }
+
+        String tipo = usuario.getTipo().toLowerCase();
+
+        switch (tipo) {
+            case "empresa" -> {
+                if (usuario.getCnpj() == null || usuario.getCnpj().isBlank())
+                    return Map.of("status", "error", "message", "CNPJ obrigatório!");
+            }
+            case "aluno" -> {
+                if (usuario.getCpf() == null || usuario.getCpf().isBlank())
+                    return Map.of("status", "error", "message", "CPF obrigatório!");
+                if (usuario.getMatricula() == null || usuario.getMatricula().isBlank())
+                    usuario.setMatricula("A" + System.currentTimeMillis());
+            }
+            case "coordenador" -> {
+                if (usuario.getCpf() == null || usuario.getCpf().isBlank())
+                    return Map.of("status", "error", "message", "CPF obrigatório!");
+            }
+            default -> {
+                return Map.of("status", "error", "message", "Tipo inválido!");
+            }
+        }
+
+        usuario.setRole(
+                switch (tipo) {
+                    case "aluno" -> EnumRole.ALUNO;
+                    case "empresa" -> EnumRole.EMPRESA;
+                    case "coordenador" -> EnumRole.COORDENADOR;
+                    default -> EnumRole.ALUNO;
+                }
+        );
+
+        usuario.setTipo(tipo);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+
+        usuarioRepository.save(usuario);
+
+        return Map.of(
+                "status", "success",
+                "message", "Usuário cadastrado com sucesso!"
+        );
+    }
+
+    // ==============================================
+    //           ESQUECI MINHA SENHA
+    // ==============================================
+    public Map<String, Object> enviarCodigo(String email) {
+
+        Optional<Usuario> userOpt = usuarioRepository.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            return Map.of("status", "error", "message", "E-mail não cadastrado!");
+        }
+
+        resetCodeRepository.findAllByEmailAndUsadoFalse(email)
+                .forEach(rc -> {
+                    rc.setUsado(true);
+                    resetCodeRepository.save(rc);
+                });
+
+        String codigo = String.valueOf((int) (Math.random() * 900000) + 100000);
+
+        ResetCode rc = new ResetCode();
+        rc.setEmail(email);
+        rc.setCodigo(codigo);
+        rc.setExpiration(LocalDateTime.now().plusMinutes(10));
+        rc.setUsado(false);
+
+        resetCodeRepository.save(rc);
+        enviarEmail(email, codigo);
+
+        return Map.of(
+                "status", "success",
+                "message", "Código enviado para seu e-mail!"
+        );
+    }
+
+    public Map<String, Object> validarCodigo(String email, String codigo) {
+
+        Optional<ResetCode> rcOpt =
+                resetCodeRepository.findByEmailAndCodigoAndUsadoFalse(email, codigo);
+
+        if (rcOpt.isEmpty()) {
+            return Map.of("status", "error", "message", "Código inválido!");
+        }
+
+        if (rcOpt.get().getExpiration().isBefore(LocalDateTime.now())) {
+            return Map.of("status", "error", "message", "Código expirado!");
+        }
+
+        return Map.of("status", "success", "message", "Código válido!");
+    }
+
+    // ==============================================
+    //            RESETAR SENHA
+    // ==============================================
+    @Transactional
+    public Map<String, Object> resetarSenha(String email, String novaSenha, String codigo) {
+
+        Usuario user = usuarioRepository.findByEmail(email).orElse(null);
+        if (user == null) {
+            return Map.of("status", "error", "message", "Usuário não encontrado!");
+        }
+
+        ResetCode rc = resetCodeRepository
+                .findByEmailAndCodigoAndUsadoFalse(email, codigo)
+                .orElse(null);
+
+        if (rc == null || rc.getExpiration().isBefore(LocalDateTime.now())) {
+            return Map.of("status", "error", "message", "Código inválido ou expirado!");
+        }
+
+        if (passwordEncoder.matches(novaSenha, user.getSenha())) {
+            return Map.of(
+                    "status", "error",
+                    "message", "A nova senha não pode ser igual à atual!"
+            );
+        }
+
+        usuarioRepository.atualizarSenha(
+                email,
+                passwordEncoder.encode(novaSenha)
+        );
+
+        rc.setUsado(true);
+        resetCodeRepository.save(rc);
+
+        return Map.of(
+                "status", "success",
+                "message", "Senha redefinida com sucesso!"
+        );
+    }
+
+    // ==============================================
+    //              ENVIO DE EMAIL
+    // ==============================================
+    private void enviarEmail(String to, String codigo) {
         try {
-            if (usuario.getTipo() == null || usuario.getSenha() == null || usuario.getSenha().isBlank()) {
-                return "Erro: tipo e senha são obrigatórios!";
-            }
+            MimeMessage mime = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mime, true, "UTF-8");
 
-            String tipo = usuario.getTipo().toLowerCase();
+            helper.setTo(to);
+            helper.setSubject("SIGE - Recuperação de Senha");
 
-            switch (tipo) {
-                case "empresa" -> {
-                    if (usuario.getCnpj() == null || usuario.getCnpj().isBlank()) {
-                        return "Erro: CNPJ é obrigatório para empresas!";
-                    }
-                }
-                case "aluno" -> {
-                    if (usuario.getCpf() == null || usuario.getCpf().isBlank()) {
-                        return "Erro: CPF é obrigatório para alunos!";
-                    }
-                    if (usuario.getMatricula() == null || usuario.getMatricula().isBlank()) {
-                        usuario.setMatricula("A" + System.currentTimeMillis());
-                    }
-                }
-                case "coordenador" -> {
-                    if (usuario.getCpf() == null || usuario.getCpf().isBlank()) {
-                        return "Erro: CPF é obrigatório para coordenadores!";
-                    }
-                }
-                default -> {
-                    return "Erro: tipo de usuário inválido!";
-                }
-            }
+            String html = """
+                <html>
+                <body style="font-family:Arial;padding:20px">
+                    <h2>SIGE</h2>
+                    <p>Seu código de recuperação:</p>
+                    <h1>%s</h1>
+                    <p>Válido por 10 minutos.</p>
+                </body>
+                </html>
+            """.formatted(codigo);
 
-            EnumRole role = switch (tipo) {
-                case "aluno" -> EnumRole.ALUNO;
-                case "empresa" -> EnumRole.EMPRESA;
-                case "coordenador" -> EnumRole.COORDENADOR;
-                default -> EnumRole.ALUNO;
-            };
+            helper.setText(html, true);
+            mailSender.send(mime);
 
-            usuario.setRole(role);
-            usuario.setTipo(tipo);
-
-            // Senha em texto puro (sem encoder)
-            usuarioRepository.save(usuario);
-
-            return "Usuário cadastrado com sucesso!";
-
-        } catch (org.springframework.dao.DataIntegrityViolationException e) {
-            return "Erro: já existe um usuário com esses dados no sistema!";
         } catch (Exception e) {
-            return "Erro inesperado ao registrar usuário: " + e.getMessage();
+            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
         }
     }
 }

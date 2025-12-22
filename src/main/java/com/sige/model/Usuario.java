@@ -1,6 +1,13 @@
 package com.sige.model;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
+=======
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import java.util.Collection;
+import java.util.List;
+>>>>>>> origin/main
 
 @Entity
 @Table(name = "usuarios")
@@ -16,6 +23,7 @@ public class Usuario {
 
     @Column(nullable = false)
     private String nome;
+<<<<<<< HEAD
 
     private String cpf;
     private String cnpj;
@@ -96,3 +104,37 @@ public class Usuario {
     }
 
 }
+=======
+
+    // 🔹 CPF — obrigatório p/ aluno e coordenador
+    @Column(unique = true)
+    private String cpf;
+
+    // 🔹 CNPJ — obrigatório p/ empresa
+    @Column(unique = true)
+    private String cnpj;
+
+    // 🔹 Matrícula — gerada automaticamente p/ aluno
+    @Column(unique = true)
+    private String matricula;
+
+    @Column(unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String senha;
+
+    private String endereco;
+
+    @Column(nullable = false)
+    private String tipo; // aluno, empresa, coordenador
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EnumRole role;
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> role.name());
+    }
+}
+>>>>>>> origin/main

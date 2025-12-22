@@ -2,35 +2,59 @@ package com.sige.controller;
 
 import com.sige.dto.HistoricoDTO;
 import com.sige.model.Estagio;
+import com.sige.model.Usuario;
 import com.sige.service.EstagioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sige.repository.UsuarioRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/estagios") // ✅ corrigido para bater com o fetch do HTML
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/estagios")
 public class EstagioController {
 
-    @Autowired
-    private EstagioService estagioService;
+    private final EstagioService estagioService;
+    private final UsuarioRepository usuarioRepository;
 
-    // Listar histórico de estágios de um aluno
+    public EstagioController(
+            EstagioService estagioService,
+            UsuarioRepository usuarioRepository
+    ) {
+        this.estagioService = estagioService;
+        this.usuarioRepository = usuarioRepository;
+    }
+
+    // ========================= HISTÓRICO DO ALUNO =========================
     @GetMapping("/historico/{alunoId}")
     public List<HistoricoDTO> listarHistorico(@PathVariable Long alunoId) {
         List<Estagio> estagios = estagioService.listarHistorico(alunoId);
 
-        // Converte cada Estagio em HistoricoDTO
         return estagios.stream()
                 .map(HistoricoDTO::new)
                 .collect(Collectors.toList());
     }
 
-    // Acompanhar estágio específico
+    // ========================= ACOMPANHAR ESTÁGIO =========================
     @GetMapping("/{estagioId}")
     public Estagio acompanharEstagio(@PathVariable Long estagioId) {
         return estagioService.acompanharEstagio(estagioId);
+    }
+
+    // ========================= ESTÁGIO ATIVO DO ALUNO LOGADO =========================
+    @GetMapping("/meu")
+    public List<Estagio> meuEstagio() {
+
+        String principal = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Usuario aluno = usuarioRepository.findByPrincipal(principal)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+
+        return estagioService.buscarAtivosPorAluno(aluno.getId());
     }
 }
