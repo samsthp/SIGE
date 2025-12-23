@@ -124,8 +124,6 @@
 
 <!-- ================= SCRIPT ================= -->
 <script>
-  const API_BASE = "http://localhost:8081";
-
   /* ===== TOAST ===== */
   function showToast(msg){
     const t = document.getElementById('toast');
@@ -134,7 +132,7 @@
     setTimeout(()=>t.classList.add('hidden'), 3000);
   }
 
-  /* ===== DENÚNCIAS ===== */
+  /* ===== DENÚNCIAS (FUSÃO PERFEITA) ===== */
   const denunciasList = document.getElementById('denuncias-list');
 
   async function carregarDenuncias(){
@@ -143,32 +141,16 @@
     try{
       const token = sessionStorage.getItem("token");
 
-      if(!token){
-        denunciasList.innerHTML =
-                '<p class="text-red-500">Usuário não autenticado.</p>';
-        return;
-      }
-
-      const res = await fetch(`${API_BASE}/denuncias/pendentes`, {
+      const res = await fetch('http://localhost:8081/denuncias/pendentes', {
         headers: {
           "Authorization": "Bearer " + token
         }
       });
-
-      if(!res.ok){
-        const erro = await res.text();
-        console.error("Erro backend:", erro);
-        denunciasList.innerHTML =
-                '<p class="text-red-500">Erro ao buscar denúncias.</p>';
-        return;
-      }
-
       const dados = await res.json();
       denunciasList.innerHTML = '';
 
-      if(!Array.isArray(dados) || dados.length === 0){
-        denunciasList.innerHTML =
-                '<p class="text-gray-500">Nenhuma denúncia.</p>';
+      if(dados.length === 0){
+        denunciasList.innerHTML = '<p class="text-gray-500">Nenhuma denúncia.</p>';
         return;
       }
 
@@ -177,70 +159,39 @@
         div.className = 'bg-white p-6 rounded-md border';
 
         div.innerHTML = `
-          <h3 class="font-semibold">Aluno: ${d.aluno.nome}</h3>
-          <p class="text-sm text-gray-600">
-            Empresa: ${d.estagio.empresa.nome}
-          </p>
-          <p class="mt-2">${d.descricao}</p>
-
-          <div class="flex gap-3 mt-4">
-            <button class="manter bg-green-500 text-white px-4 py-2 rounded">
-              Manter
-            </button>
-            <button class="remover bg-red-500 text-white px-4 py-2 rounded">
-              Remover
-            </button>
-          </div>
-        `;
+        <h3 class="font-semibold">Aluno: ${d.aluno.nome}</h3>
+        <p class="text-sm text-gray-600">Empresa: ${d.estagio.empresa.nome}</p>
+        <p class="mt-2">${d.descricao}</p>
+        <div class="flex gap-3 mt-4">
+          <button class="manter bg-green-500 text-white px-4 py-2 rounded">Manter</button>
+          <button class="remover bg-red-500 text-white px-4 py-2 rounded">Remover</button>
+        </div>
+      `;
 
         div.querySelector('.manter').onclick = async ()=>{
-          await acaoDenuncia(`${API_BASE}/denuncias/manter/${d.id}`);
+          await fetch(`/denuncias/manter/${d.id}`, {method:'POST'});
           showToast('Aluno mantido no estágio.');
           carregarDenuncias();
         };
 
         div.querySelector('.remover').onclick = async ()=>{
-          await acaoDenuncia(`${API_BASE}/denuncias/remover/${d.id}`);
+          await fetch(`/denuncias/remover/${d.id}`, {method:'POST'});
           showToast('Aluno removido do estágio.');
           carregarDenuncias();
         };
 
         denunciasList.appendChild(div);
       });
-
-    }catch(e){
-      console.error(e);
-      denunciasList.innerHTML =
-              '<p class="text-red-500">Erro ao carregar denúncias.</p>';
-    }
-  }
-
-  async function acaoDenuncia(url){
-    const token = sessionStorage.getItem("token");
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        "Authorization": "Bearer " + token
-      }
-    });
-
-    if(!res.ok){
-      const erro = await res.text();
-      console.error("Erro ação denúncia:", erro);
-      alert("Erro ao processar denúncia.");
+    }catch{
+      denunciasList.innerHTML = '<p class="text-red-500">Erro ao carregar denúncias.</p>';
     }
   }
 
   /* ===== TABS ===== */
   document.querySelectorAll('.tab-button').forEach(btn=>{
     btn.onclick = ()=>{
-      document.querySelectorAll('.tab-content')
-              .forEach(c=>c.classList.add('hidden'));
-
-      document
-              .getElementById(btn.id.replace('tab','content'))
-              .classList.remove('hidden');
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.add('hidden'));
+      document.getElementById(btn.id.replace('tab','content')).classList.remove('hidden');
 
       if(btn.id === 'tab-denuncias'){
         carregarDenuncias();
@@ -250,8 +201,9 @@
 
   /* ===== LOGOUT ===== */
   document.getElementById('logout-btn').onclick = ()=>{
-    sessionStorage.clear();
-    location.href='login.html';
+    fetch('/api/auth/logout',{method:'POST'}).finally(()=>{
+      location.href='login.html';
+    });
   };
 </script>
 

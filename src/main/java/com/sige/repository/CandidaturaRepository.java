@@ -6,26 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CandidaturaRepository extends JpaRepository<Candidatura, Long> {
 
-    // Por VAGA
+    // ✅ Por VAGA
     List<Candidatura> findByVagaId(Long vagaId);
 
     long countByVagaId(Long vagaId);
 
-    // Por ALUNO
+    // ✅ Por ALUNO
     List<Candidatura> findByAlunoId(Long alunoId);
 
-    // Por STATUS
+    // ✅ Por STATUS
     List<Candidatura> findByStatus(StatusCandidatura status);
-
-    // 🔥 ESSENCIAL: candidatura ativa do aluno na vaga
-    Optional<Candidatura> findByAlunoIdAndVagaIdAndStatus(
-            Long alunoId,
-            Long vagaId,
-            StatusCandidatura status
-    );
 }

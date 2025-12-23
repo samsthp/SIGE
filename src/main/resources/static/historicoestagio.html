@@ -67,15 +67,47 @@
   </div>
 
   <script>
-    const alunoId = 1; // Substitua pelo ID do aluno logado
-    let todosEstagios = []; // Guarda todos os dados
+    // Dados simulados para o aluno
+    const todosEstagios = [
+      {
+        empresa: "Empresa A",
+        periodo: "Jan 2025 - Jun 2025",
+        atividades: "Aprender a desenvolver sistemas internos",
+        tarefas: "Documentar processos, implementar funcionalidades",
+        avaliacao: "Excelente",
+        horas_cumpridas: 200,
+        documentos: "Aprovados",
+        status: "ATIVO",
+        status_geral: "Em dia",
+        situacao_final: "Concluído"
+      },
+      {
+        empresa: "Empresa B",
+        periodo: "Jul 2025 - Dez 2025",
+        atividades: "Estudar processos administrativos",
+        tarefas: "Organizar planilhas, auxiliar equipe",
+        avaliacao: "Bom",
+        horas_cumpridas: 150,
+        documentos: "Pendentes",
+        status: "ATIVO",
+        status_geral: "Atenção",
+        situacao_final: "Em andamento"
+      },
+      {
+        empresa: "Empresa C",
+        periodo: "Jan 2024 - Dez 2024",
+        atividades: "Simulação de atendimento ao cliente",
+        tarefas: "Registrar feedbacks, criar relatórios",
+        avaliacao: "Regular",
+        horas_cumpridas: 180,
+        documentos: "Aprovados",
+        status: "FINALIZADO",
+        status_geral: "Em dia",
+        situacao_final: "Concluído"
+      }
+    ];
 
-    function corDocumento(doc) {
-      if(doc === 'Aprovados') return 'text-green-700';
-      if(doc === 'Pendentes') return 'text-yellow-600';
-      return '';
-    }
-
+    // Funções de cores
     function corStatus(status) {
       if(status === 'Em dia') return 'text-green-700';
       if(status === 'Atenção') return 'text-yellow-600';
@@ -90,15 +122,15 @@
       return '';
     }
 
-    // Função para atualizar a tabela
+    // Atualiza a tabela
     function atualizarTabela(estagios) {
       const body = document.getElementById("historico-body");
-      body.innerHTML = ""; // limpa tabela
+      body.innerHTML = "";
 
       let totalHoras = 0;
 
       estagios.forEach(estagio => {
-        totalHoras += estagio.horasCumpridas || 0;
+        totalHoras += estagio.horas_cumpridas || 0;
 
         body.innerHTML += `
           <tr class="hover:bg-blue-50">
@@ -106,11 +138,11 @@
             <td class="border px-2 py-2">${estagio.periodo}</td>
             <td class="border px-2 py-2">${estagio.atividades}</td>
             <td class="border px-2 py-2">${estagio.tarefas}</td>
-            <td class="border px-2 py-2">${estagio.avaliacao || ''}</td>
-            <td class="border px-2 py-2 text-center">${estagio.horasCumpridas || 0}h</td>
-            <td class="border px-2 py-2 font-semibold ${corDocumento(estagio.documentos)}">${estagio.documentos || ''}</td>
-            <td class="border px-2 py-2 font-semibold ${corStatus(estagio.statusGeral)}">${estagio.statusGeral || ''}</td>
-            <td class="border px-2 py-2 font-semibold ${corSituacao(estagio.situacaoFinal)}">${estagio.situacaoFinal || ''}</td>
+            <td class="border px-2 py-2">${estagio.avaliacao}</td>
+            <td class="border px-2 py-2 text-center">${estagio.horas_cumpridas}h</td>
+            <td class="border px-2 py-2 font-semibold">${estagio.documentos}</td>
+            <td class="border px-2 py-2 font-semibold ${corStatus(estagio.status_geral)}">${estagio.status_geral}</td>
+            <td class="border px-2 py-2 font-semibold ${corSituacao(estagio.situacao_final)}">${estagio.situacao_final}</td>
           </tr>
         `;
       });
@@ -118,29 +150,17 @@
       document.getElementById("total-horas").textContent = totalHoras + 'h';
     }
 
-    // Busca os dados do backend
-    fetch(`/api/estagios/historico/${alunoId}`)
-      .then(response => {
-        if (!response.ok) throw new Error('Erro ao carregar histórico');
-        return response.json();
-      })
-      .then(dados => {
-        todosEstagios = dados;           // guarda todos
-        atualizarTabela(todosEstagios);  // mostra na tabela
-      })
-      .catch(err => {
-        console.error(err);
-        alert('Não foi possível carregar o histórico do aluno.');
-      });
+    // Inicializa a tabela com dados simulados
+    atualizarTabela(todosEstagios);
 
     // Evento do filtro
     document.getElementById("filtroSituacao").addEventListener("change", (e) => {
       const situacao = e.target.value;
       if (!situacao) {
-        atualizarTabela(todosEstagios); // mostra todos
+        atualizarTabela(todosEstagios);
       } else {
-        const filtrados = todosEstagios.filter(est => est.situacaoFinal === situacao);
-        atualizarTabela(filtrados);     // mostra apenas filtrados
+        const filtrados = todosEstagios.filter(est => est.situacao_final === situacao);
+        atualizarTabela(filtrados);
       }
     });
   </script>

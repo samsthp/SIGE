@@ -26,13 +26,6 @@ public class EstagioService {
                 .orElseThrow(() -> new RuntimeException("Estágio não encontrado"));
     }
 
-    // Verifica se o aluno tem estágio ATIVO
-    public boolean temEstagioAtivo(Long alunoId) {
-        return !estagioRepository
-                .findByAluno_IdAndStatus(alunoId, "ATIVO")
-                .isEmpty();
-    }
-
     // Estágios ATIVOS do aluno
     public List<Estagio> buscarAtivosPorAluno(Long alunoId) {
         return estagioRepository.findByAluno_IdAndStatus(alunoId, "ATIVO");

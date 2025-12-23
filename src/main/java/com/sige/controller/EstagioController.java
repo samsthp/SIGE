@@ -39,22 +39,6 @@ public class EstagioController {
                 .collect(Collectors.toList());
     }
 
-    // ========================= TEM ESTÁGIO ATIVO? (BOOLEAN) =========================
-    @GetMapping("/ativo")
-    public boolean temEstagioAtivo() {
-
-        String principal = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
-
-        Usuario aluno = usuarioRepository.findByPrincipal(principal)
-                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
-
-        return estagioService.temEstagioAtivo(aluno.getId());
-    }
-
-
     // ========================= ACOMPANHAR ESTÁGIO =========================
     @GetMapping("/{estagioId}")
     public Estagio acompanharEstagio(@PathVariable Long estagioId) {

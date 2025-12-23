@@ -1,44 +1,22 @@
 package com.sige.dto;
 
 import com.sige.model.Estagio;
-import com.sige.model.Usuario;
 
 public class HistoricoDTO {
-
-    private String empresaNome;
-    private String empresaEmail;
-
+    private String empresa;
+    private String tituloVaga;
     private String status;
-    private String dataInicio;
 
-    // Construtor que recebe um Estagio
     public HistoricoDTO(Estagio estagio) {
-
-        Usuario empresa = estagio.getEmpresa();
-        if (empresa != null) {
-            this.empresaNome = empresa.getNome();
-            this.empresaEmail = empresa.getEmail();
-        }
-
-        this.status = estagio.getStatus();
-        this.dataInicio = estagio.getDataInicio() != null
-                ? estagio.getDataInicio().toString()
-                : null;
+        this.empresa = estagio.getVaga() != null && estagio.getVaga().getEmpresa() != null
+                ? estagio.getVaga().getEmpresa().getNome()
+                : "Indefinido";
+        this.tituloVaga = estagio.getVaga() != null ? estagio.getVaga().getTitulo() : "Indefinido";
+        this.status = estagio.getStatus() != null ? estagio.getStatus() : "Indefinido";
     }
 
-    public String getEmpresaNome() {
-        return empresaNome;
-    }
-
-    public String getEmpresaEmail() {
-        return empresaEmail;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getDataInicio() {
-        return dataInicio;
-    }
+    // Getters e setters
+    public String getEmpresa() { return empresa; }
+    public String getTituloVaga() { return tituloVaga; }
+    public String getStatus() { return status; }
 }
