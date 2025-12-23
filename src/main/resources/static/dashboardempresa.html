@@ -3,198 +3,260 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIGE - Dashboard Empresa</title>
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonte + Ícones -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#3b82f6', secondary: '#1e40af' },
-                    borderRadius: { 'button': '8px' }
-                }
-            }
-        }
-    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50 min-h-screen">
+<!-- HEADER -->
+<header class="bg-white shadow border-b">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+        <div>
+            <h1 class="font-['Pacifico'] text-4xl text-blue-500">SIGE</h1>
+            <p class="text-gray-600">Sistema Integrado de Gestão de Estágio</p>
+        </div>
 
-    <div class="w-full">
-        <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
-                <div>
-                    <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-                    <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
-                        <i class="ri-building-line text-lg"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">TechCorp Solutions</p>
-                        <p class="text-xs text-gray-500">Empresa</p>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <nav class="bg-white border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="flex space-x-1">
-                    <button id="tab-ofertas"
-                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap bg-primary text-white">
-                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
-                                class="ri-briefcase-line"></i></div>Minhas Ofertas
-                    </button>
-                    <button id="tab-perfil"
-                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
-                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
-                                class="ri-user-settings-line"></i></div>Meu Perfil
-                    </button>
-                    <button id="tab-gerenciar"
-                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
-                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"><i
-                                class="ri-settings-4-line"></i></div>Gerenciar Ofertas
-                    </button>
-                </div>
-            </div>
-        </nav>
-
-        <main class="max-w-7xl mx-auto px-6 py-8">
-
-            <!-- Minhas Ofertas -->
-            <div id="content-ofertas" class="tab-content">
-                <div class="mb-6 flex justify-between items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Minhas Ofertas de Estágio</h2>
-                        <p class="text-gray-600">Gerencie suas vagas e acompanhe inscrições de candidatos</p>
-                    </div>
-                    <div class="flex gap-3">
-                        <button id="btn-adicionar-oferta"
-                            class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Adicionar
-                            Oferta</button>
-                        <button onclick="window.location.href='cadastrovaga.html'"
-                            class="bg-primary text-white px-4 py-2 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Criar
-                            Nova Vaga</button>
-                    </div>
-                </div>
-                <div id="ofertas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <!-- Empresa logada -->
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 text-gray-700 font-semibold">
+                <i class="ri-building-line text-xl"></i>
+                <span id="nomeEmpresa">Empresa</span>
             </div>
 
-            <!-- Meu Perfil -->
-            <div id="content-perfil" class="tab-content hidden">
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Meu Perfil</h2>
-                    <p class="text-gray-600">Atualize suas informações</p>
-                </div>
-                <div class="bg-white rounded-md shadow-sm border border-gray-200 p-8">
-                    <form class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Nome da Empresa</label>
-                                <input type="text" value="TechCorp Solutions"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">E-mail</label>
-                                <input type="email" value="contato@techcorp.com.br"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
-                                <input type="tel" value="(11) 3456-7890"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
-                                <input type="text" value="Av. das Empresas, 500 - São Paulo/SP"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Salvar
-                                Alterações</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Gerenciar Ofertas -->
-            <div id="content-gerenciar" class="tab-content hidden">
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Gerenciar Ofertas</h2>
-                    <p class="text-gray-600">Veja os candidatos inscritos, aceite ou recuse inscrições</p>
-                </div>
-                <div id="gerenciar-ofertas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            </div>
-
-        </main>
+            <button onclick="logout()"
+                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
+                <i class="ri-logout-box-r-line"></i> Sair
+            </button>
+        </div>
     </div>
+</header>
 
-    <script>
-        const formNovaVaga = document.getElementById('btn-adicionar-oferta');
+<!-- NAV -->
+<nav class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex gap-3 flex-wrap">
+        <button onclick="mostrar('ofertas')" class="tab-btn bg-blue-500 text-white px-5 py-2 rounded-md">
+            <i class="ri-briefcase-line"></i> Minhas Ofertas
+        </button>
 
-        // Ao clicar no botão "Adicionar Oferta"
-        formNovaVaga.addEventListener('click', () => {
-            const titulo = prompt("Digite o título da vaga:");
-            const descricao = prompt("Digite a descrição da vaga:");
-            const local = prompt("Digite o local da vaga:");
-            const salario = prompt("Digite o salário (opcional):");
+        <button onclick="mostrar('gerenciar')" class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100">
+            <i class="ri-file-list-line"></i> Candidaturas
+        </button>
 
-            // Cria objeto
-            const vaga = { titulo, descricao, local, salario };
+        <button onclick="mostrar('funcionarios')" class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100">
+            <i class="ri-team-line"></i> Funcionários do Sistema
+        </button>
 
-            // Faz requisição para o backend
-            fetch('/vagas/publicar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(vaga)
-            })
-                .then(res => res.text())
-                .then(msg => {
-                    alert(msg);
-                    // Atualiza a lista de vagas chamando o backend novamente ou recarregando a página
-                    carregarVagas();
-                })
-                .catch(err => console.error(err));
+        <button onclick="mostrar('perfil')" class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100">
+            <i class="ri-settings-3-line"></i> Editar Perfil
+        </button>
+    </div>
+</nav>
+
+<!-- MAIN -->
+<main class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- VAGAS -->
+    <section id="ofertas">
+        <h2 class="text-2xl font-bold mb-6">Minhas Vagas</h2>
+        <div id="listaVagas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- CANDIDATURAS -->
+    <section id="gerenciar" class="hidden">
+        <h2 class="text-2xl font-bold mb-6">Candidaturas</h2>
+        <div id="listaCandidaturas" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- FUNCIONÁRIOS -->
+    <section id="funcionarios" class="hidden">
+        <h2 class="text-2xl font-bold mb-6">Funcionários do Sistema</h2>
+        <div id="listaFuncionarios" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- PERFIL -->
+    <section id="perfil" class="hidden">
+        <h2 class="text-2xl font-bold mb-6">Editar Perfil da Empresa</h2>
+
+        <div class="bg-white p-6 rounded-xl shadow max-w-xl">
+            <p class="text-gray-600 mb-4">
+                <i class="ri-information-line"></i>
+                Em breve você poderá editar os dados da empresa aqui.
+            </p>
+
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-not-allowed opacity-60">
+                Salvar Alterações
+            </button>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    /* =====================
+       UTIL
+    ===================== */
+    function getToken() {
+        return sessionStorage.getItem("token");
+    }
+
+    function logout() {
+        sessionStorage.clear();
+        window.location.href = "login.html";
+    }
+
+    function mostrar(id) {
+        ["ofertas", "gerenciar", "funcionarios", "perfil"].forEach(sec => {
+            document.getElementById(sec).classList.add("hidden");
         });
 
-        // Função para carregar vagas do banco de dados
-        function carregarVagas() {
-            fetch('/vagas/listar')
-                .then(res => res.json())
-                .then(data => {
-                    const grid = document.getElementById('ofertas-grid');
-                    grid.innerHTML = '';
-                    data.forEach((vaga, index) => {
-                        const card = document.createElement('div');
-                        card.className = "bg-white rounded-md shadow-sm border border-gray-200 p-6 hover:shadow-md transition";
-                        card.innerHTML = `
-            <div class="flex justify-between items-start">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800">${vaga.titulo}</h3>
-                <p class="text-sm text-gray-500 mb-2">${vaga.local}</p>
-                <p class="text-gray-600 text-sm">${vaga.descricao}</p>
-              </div>
-            </div>
-          `;
-                        grid.appendChild(card);
-                    });
-                });
+        document.getElementById(id).classList.remove("hidden");
+
+        if (id === "funcionarios") carregarFuncionarios();
+    }
+
+    /* =====================
+       EMPRESA LOGADA
+    ===================== */
+    async function carregarEmpresa() {
+        const res = await fetch("http://localhost:8081/empresas/me", {
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
+
+        if (res.ok) {
+            const empresa = await res.json();
+            document.getElementById("nomeEmpresa").innerText = empresa.nome;
+        }
+    }
+
+    /* =====================
+       VAGAS
+    ===================== */
+    async function carregarVagas() {
+        const res = await fetch("http://localhost:8081/vagas/minhas", {
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
+
+        const vagas = await res.json();
+        const lista = document.getElementById("listaVagas");
+        lista.innerHTML = "";
+
+        vagas.forEach(v => {
+            const card = document.createElement("div");
+            card.className = "bg-white p-6 rounded-xl shadow hover:shadow-lg transition";
+
+            card.innerHTML =
+                "<h3 class='font-semibold text-lg flex items-center gap-2'>" +
+                "<i class='ri-building-line text-blue-500'></i>" +
+                v.titulo +
+                "</h3>" +
+                "<button class='mt-3 text-blue-500 hover:underline' onclick='verCandidaturas(" + v.id + ")'>" +
+                "<i class='ri-eye-line'></i> Ver candidatos</button>";
+
+            lista.appendChild(card);
+        });
+    }
+
+    /* =====================
+       CANDIDATURAS
+    ===================== */
+    async function verCandidaturas(vagaId) {
+        mostrar("gerenciar");
+
+        const res = await fetch(
+            "http://localhost:8081/candidaturas/vaga/" + vagaId,
+            { headers: { "Authorization": "Bearer " + getToken() } }
+        );
+
+        const dados = await res.json();
+        const lista = document.getElementById("listaCandidaturas");
+        lista.innerHTML = "";
+
+        dados.forEach(c => {
+            const card = document.createElement("div");
+            card.className = "bg-white p-6 rounded-xl shadow";
+
+            card.innerHTML =
+                "<p class='font-semibold'><i class='ri-user-line'></i> " + c.alunoNome + "</p>" +
+                "<button class='mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600' " +
+                "onclick='aceitar(" + c.id + ")'>" +
+                "<i class='ri-check-line'></i> Aceitar</button>";
+
+            lista.appendChild(card);
+        });
+    }
+
+    async function aceitar(id) {
+        await fetch("http://localhost:8081/candidaturas/aceitar/" + id, {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
+
+        alert("Candidatura aceita!");
+        mostrar("funcionarios");
+    }
+
+    /* =====================
+       FUNCIONÁRIOS
+    ===================== */
+    async function carregarFuncionarios() {
+        const res = await fetch("http://localhost:8081/estagios/empresa", {
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
+
+        const dados = await res.json();
+        const lista = document.getElementById("listaFuncionarios");
+        lista.innerHTML = "";
+
+        if (dados.length === 0) {
+            lista.innerHTML = "<p class='text-gray-500'>Nenhum funcionário ativo.</p>";
+            return;
         }
 
-        // Carrega vagas ao iniciar
+        dados.forEach(e => {
+            const card = document.createElement("div");
+            card.className = "bg-white p-6 rounded-xl shadow hover:shadow-lg transition";
+
+            card.innerHTML =
+                "<h3 class='font-semibold text-lg'><i class='ri-user-star-line'></i> " + e.aluno.nome + "</h3>" +
+                "<p class='text-sm text-gray-600'><i class='ri-briefcase-line'></i> " + e.vaga.titulo + "</p>" +
+                "<p class='text-green-600 font-semibold mt-2'><i class='ri-checkbox-circle-line'></i> ATIVO</p>" +
+                "<div class='flex gap-3 mt-4'>" +
+                "<button class='bg-gray-200 px-3 py-2 rounded-md'><i class='ri-time-line'></i> Horas Trabalhadas</button>" +
+                "<button class='bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600' " +
+                "onclick='concluirEstagio(" + e.id + ")'>" +
+                "<i class='ri-flag-line'></i> Concluir Estágio</button>" +
+                "</div>";
+
+            lista.appendChild(card);
+        });
+    }
+
+    async function concluirEstagio(id) {
+        if (!confirm("Deseja concluir este estágio?")) return;
+
+        await fetch("http://localhost:8081/api/estagios/concluir/" + id, {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
+
+        alert("Estágio concluído!");
+        carregarFuncionarios();
+    }
+
+    /* =====================
+       INIT
+    ===================== */
+    document.addEventListener("DOMContentLoaded", () => {
+        carregarEmpresa();
         carregarVagas();
-    </script>
-
-
+    });
+</script>
 </body>
 </html>

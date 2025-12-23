@@ -1,361 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cadastro de Empresa - SIGE</title>
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
-    />
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#3b82f6",
-              secondary: "#1e40af",
-            },
-            borderRadius: {
-              button: "8px",
-            },
-          },
-        },
-      };
-    </script>
-  </head>
-  <body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-    <div class="min-h-screen py-8 px-4">
-      <div class="max-w-2xl mx-auto">
-        <div class="mb-8">
-          <div class="flex items-center justify-between mb-6">
-            <a
-              href="login.html"
-              class="flex items-center text-gray-600 hover:text-primary transition-colors duration-200"
-            >
-              <div class="w-8 h-8 flex items-center justify-center mr-2">
-                <i class="ri-arrow-left-line text-lg"></i>
-              </div>
-              <span class="text-sm font-medium">Voltar ao Login</span>
-            </a>
-          </div>
 
-          <div class="text-center">
-            <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-            <p class="text-gray-600 text-lg font-medium mb-6">
-              Sistema Integrado de Gestão de Estágio
-            </p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Empresa - SIGE</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+</head>
 
-            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-              <h2 class="text-2xl font-bold text-gray-800 mb-2">
-                Cadastro de Empresa
-              </h2>
-              <p class="text-gray-600 mb-8">
-                Registre sua empresa para participar do sistema de estágios
-              </p>
+<body class="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 flex items-center justify-center">
 
-              <form class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="md:col-span-2">
-                    <label
-                      for="nome"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Nome da Empresa</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-building-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                        placeholder="Digite o nome da empresa"
-                        required
-                      />
-                    </div>
-                  </div>
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-2xl">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center font-['Pacifico']">Cadastro de Empresa</h2>
 
-                  <div>
-                    <label
-                      for="cnpj"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >CNPJ</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-id-card-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="text"
-                        id="cnpj"
-                        name="cnpj"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                        placeholder="00.000.000/0000-00"
-                        maxlength="18"
-                        required
-                      />
-                    </div>
-                  </div>
+    <form method="POST" action="/cadastro/empresa/finalizar">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                  <div>
-                    <label
-                      for="telefone"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Telefone</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-phone-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="text"
-                        id="telefone"
-                        name="telefone"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                        placeholder="(00) 00000-0000"
-                        maxlength="15"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div class="md:col-span-2">
-                    <label
-                      for="endereco"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >Endereço</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-map-pin-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="text"
-                        id="endereco"
-                        name="endereco"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                        placeholder="Rua, número, bairro, cidade"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div class="md:col-span-2">
-                    <label
-                      for="email"
-                      class="block text-sm font-medium text-gray-700 mb-2"
-                      >E-mail Corporativo</label
-                    >
-                    <div class="relative">
-                      <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                      >
-                        <i class="ri-mail-line text-gray-400 text-sm"></i>
-                      </div>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                        placeholder="contato@empresa.com.br"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="border-t border-gray-200 pt-6">
-                  <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                    Credenciais de Acesso
-                  </h3>
-                  <div class="space-y-4">
-                    <div>
-                      <label
-                        for="senha"
-                        class="block text-sm font-medium text-gray-700 mb-2"
-                        >Senha</label
-                      >
-                      <div class="relative">
-                        <div
-                          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                        >
-                          <i class="ri-lock-line text-gray-400 text-sm"></i>
-                        </div>
-                        <input
-                          type="password"
-                          id="senha"
-                          name="senha"
-                          class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                          placeholder="Digite sua senha"
-                          required
-                        />
-                        <button
-                          type="button"
-                          class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                          id="toggleSenha"
-                        >
-                          <i class="ri-eye-line text-gray-400 text-sm"></i>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label
-                        for="confirmarSenha"
-                        class="block text-sm font-medium text-gray-700 mb-2"
-                        >Confirmar Senha</label
-                      >
-                      <div class="relative">
-                        <div
-                          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                        >
-                          <i class="ri-lock-line text-gray-400 text-sm"></i>
-                        </div>
-                        <input
-                          type="password"
-                          id="confirmarSenha"
-                          name="confirmarSenha"
-                          class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-                          placeholder="Confirme sua senha"
-                          required
-                        />
-                        <button
-                          type="button"
-                          class="absolute inset-y-0 right-0 pr-3 flex items-center"
-                          id="toggleConfirmarSenha"
-                        >
-                          <i class="ri-eye-line text-gray-400 text-sm"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-4">
-                  <button
-                    type="button"
-                    class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-4 rounded-button transition-colors duration-200"
-                    id="limparForm"
-                  >
-                    Limpar Formulário
-                  </button>
-                  <button
-                    type="submit"
-                    class="flex-1 bg-primary hover:bg-secondary text-white font-medium py-3 px-4 rounded-button transition-colors duration-200"
-                    id="finalizarCadastro"
-                  >
-                    Finalizar Cadastro
-                  </button>
-                </div>
-
-                <div class="text-center pt-4 border-t border-gray-200">
-                  <p class="text-sm text-gray-600">
-                    Já possui uma conta?
-                    <a
-                      href="login.html"
-                      class="text-primary hover:text-secondary transition-colors duration-200"
-                      >Fazer login</a
-                    >
-                  </p>
-                </div>
-              </form>
-            </div>
-          </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Nome da Empresa</label>
+          <input type="text" name="nome" class="w-full p-3 border rounded-lg" required>
         </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">CNPJ</label>
+          <input type="text" id="cnpj" name="cnpj" class="w-full p-3 border rounded-lg" maxlength="18" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input type="email" name="email" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+          <input type="tel" id="telefone" name="telefone" class="w-full p-3 border rounded-lg" maxlength="15" required>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
+          <input type="text" name="endereco" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+          <input type="password" name="senha" class="w-full p-3 border rounded-lg" required>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Senha</label>
+          <input type="password" name="confirmarSenha" class="w-full p-3 border rounded-lg" required>
+        </div>
+
       </div>
 
-      <footer class="mt-12 text-center text-sm text-gray-500">
-        <p>
-          &copy; 2025 SIGE - Sistema Integrado de Gestão de Estágio. Todos os
-          direitos reservados.
-        </p>
-        <p class="mt-1">Versão 2.1.0</p>
-      </footer>
-    </div>
+      <div class="mt-6 flex justify-end">
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg">
+          Finalizar Cadastro
+        </button>
+      </div>
+    </form>
+  </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const cnpjInput = document.getElementById("cnpj");
-        const telInput = document.getElementById("telefone");
+  <script>
+    // Máscara de CNPJ
+    const cnpjInput = document.getElementById("cnpj");
+    cnpjInput.addEventListener("input", e => {
+      let v = e.target.value.replace(/\D/g, "");
+      v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+      v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+      v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+      v = v.replace(/(\d{4})(\d)/, "$1-$2");
+      e.target.value = v.slice(0, 18);
+    });
 
-        cnpjInput.addEventListener("input", function (e) {
-          let v = e.target.value.replace(/\D/g, "");
-          v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-          v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-          v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-          v = v.replace(/(\d{4})(\d)/, "$1-$2");
-          e.target.value = v.slice(0, 18);
-        });
+    // Máscara de telefone
+    const telInput = document.getElementById("telefone");
+    telInput.addEventListener("input", e => {
+      let v = e.target.value.replace(/\D/g, "");
+      v = v.replace(/^(\d{2})(\d)/, "($1) $2");
+      v = v.replace(/(\d{5})(\d{4})$/, "$1-$2");
+      e.target.value = v.slice(0, 15);
+    });
+  </script>
 
-        telInput.addEventListener("input", function (e) {
-          let v = e.target.value.replace(/\D/g, "");
-          v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
-          v = v.replace(/(\d{5})(\d{4})$/, "$1-$2");
-          e.target.value = v.slice(0, 15);
-        });
-
-        function setupToggle(inputId, buttonId) {
-          const input = document.getElementById(inputId);
-          const button = document.getElementById(buttonId);
-          const icon = button.querySelector("i");
-          button.addEventListener("click", () => {
-            const type =
-              input.getAttribute("type") === "password" ? "text" : "password";
-            input.setAttribute("type", type);
-            icon.className =
-              type === "password"
-                ? "ri-eye-line text-gray-400 text-sm"
-                : "ri-eye-off-line text-gray-400 text-sm";
-          });
-        }
-        setupToggle("senha", "toggleSenha");
-        setupToggle("confirmarSenha", "toggleConfirmarSenha");
-
-        // Validação simples
-        const form = document.querySelector("form");
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const nome = document.getElementById("nome").value.trim();
-          const cnpj = document.getElementById("cnpj").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const senha = document.getElementById("senha").value.trim();
-          const confirmar = document
-            .getElementById("confirmarSenha")
-            .value.trim();
-
-          if (!nome || !cnpj || !email || !senha || !confirmar) {
-            alert("Preencha todos os campos obrigatórios.");
-            return;
-          }
-          if (senha !== confirmar) {
-            alert("As senhas não coincidem.");
-            return;
-          }
-          alert("Cadastro da empresa realizado com sucesso!");
-          window.location.href = "login.html";
-        });
-
-        document.getElementById("limparForm").addEventListener("click", () => {
-          form.reset();
-        });
-      });
-    </script>
-  </body>
+</body>
 </html>

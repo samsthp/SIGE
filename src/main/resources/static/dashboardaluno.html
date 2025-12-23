@@ -1,40 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGE - Dashboard Aluno</title>
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>SIGE - Aluno</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
-    <style>
-        :where([class^="ri-"])::before {
-            content: "\f3c2";
-        }
-    </style>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#3b82f6',
-                        secondary: '#1e40af'
-                    },
-                    borderRadius: {
-                        'none': '0px',
-                        'sm': '4px',
-                        DEFAULT: '8px',
-                        'md': '12px',
-                        'lg': '16px',
-                        'xl': '20px',
-                        '2xl': '24px',
-                        '3xl': '32px',
-                        'full': '9999px',
-                        'button': '8px'
-                    }
+                    colors: { primary: '#3b82f6' }
                 }
             }
         }
@@ -42,346 +20,208 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen">
-    <div class="w-full">
-        <header class="bg-white shadow-sm border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-6 py-8">
-                <div class="flex items-center justify-between">
+
+<!-- HEADER -->
+    <header class="bg-white shadow border-b">
+        <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+            <div>
+                <h1 class="font-['Pacifico'] text-4xl text-primary">SIGE</h1>
+                <p class="text-gray-600">Sistema Integrado de Gestão de Estágio</p>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
+                        <i class="ri-user-line"></i>
+                    </div>
                     <div>
-                        <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">SIGE</h1>
-                        <p class="text-gray-600 text-lg font-medium">Sistema Integrado de Gestão de Estágio</p>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 flex items-center justify-center bg-primary rounded-full text-white">
-                            <i class="ri-user-line text-lg"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-900">João Silva</p>
-                            <p class="text-xs text-gray-500">Aluno</p>
-                        </div>
+                        <p id="nomeAluno" class="text-sm font-semibold">Aluno Logado</p>
+                        <p class="text-xs text-gray-500">Aluno</p>
                     </div>
                 </div>
-            </div>
-        </header>
-        <nav class="bg-white border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="flex space-x-1">
-                    <button id="tab-ofertas"
-                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap bg-primary text-white">
-                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block">
-                            <i class="ri-briefcase-line"></i>
-                        </div>
-                        Ofertas de Estágio
-                    </button>
-                    <button id="tab-perfil"
-                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
-                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block">
-                            <i class="ri-user-settings-line"></i>
-                        </div>
-                        Meu Perfil
-                    </button>
-                    <button id="tab-estagio"
-                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
-                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block">
-                            <i class="ri-graduation-cap-line"></i>
-                        </div>
-                        Meu Estágio
-                    </button>
-                    <button id="tab-candidaturas"
-                        class="tab-button px-6 py-4 text-sm font-medium !rounded-button whitespace-nowrap text-gray-600 hover:text-primary hover:bg-blue-50">
-                        <div class="w-5 h-5 flex items-center justify-center mr-2 inline-block"></div>
-                        Minhas Candidaturas
-                    </button>
-                </div>
-            </div>
-        </nav>
-        <main class="max-w-7xl mx-auto px-6 py-8">
-            <!-- Ofertas -->
-            <div id="content-ofertas" class="tab-content">
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Ofertas de Estágio Disponíveis</h2>
-                    <p class="text-gray-600">Encontre as melhores oportunidades de estágio para sua carreira</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-black mb-4">Pesquisar por Vagas de Estágio</h3>
-                    <form id="formPesquisa">
-                        <input type="text" id="palavraChave" placeholder="palavra-chave"
-                            class="px-1 py-0.4 border border-black">
-                        <input type="text" id="area" placeholder="área"
-                            class="px-1 py-0.4 border border-black">
-                        <input type="text" id="local" placeholder="localização"
-                            class="px-1 py-0.4 border border-black">
-                        <input type="radio" id="obrigatorio" name="modalidade" value="o">
-                        <label for="obrigatorio">obrigatório</label>
-                        <input type="radio" id="naoObrigatorio" name="modalidade" value="n">
-                        <label for="naoObrigatorio">não-obrigatório</label>
-                        <input type="button" value="PESQUISAR" onclick="pesquisar()" class="px-2 py-1 border border-blue-600 rounded-md">
-                    </form>
-                    <h4>Resultados:</h4>
-                    <div id="resultados"></div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Exemplo de oferta -->
-                    <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer oferta-card"
-                        data-empresa="TechCorp Solutions"
-                        data-descricao="Estágio em Desenvolvimento de Software com foco em tecnologias web modernas. Oportunidade de trabalhar com React, Node.js e bancos de dados relacionais. Ambiente colaborativo com mentoria técnica especializada."
-                        data-telefone="(11) 3456-7890" data-email="rh@techcorp.com.br">
-                        <div class="flex items-start justify-between mb-4">
-                            <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-md">
-                                <i class="ri-code-s-slash-line text-primary text-xl"></i>
-                            </div>
-                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Ativo</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">TechCorp Solutions</h3>
-                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">Estágio em Desenvolvimento de Software com
-                            foco em tecnologias web modernas...</p>
-                        <div class="space-y-2 mb-4">
-                            <div class="flex items-center text-sm text-gray-500">
-                                <div class="w-4 h-4 flex items-center justify-center mr-2">
-                                    <i class="ri-phone-line"></i>
-                                </div>
-                                (11) 3456-7890
-                            </div>
-                            <div class="flex items-center text-sm text-gray-500">
-                                <div class="w-4 h-4 flex items-center justify-center mr-2">
-                                    <i class="ri-mail-line"></i>
-                                </div>
-                                rh@techcorp.com.br
-                            </div>
-                        </div>
-                        <button
-                            class="w-full bg-primary text-white py-2 px-4 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
-                            Ver Detalhes
-                        </button>
-                    </div>
-                    <!-- Adicione outras ofertas aqui, como Inovação Digital, Consultoria ABC, etc. -->
-                </div>
-            </div>
 
-            <!-- Perfil -->
-            <div id="content-perfil" class="tab-content hidden">
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Meu Perfil</h2>
-                    <p class="text-gray-600">Mantenha suas informações atualizadas para melhores oportunidades</p>
-                </div>
-                <div class="bg-white rounded-md shadow-sm border border-gray-200 p-8">
-                    <form class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Nome Completo</label>
-                                <input type="text" value="João Silva Santos" class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">E-mail</label>
-                                <input type="email" value="joao.silva@email.com" class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
-                                <input type="tel" value="(11) 99999-8888" class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Endereço</label>
-                                <input type="text" value="Rua das Flores, 123 - Centro - São Paulo/SP" class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Sobre Mim</label>
-                            <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Conte um pouco sobre você, suas habilidades e objetivos profissionais...">Estudante de Ciência da Computação apaixonado por tecnologia e desenvolvimento de software. Tenho conhecimentos em programação web, bancos de dados e metodologias ágeis. Busco uma oportunidade de estágio para aplicar meus conhecimentos e contribuir com projetos inovadores.</textarea>
-                        </div>
-
-                        <div class="flex justify-end">
-                            <button type="submit" class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
-                                Salvar Alterações
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Meu Estágio -->
-            <div id="content-estagio" class="tab-content hidden">
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Meu Estágio</h2>
-                    <p class="text-gray-600">Acompanhe informações sobre seu estágio atual</p>
-                </div>
-                <div id="estagio-lista" class="bg-white rounded-md shadow-sm border border-gray-200 p-8 text-center">
-                    <div class="w-16 h-16 flex items-center justify-center bg-gray-100 rounded-full mx-auto mb-4">
-                        <i class="ri-file-list-3-line text-gray-400 text-2xl"></i>
-                    </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhum estágio ativo</h3>
-                    <p class="text-gray-500 mb-6">Você ainda não possui um estágio ativo. Candidate-se às ofertas disponíveis para começar sua jornada profissional.</p>
-                    <button id="btn-ver-ofertas" class="bg-primary text-white px-6 py-3 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Ver Ofertas de Estágio</button>
-                </div>
-            </div>
-            
-            <!-- Minhas Candidaturas -->
-            <div id="content-candidaturas" class="tab-content hidden">
-                <div>
-                    <h3 class="text-lg font-semibold text-black mb-4">Listar Todas as Vagas em que Candidatou-se</h3>
-                    <input type="button" value="LISTAR" onclick="listarVagas()" class="px-2 py-1 border border-blue-600 rounded-md">
-                    <ul id='lista'></ul>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Modal da Vaga -->
-    <div id="modal-oferta" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h3 id="modal-empresa" class="text-xl font-semibold text-gray-900"></h3>
-                    <button id="close-modal" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600">
-                        <i class="ri-close-line text-xl"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="mb-6">
-                    <h4 class="text-sm font-medium text-gray-700 mb-2">Descrição da Vaga</h4>
-                    <p id="modal-descricao" class="text-gray-600 leading-relaxed"></p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div class="bg-gray-50 p-4 rounded-md">
-                        <h4 class="text-sm font-medium text-gray-700 mb-2">Telefone</h4>
-                        <div class="flex items-center">
-                            <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                <i class="ri-phone-line text-primary"></i>
-                            </div>
-                            <span id="modal-telefone" class="text-gray-900"></span>
-                        </div>
-                    </div>
-                    <div class="bg-gray-50 p-4 rounded-md">
-                        <h4 class="text-sm font-medium text-gray-700 mb-2">E-mail</h4>
-                        <div class="flex items-center">
-                            <div class="w-5 h-5 flex items-center justify-center mr-2">
-                                <i class="ri-mail-line text-primary"></i>
-                            </div>
-                            <span id="modal-email" class="text-gray-900"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex gap-3">
-                    <button id="btn-candidatar" class="flex-1 bg-primary text-white py-3 px-6 !rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">
-                        Candidatar-se para a Vaga
-                    </button>
-                    <button id="btn-cancelar" class="px-6 py-3 border border-gray-300 text-gray-700 !rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">
-                        Cancelar
-                    </button>
-                </div>
+                <button onclick="logout()"
+                        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
+                    <i class="ri-logout-box-r-line"></i> Sair
+                </button>
             </div>
         </div>
+    </header>
+<!-- NAV -->
+<nav class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex gap-3">
+        <button onclick="mostrar('ofertas', this)"
+                class="tab-btn bg-primary text-white px-5 py-2 rounded-md transition">
+            <i class="ri-briefcase-line"></i> Ofertas
+        </button>
+
+        <button onclick="mostrar('candidaturas', this)"
+                class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100 transition">
+            <i class="ri-file-list-line"></i> Minhas Candidaturas
+        </button>
+
+        <button onclick="abrirModalMatricula()"
+                class="tab-btn border px-5 py-2 rounded-md hover:bg-gray-100 transition">
+            <i class="ri-graduation-cap-line"></i> Meu Estágio
+        </button>
     </div>
+</nav>
 
-    <!-- Scripts -->
+<!-- MAIN -->
+<main class="max-w-7xl mx-auto px-6 py-8">
+
+    <!-- OFERTAS -->
+    <section id="ofertas">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold">Vagas Disponíveis</h2>
+            <p class="text-gray-600">Confira as oportunidades abertas</p>
+        </div>
+        <div id="listaVagas"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <form id="formPesquisa">
+                    <input type="text" id="palavraChave" placeholder="palavra-chave"
+                        class="px-1 py-0.4 border border-black">
+                    <input type="text" id="area" placeholder="área"
+                        class="px-1 py-0.4 border border-black">
+                    <input type="text" id="local" placeholder="localização"
+                        class="px-1 py-0.4 border border-black">
+                    <input type="radio" id="obrigatorio" name="modalidade" value="o">
+                    <label for="obrigatorio">obrigatório</label>
+                    <input type="radio" id="naoObrigatorio" name="modalidade" value="n">
+                    <label for="naoObrigatorio">não-obrigatório</label>
+                    <input type="button" value="PESQUISAR" onclick="pesquisar()" class="px-2 py-1 border border-blue-600 rounded-md">
+                </form>
+            <h4>Resultados:</h4>
+            <div id="resultados"></div>
+        </div>
+    </section>
+
+    <!-- CANDIDATURAS -->
+    <section id="candidaturas" class="hidden">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold">Minhas Candidaturas</h2>
+            <p class="text-gray-600">Vagas que você já se candidatou</p>
+        </div>
+        <div id="listaCandidaturas"
+            class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-lg font-semibold text-black mb-4">Listar Todas as Vagas em que Candidatou-se</h3>
+                <input type="button" value="LISTAR" onclick="listarVagas()" class="px-2 py-1 border border-blue-600 rounded-md">
+                <ul id='lista'></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ESTÁGIO -->
+    <section id="estagio" class="hidden">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold">Meu Estágio</h2>
+            <p class="text-gray-600">Informações do seu estágio atual</p>
+        </div>
+        <div class="bg-white p-6 rounded-md shadow text-gray-500">
+            Em breve…
+        </div>
+    </section>
+
+</main>
+
+<!-- MODAL DETALHES -->
+<div id="modalDetalhes"
+     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-md w-full max-w-lg animate-fadeIn">
+        <h3 id="dTitulo" class="text-xl font-bold mb-2"></h3>
+        <p id="dDescricao" class="text-gray-600 mb-4"></p>
+
+        <ul class="space-y-2 text-sm">
+            <li><i class="ri-building-line"></i> <b>Empresa:</b> <span id="dEmpresa"></span></li>
+            <li><i class="ri-money-dollar-circle-line"></i> <b>Salário:</b> R$ <span id="dSalario"></span></li>
+            <li><i class="ri-book-line"></i> <b>Curso:</b> <span id="dCurso"></span></li>
+            <li><i class="ri-map-pin-line"></i> <b>Estado:</b> <span id="dEstado"></span></li>
+            <li><i class="ri-mail-line"></i> <b>Email:</b> <span id="dEmail"></span></li>
+        </ul>
+
+        <div class="flex gap-3 mt-6">
+            <button onclick="candidatar()"
+                    class="bg-primary text-white px-4 py-2 rounded-md hover:scale-105 transition">
+                Candidatar-se
+            </button>
+            <button onclick="fecharModal()"
+                    class="border px-4 py-2 rounded-md hover:bg-gray-100 transition">
+                Fechar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SEM ESTÁGIO -->
+<div id="modalMatricula"
+     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-md w-full max-w-sm">
+        <h3 class="text-lg font-bold mb-2">Acesso ao Estágio</h3>
+        <p class="text-sm text-gray-600 mb-4">
+            Disponível após aprovação da empresa
+        </p>
+        <button onclick="modalMatricula.classList.add('hidden')"
+                class="w-full bg-primary text-white py-2 rounded-md">
+            Ok
+        </button>
+    </div>
+</div>
+
+<!-- MODAL DENÚNCIA -->
+<div id="modalDenuncia"
+     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-md w-full max-w-lg">
+        <h3 class="text-xl font-bold mb-2 text-red-600">
+            🚨 Denunciar Estágio
+        </h3>
+
+        <textarea id="textoDenuncia"
+                  class="w-full border rounded-md p-3 h-32 resize-none"
+                  placeholder="Descreva o problema ocorrido no estágio..."></textarea>
+
+        <div class="flex justify-end gap-3 mt-4">
+            <button onclick="fecharModalDenuncia()"
+                    class="border px-4 py-2 rounded-md hover:bg-gray-100">
+                Cancelar
+            </button>
+            <button onclick="enviarDenuncia()"
+                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+                Enviar Denúncia
+            </button>
+        </div>
+    </div>
+</div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Variável global para guardar candidaturas
-            let estagiosAluno = [];
+        let vagaAtual = null;
+        let estagioAtual = null;
 
-            // Função para atualizar a aba "Meu Estágio"
-            function atualizarEstagioAluno() {
-                const contentEstagio = document.getElementById('content-estagio');
-                if (estagiosAluno.length === 0) return;
+        const API_BASE = "http://localhost:8081";
 
-                let html = `
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Meu Estágio</h2>
-                        <p class="text-gray-600">Acompanhe informações sobre seu estágio atual</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
+        /* ================= UTIL ================= */
+        function logout() {
+            sessionStorage.clear();
+            location.href = "login.html";
+        }
 
-                estagiosAluno.forEach(estagio => {
-                    html += `
-                        <div class="bg-white rounded-md shadow-sm border border-gray-200 p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-2">${estagio.empresa}</h3>
-                            <p class="text-gray-600 text-sm mb-2">${estagio.descricao}</p>
-                            <p class="text-sm text-gray-500 mb-1">Telefone: ${estagio.telefone}</p>
-                            <p class="text-sm text-gray-500 mb-3">E-mail: ${estagio.email}</p>
-                            <span class="text-sm font-medium px-3 py-1 rounded-full ${estagio.status === 'Pendente' ? 'bg-yellow-100 text-yellow-800' : estagio.status === 'Aceito' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                                ${estagio.status}
-                            </span>
-                        </div>`;
-                });
+        function mostrar(id, btn) {
+            ["ofertas", "candidaturas", "estagio"].forEach(s =>
+                document.getElementById(s).classList.add("hidden")
+            );
+            document.getElementById(id).classList.remove("hidden");
 
-                html += `</div>`;
-                contentEstagio.innerHTML = html;
+            document.querySelectorAll(".tab-btn").forEach(b => {
+                b.classList.remove("bg-primary", "text-white");
+                b.classList.add("border");
+            });
+            if (btn) {
+                btn.classList.add("bg-primary", "text-white");
+                btn.classList.remove("border");
             }
 
-            // Navegação entre abas
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const targetId = this.id.replace('tab-', 'content-');
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('bg-primary', 'text-white');
-                        btn.classList.add('text-gray-600', 'hover:text-primary', 'hover:bg-blue-50');
-                    });
-                    this.classList.remove('text-gray-600', 'hover:text-primary', 'hover:bg-blue-50');
-                    this.classList.add('bg-primary', 'text-white');
-                    tabContents.forEach(content => content.classList.add('hidden'));
-                    document.getElementById(targetId).classList.remove('hidden');
-                });
-            });
-            document.getElementById('btn-ver-ofertas').addEventListener('click', function () {
-                document.getElementById('tab-ofertas').click();
-            });
-
-            // Modal de vagas
-            const modal = document.getElementById('modal-oferta');
-            const closeModal = document.getElementById('close-modal');
-            const btnCancelar = document.getElementById('btn-cancelar');
-            const btnCandidatar = document.getElementById('btn-candidatar');
-            const ofertaCards = document.querySelectorAll('.oferta-card');
-
-            ofertaCards.forEach(card => {
-                card.addEventListener('click', function () {
-                    const empresa = this.dataset.empresa;
-                    const descricao = this.dataset.descricao;
-                    const telefone = this.dataset.telefone;
-                    const email = this.dataset.email;
-
-                    document.getElementById('modal-empresa').textContent = empresa;
-                    document.getElementById('modal-descricao').textContent = descricao;
-                    document.getElementById('modal-telefone').textContent = telefone;
-                    document.getElementById('modal-email').textContent = email;
-
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-                });
-            });
-
-            function closeModalHandler() {
-                modal.classList.remove('flex');
-                modal.classList.add('hidden');
-            }
-
-            closeModal.addEventListener('click', closeModalHandler);
-            btnCancelar.addEventListener('click', closeModalHandler);
-
-            btnCandidatar.addEventListener('click', function () {
-                const empresa = document.getElementById('modal-empresa').textContent;
-                const descricao = document.getElementById('modal-descricao').textContent;
-                const telefone = document.getElementById('modal-telefone').textContent;
-                const email = document.getElementById('modal-email').textContent;
-
-                estagiosAluno.push({
-                    empresa: empresa,
-                    descricao: descricao,
-                    telefone: telefone,
-                    email: email,
-                    status: 'Pendente'
-                });
-
-                alert(`Candidatura enviada para ${empresa} com sucesso!`);
-                closeModalHandler();
-                atualizarEstagioAluno();
-            });
-        });
+            if (id === "candidaturas") carregarMinhasCandidaturas();
+        }
         function pesquisar() {
             const filtros = {
                 palavraChave: document.getElementById("palavraChave").value,
@@ -423,7 +263,198 @@
                         }); 
                     });
         }
-    </script>
-</body>
+        /* ================= CONTROLE DO ESTÁGIO ================= */
+        async function verificarEstagioAtivo() {
+            const token = sessionStorage.getItem("token");
+            const btnEstagio = document.getElementById("btn-estagio");
 
+            try {
+                const res = await fetch(`${API_BASE}/api/estagios/ativo`, {
+                    headers: { "Authorization": "Bearer " + token }
+                });
+
+                const temEstagio = await res.json();
+
+                if (!temEstagio) {
+                    btnEstagio.disabled = true;
+                    btnEstagio.classList.add("opacity-50", "cursor-not-allowed");
+                    btnEstagio.onclick = () => modalMatricula.classList.remove("hidden");
+                } else {
+                    btnEstagio.disabled = false;
+                    btnEstagio.classList.remove("opacity-50", "cursor-not-allowed");
+                    btnEstagio.onclick = () => abrirModalMatricula();
+                }
+            } catch (e) {
+                console.error("Erro ao verificar estágio", e);
+            }
+        }
+
+        /* ================= VAGAS ================= */
+        async function carregarVagas() {
+            const res = await fetch(`${API_BASE}/vagas`);
+            const vagas = await res.json();
+            listaVagas.innerHTML = "";
+
+            vagas.forEach(v => {
+                listaVagas.innerHTML += `
+            <div class="bg-white p-6 rounded-md shadow">
+                <h3 class="font-semibold">${v.titulo}</h3>
+                <p class="text-sm text-gray-600">${v.empresaNome}</p>
+                <p class="text-primary font-semibold mt-2">💰 R$ ${v.salario}</p>
+                <button onclick='abrirDetalhes(${JSON.stringify(v)})'
+                        class="mt-4 w-full bg-primary text-white py-2 rounded-md">
+                    Ver Detalhes
+                </button>
+            </div>`;
+            });
+        }
+
+        function abrirDetalhes(v) {
+            vagaAtual = v;
+            dTitulo.innerText = v.titulo;
+            dDescricao.innerText = v.descricao;
+            dEmpresa.innerText = v.empresaNome;
+            dSalario.innerText = v.salario;
+            dCurso.innerText = v.cursoRelacionado;
+            dEstado.innerText = v.estado;
+            dEmail.innerText = v.emailEmpresa;
+            modalDetalhes.classList.remove("hidden");
+        }
+
+        function fecharModal() {
+            modalDetalhes.classList.add("hidden");
+        }
+
+        async function candidatar() {
+            const token = sessionStorage.getItem("token");
+
+            const res = await fetch(`${API_BASE}/candidaturas`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({ vagaId: vagaAtual.id })
+            });
+
+            if (!res.ok) {
+                alert("Erro ao candidatar");
+                return;
+            }
+
+            alert("Candidatura enviada!");
+            fecharModal();
+            mostrar("candidaturas");
+        }
+
+        /* ================= CANDIDATURAS ================= */
+        async function carregarMinhasCandidaturas() {
+            const token = sessionStorage.getItem("token");
+
+            const res = await fetch(`${API_BASE}/candidaturas/minhas`, {
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            const dados = await res.json();
+            listaCandidaturas.innerHTML = "";
+
+            if (dados.length === 0) {
+                listaCandidaturas.innerHTML =
+                    "<p class='text-gray-500'>Nenhuma candidatura.</p>";
+                return;
+            }
+
+            dados.forEach(c => {
+                listaCandidaturas.innerHTML += `
+            <div class="bg-white p-6 rounded-md shadow">
+                <h3 class="font-semibold">${c.vagaTitulo}</h3>
+                <span class="text-yellow-600">⏳ ${c.status}</span>
+            </div>`;
+            });
+        }
+
+        /* ================= MEU ESTÁGIO ================= */
+        async function abrirModalMatricula() {
+            const token = sessionStorage.getItem("token");
+
+            const res = await fetch(`${API_BASE}/api/estagios/meu`, {
+                headers: { "Authorization": "Bearer " + token }
+            });
+
+            const lista = await res.json();
+
+            if (!Array.isArray(lista) || lista.length === 0) {
+                modalMatricula.classList.remove("hidden");
+                return;
+            }
+
+            estagioAtual = lista[0];
+
+            document.querySelector("#estagio .bg-white").innerHTML = `
+            <h3 class="text-lg font-bold mb-2">
+                ${estagioAtual.vaga.titulo}
+            </h3>
+            <p><b>Empresa:</b> ${estagioAtual.empresa.nome}</p>
+            <p><b>Status:</b>
+                <span class="text-green-600 font-semibold">
+                    ${estagioAtual.status}
+                </span>
+            </p>
+
+            <button onclick="abrirModalDenuncia()"
+                    class="mt-4 bg-red-500 text-white px-4 py-2 rounded-md">
+                Denunciar Estágio
+            </button>
+            `;
+
+            mostrar("estagio");
+        }
+
+        /* ================= DENÚNCIA ================= */
+        function abrirModalDenuncia() {
+            modalDenuncia.classList.remove("hidden");
+        }
+
+        function fecharModalDenuncia() {
+            modalDenuncia.classList.add("hidden");
+        }
+
+        async function enviarDenuncia() {
+            const texto = textoDenuncia.value.trim();
+            const token = sessionStorage.getItem("token");
+
+            if (!texto || !estagioAtual) return;
+
+            const res = await fetch(`${API_BASE}/denuncias`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    estagioId: estagioAtual.id,
+                    descricao: texto
+                })
+            });
+
+            if (!res.ok) {
+                alert("Erro ao enviar denúncia");
+                return;
+            }
+
+            alert("Denúncia enviada!");
+            textoDenuncia.value = "";
+            fecharModalDenuncia();
+        }
+
+        /* ================= INIT ================= */
+        document.addEventListener("DOMContentLoaded", () => {
+            carregarVagas();
+            verificarEstagioAtivo();
+        });
+    </script>
+
+
+
+</body>
 </html>
